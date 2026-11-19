@@ -94,7 +94,7 @@ export const ZONES: Zone[] = [
     id: 'tents', name: 'Nature Tents', kicker: 'Close to Nature',
     summary: 'Glamping tents for groups and families, set in the green part of the grounds.',
     facts: [{ label: 'Tents', value: '15' }],
-    photos: ['p43', 'p44', 'n17'], page: 'rooms', pageLabel: 'See the tents',
+    photos: ['p43', 'p44', 'p46'], page: 'rooms', pageLabel: 'See the tents',
   },
   {
     id: 'restaurant', name: 'Restaurant', kicker: 'Vimal Resort Kitchen',
