@@ -1,0 +1,126 @@
+/**
+ * Detailed resort facts, carried over from version 0 (sources: the resort's
+ * own site, vimalresort.netlify.app, and the MapX virtual tour).
+ * Photos are ids in src/data/gallery.json.
+ */
+export const PROPERTY = {
+  name: 'Vimal Resort & Entertainment Park',
+  kannadaName: 'ವಿಮಲ್ ರೆಸಾರ್ಟ್',
+  tagline: 'Where every journey becomes a memory',
+  facts: [
+    { value: '23', unit: 'acres', label: 'of gardens & orchards' },
+    { value: '105', unit: 'rooms', label: 'rustic luxury, AC' },
+    { value: '15', unit: 'tents', label: 'glamping among the trees' },
+    { value: '20+', unit: 'activities', label: 'in a 2-acre adventure park' },
+    { value: '1,500+', unit: 'trees', label: 'on the property' },
+    { value: '300', unit: 'cars', label: 'parking' },
+  ],
+  trees: [
+    { label: 'Sapota', value: '375' },
+    { label: 'Guava', value: '320' },
+    { label: 'Mango', value: '300' },
+    { label: 'Sagwan (teak)', value: '300' },
+  ],
+}
+
+export const NEARBY = [
+  { place: 'Lakkundi Temples', km: '10 km' },
+  { place: 'Gadag town', km: '11 km' },
+  { place: 'Basaveshwara Statue', km: '12 km' },
+  { place: 'Magadi Bird Sanctuary', km: '30 km' },
+  { place: 'Badami', km: '77 km' },
+  { place: 'Hampi', km: '120 km' },
+]
+
+/** Day packages: published reference prices (MapX tour). */
+export const DAY = {
+  timings: '9:00 am – 5:00 pm',
+  taxNote: 'GST as applicable',
+  gold: {
+    name: 'Gold Package',
+    prices: [
+      { label: 'Monday – Friday', price: '₹800' },
+      { label: 'Sat, Sun & govt. holidays', price: '₹900' },
+      { label: 'Children under 12 & seniors over 60', price: '₹600', note: 'Age proof mandatory' },
+    ],
+    includes: ['Swimming pool', 'Rain dance with music', 'Bamboo tower', 'See-saw & swings', 'Dart & archery', 'Mud games', 'Zorbing balls', 'Indoor games', 'Welcome juice, breakfast, lunch & hi-tea'],
+  },
+  adventure: {
+    name: 'Adventure Package',
+    price: '₹400',
+    unit: 'per person, add-on to a day package',
+    includes: ['Zipline', 'Sky cycling', 'Rappelling', 'Net climbing', 'Burma bridge', 'Multi-vines', "Bosun's chair", 'Tyre crossing', 'Tyre wall climbing', 'Ladder walk', 'Zig-zag bridge', 'Bungee trampoline', 'Human gyro', '360° cycling', 'Meltdown ride'],
+  },
+  extras: [{ label: 'Nylon swimwear', value: 'mandatory for the pool · rental ₹50 per person' }],
+  groups: 'Schools, colleges, corporate outings and family functions welcome.',
+}
+
+export interface Zone {
+  id: string
+  name: string
+  kicker: string
+  summary: string
+  facts: { label: string; value: string }[]
+  details?: string[]
+  photos: string[]
+  /** position on the aerial photograph (n00), 0–1; only where unmistakable */
+  pin?: { x: number; y: number }
+  page?: 'rooms' | 'halls' | 'photos' | 'contact'
+  pageLabel?: string
+}
+
+export const ZONES: Zone[] = [
+  {
+    id: 'pool', name: 'Swimming Pool', kicker: 'The Water Oasis',
+    summary: 'A 5,000 sq. ft. swimming pool with a dedicated rain dance arena alongside.',
+    facts: [{ label: 'Pool', value: '5,000 sq. ft.' }, { label: 'Rain dance', value: 'Dedicated arena with music' }, { label: 'Swimwear', value: 'Nylon, mandatory · rental ₹50' }],
+    details: ['Pool and rain dance are included in the Gold day package.'],
+    photos: ['a05', 'n06', 'n07'], pin: { x: 0.381, y: 0.383 },
+  },
+  {
+    id: 'adventure', name: 'Adventure Park', kicker: 'Thrill Meets Serenity',
+    summary: 'A dedicated 2-acre park with more than 20 activities, built around a multi-level rope and climbing tower.',
+    facts: [{ label: 'Area', value: '2 acres' }, { label: 'Activities', value: '20+' }, { label: 'Adventure package', value: '₹400 per person (add-on)' }],
+    details: ['Sky cycling, zip climbing, zipline, giant swing, bungee trampoline, mud race and suspension bridges.', 'Age, height and weight limits are not published. Ask the resort before you book.'],
+    photos: ['n01', 'n02', 'n03', 'n04'], pin: { x: 0.828, y: 0.41 },
+  },
+  {
+    id: 'rooms', name: 'Luxury Rooms', kicker: 'Sanctuary of Comfort',
+    summary: 'Rustic architecture with AC, family suites and modern cottage amenities.',
+    facts: [{ label: 'Rooms', value: '105' }, { label: 'Amenities', value: 'AC · family suites' }],
+    photos: ['p31', 'p06', 'p39', 'p07'], page: 'rooms', pageLabel: 'See the rooms',
+  },
+  {
+    id: 'tents', name: 'Nature Tents', kicker: 'Close to Nature',
+    summary: 'Glamping tents for groups and families, set in the green part of the grounds.',
+    facts: [{ label: 'Tents', value: '15' }],
+    photos: ['p43', 'p44', 'n17'], page: 'rooms', pageLabel: 'See the tents',
+  },
+  {
+    id: 'restaurant', name: 'Restaurant', kicker: 'Vimal Resort Kitchen',
+    summary: 'A 2,500 sq. ft. multi-cuisine restaurant serving North Indian, South Indian and Jain dishes.',
+    facts: [{ label: 'Area', value: '2,500 sq. ft.' }, { label: 'Cuisine', value: 'North Indian · South Indian · Jain' }, { label: 'Kitchen', value: 'Pure vegetarian · Jain on request' }],
+    details: ['Food photos are illustrative; the day’s menu may vary.'],
+    photos: ['f00', 'f01', 'f02'], page: 'photos', pageLabel: 'See the food',
+  },
+  {
+    id: 'lawn', name: 'Marriage Lawn', kicker: 'Grand Celebrations',
+    summary: 'A 40,000 sq. ft. lawn with pre-built mandap spaces for large Indian weddings.',
+    facts: [{ label: 'Area', value: '40,000 sq. ft.' }, { label: 'Guests', value: '1,000+' }],
+    photos: ['n10', 'a04'], page: 'halls', pageLabel: 'See halls & lawns',
+  },
+  {
+    id: 'halls', name: 'Marriage Hall & Banquets', kicker: 'Indoor Ceremonies',
+    summary: 'A 7,500 sq. ft. marriage hall for main ceremonies, plus 2,500 sq. ft. banquet halls for receptions and corporate events.',
+    facts: [{ label: 'Marriage hall', value: '7,500 sq. ft.' }, { label: 'Banquet halls', value: '2,500 sq. ft.' }],
+    details: ['Seating capacities for the halls are not published.'],
+    photos: ['n08', 'n09'], page: 'halls', pageLabel: 'See halls & lawns',
+  },
+  {
+    id: 'watchtower', name: '360° Watchtower', kicker: 'Eagle Views',
+    summary: 'An observation tower with views across the resort and the surrounding farmland.',
+    facts: [{ label: 'View', value: '360°' }],
+    details: ['Photo: a drone view from above the resort, not the view from the tower itself.'],
+    photos: ['a01'],
+  },
+]

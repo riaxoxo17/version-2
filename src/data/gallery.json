@@ -1,0 +1,560 @@
+[
+{
+"id": "p00",
+"category": "Tents",
+"caption": "Nature tent",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p01",
+"category": "Tents",
+"caption": "Nature tent",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p02",
+"category": "Rooms",
+"caption": "Contemporary room",
+"w": 1535,
+"h": 1024
+},
+{
+"id": "p03",
+"category": "Rooms",
+"caption": "Contemporary room",
+"w": 1535,
+"h": 1024
+},
+{
+"id": "p04",
+"category": "Rooms",
+"caption": "Contemporary room",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "p05",
+"category": "Rooms",
+"caption": "Heritage room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p06",
+"category": "Rooms",
+"caption": "Heritage room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p07",
+"category": "Rooms",
+"caption": "Heritage room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p08",
+"category": "Rooms",
+"caption": "Heritage room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p09",
+"category": "Rooms",
+"caption": "Contemporary room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p10",
+"category": "Rooms",
+"caption": "Contemporary room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p11",
+"category": "Rooms",
+"caption": "Contemporary room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p12",
+"category": "Rooms",
+"caption": "Contemporary room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p13",
+"category": "Rooms",
+"caption": "Contemporary room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p14",
+"category": "Grounds",
+"caption": "Glass-walled corridor",
+"w": 2400,
+"h": 3600
+},
+{
+"id": "p15",
+"category": "Rooms",
+"caption": "Contemporary room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p16",
+"category": "Rooms",
+"caption": "Contemporary room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p17",
+"category": "Rooms",
+"caption": "Contemporary room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p18",
+"category": "Rooms",
+"caption": "Contemporary room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p19",
+"category": "Rooms",
+"caption": "Contemporary room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p20",
+"category": "Grounds",
+"caption": "The grounds",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p21",
+"category": "Grounds",
+"caption": "Cart-wheel garden",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p22",
+"category": "Rooms",
+"caption": "Contemporary room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p23",
+"category": "Rooms",
+"caption": "Contemporary room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p24",
+"category": "Rooms",
+"caption": "Contemporary room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p25",
+"category": "Rooms",
+"caption": "Contemporary room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p26",
+"category": "Rooms",
+"caption": "Contemporary room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p27",
+"category": "Rooms",
+"caption": "Contemporary room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p28",
+"category": "Rooms",
+"caption": "Contemporary room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p29",
+"category": "Grounds",
+"caption": "Cart-wheel garden",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p30",
+"category": "Grounds",
+"caption": "The fountain plaza",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p31",
+"category": "Rooms",
+"caption": "Heritage room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p32",
+"category": "Rooms",
+"caption": "Heritage room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p33",
+"category": "Rooms",
+"caption": "Heritage room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p34",
+"category": "Rooms",
+"caption": "Heritage room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p35",
+"category": "Rooms",
+"caption": "Heritage room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p36",
+"category": "Rooms",
+"caption": "Heritage room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p37",
+"category": "Rooms",
+"caption": "Heritage room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p38",
+"category": "Rooms",
+"caption": "Heritage room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p39",
+"category": "Rooms",
+"caption": "Heritage room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p40",
+"category": "Rooms",
+"caption": "Heritage room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p41",
+"category": "Rooms",
+"caption": "Heritage room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p42",
+"category": "Rooms",
+"caption": "Heritage room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p43",
+"category": "Tents",
+"caption": "Nature tent",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p44",
+"category": "Tents",
+"caption": "Nature tent",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p45",
+"category": "Tents",
+"caption": "Nature tent",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p46",
+"category": "Tents",
+"caption": "Nature tent",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "p47",
+"category": "Tents",
+"caption": "Nature tent",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "n00",
+"category": "Aerial",
+"caption": "The resort from above",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "n01",
+"category": "Adventure",
+"caption": "The adventure park",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "n02",
+"category": "Adventure",
+"caption": "Zipline",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "n03",
+"category": "Adventure",
+"caption": "Tyre bridge",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "n04",
+"category": "Adventure",
+"caption": "Zorbing",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "n05",
+"category": "Adventure",
+"caption": "Zorbing",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "n06",
+"category": "Pool",
+"caption": "The pool",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "n07",
+"category": "Pool",
+"caption": "The pool",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "n08",
+"category": "Celebrations",
+"caption": "Marriage hall",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "n09",
+"category": "Celebrations",
+"caption": "Marriage hall, decorated",
+"w": 1600,
+"h": 1200
+},
+{
+"id": "n10",
+"category": "Celebrations",
+"caption": "Marriage lawn",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "n11",
+"category": "Play",
+"caption": "Family games",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "n12",
+"category": "Play",
+"caption": "Indoor games",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "n13",
+"category": "Play",
+"caption": "Chess corner",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "n14",
+"category": "Play",
+"caption": "Family activities",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "n15",
+"category": "Play",
+"caption": "On the resort paths",
+"w": 2400,
+"h": 3600
+},
+{
+"id": "n16",
+"category": "Grounds",
+"caption": "Tree-lined paths",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "n17",
+"category": "Tents",
+"caption": "Nature tent interior",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "n18",
+"category": "Tents",
+"caption": "Nature tents",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "n19",
+"category": "Rooms",
+"caption": "Heritage room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "f00",
+"category": "Food",
+"caption": "Lunch thali",
+"w": 720,
+"h": 720,
+"note": "Illustrative image from the resort tour; the day's menu may vary"
+},
+{
+"id": "f01",
+"category": "Food",
+"caption": "Breakfast: idli, vada, sambar",
+"w": 720,
+"h": 720,
+"note": "Illustrative image from the resort tour; the day's menu may vary"
+},
+{
+"id": "f02",
+"category": "Food",
+"caption": "Hi-tea",
+"w": 720,
+"h": 720,
+"note": "Illustrative image from the resort tour; the day's menu may vary"
+},
+{
+"id": "f03",
+"category": "Food",
+"caption": "Paneer vegetables",
+"w": 520,
+"h": 520,
+"note": "Illustrative image from the resort tour; the day's menu may vary"
+},
+{
+"id": "f04",
+"category": "Food",
+"caption": "Vegetable pulao",
+"w": 520,
+"h": 520,
+"note": "Illustrative image from the resort tour; the day's menu may vary"
+},
+{
+"id": "a00",
+"category": "Aerial",
+"caption": "Pool and halls from above",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "a01",
+"category": "Aerial",
+"caption": "Twenty-three acres",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "a02",
+"category": "Aerial",
+"caption": "Tents among the trees",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "a03",
+"category": "Aerial",
+"caption": "The climbing tower",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "a04",
+"category": "Aerial",
+"caption": "The lawn",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "a05",
+"category": "Aerial",
+"caption": "The pool",
+"w": 2400,
+"h": 1350
+}
+]
