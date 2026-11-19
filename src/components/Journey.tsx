@@ -13,8 +13,8 @@ import { ALL_IDS, DURATION } from '../data/journey'
 export const PX_PER_SEC = 120
 const IDLE_RESUME_MS = 1700
 const base = import.meta.env.BASE_URL
-const src = (id: string, size: 'lg' | 'sm') => `${base}media/scenes/${id}-${size}.mp4`
-const poster = (id: string) => `${base}media/scenes/${id}-poster.webp`
+const src = (id: string, size: 'lg' | 'sm') => `${base}media/scenes/${id}-${size}.mp4?v=2`
+const poster = (id: string) => `${base}media/scenes/${id}-poster.webp?v=2`
 
 export interface JourneyState {
   index: number
