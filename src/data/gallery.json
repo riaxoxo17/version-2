@@ -63,21 +63,7 @@
 "h": 1600
 },
 {
-"id": "p09",
-"category": "Rooms",
-"caption": "Contemporary room",
-"w": 2400,
-"h": 1600
-},
-{
 "id": "p10",
-"category": "Rooms",
-"caption": "Contemporary room",
-"w": 2400,
-"h": 1600
-},
-{
-"id": "p11",
 "category": "Rooms",
 "caption": "Contemporary room",
 "w": 2400,
@@ -119,13 +105,6 @@
 "h": 1600
 },
 {
-"id": "p17",
-"category": "Rooms",
-"caption": "Contemporary room",
-"w": 2400,
-"h": 1600
-},
-{
 "id": "p18",
 "category": "Rooms",
 "caption": "Contemporary room",
@@ -154,21 +133,7 @@
 "h": 1600
 },
 {
-"id": "p22",
-"category": "Rooms",
-"caption": "Contemporary room",
-"w": 2400,
-"h": 1600
-},
-{
 "id": "p23",
-"category": "Rooms",
-"caption": "Contemporary room",
-"w": 2400,
-"h": 1600
-},
-{
-"id": "p24",
 "category": "Rooms",
 "caption": "Contemporary room",
 "w": 2400,
@@ -224,13 +189,6 @@
 "h": 1600
 },
 {
-"id": "p32",
-"category": "Rooms",
-"caption": "Heritage room",
-"w": 2400,
-"h": 1600
-},
-{
 "id": "p33",
 "category": "Rooms",
 "caption": "Heritage room",
@@ -253,13 +211,6 @@
 },
 {
 "id": "p36",
-"category": "Rooms",
-"caption": "Heritage room",
-"w": 2400,
-"h": 1600
-},
-{
-"id": "p37",
 "category": "Rooms",
 "caption": "Heritage room",
 "w": 2400,
@@ -323,13 +274,6 @@
 },
 {
 "id": "p46",
-"category": "Tents",
-"caption": "Nature tent",
-"w": 2400,
-"h": 1600
-},
-{
-"id": "p47",
 "category": "Tents",
 "caption": "Nature tent",
 "w": 2400,
@@ -451,13 +395,6 @@
 "id": "n16",
 "category": "Grounds",
 "caption": "Tree-lined paths",
-"w": 2400,
-"h": 1600
-},
-{
-"id": "n17",
-"category": "Tents",
-"caption": "Nature tent interior",
 "w": 2400,
 "h": 1600
 },

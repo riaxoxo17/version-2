@@ -33,7 +33,7 @@ export const ROOMS: Space[] = [
       { label: 'Setting', value: 'Rustic architecture, garden windows' },
       { label: 'On property', value: '105 luxury rooms' },
     ],
-    photos: ['p31', 'p38', 'p33', 'p05', 'p37', 'p07', 'p02', 'p17', 'p32'],
+    photos: ['p31', 'p38', 'p33', 'p05', 'p07', 'p02'],
     ...ROOM_PRICE, enquiry: 'a Twin Room', film: 'room-twin',
   },
   {
@@ -46,7 +46,7 @@ export const ROOMS: Space[] = [
       { label: 'Family suites', value: 'Family suites available' },
       { label: 'On property', value: '105 luxury rooms' },
     ],
-    photos: ['p06', 'p39', 'p41', 'p08', 'p36', 'p03', 'p09', 'p22', 'p28', 'p40'],
+    photos: ['p06', 'p39', 'p41', 'p08', 'p36', 'p03', 'p10', 'p28', 'p40'],
     ...ROOM_PRICE, enquiry: 'a King Room', film: 'room-king',
   },
   {
@@ -57,7 +57,7 @@ export const ROOMS: Space[] = [
       { label: 'Style', value: 'Glamping for groups & families' },
       { label: 'On property', value: '15 nature tents' },
     ],
-    photos: ['p43', 'p44', 'p46', 'p00', 'p45', 'p47', 'p01'],
+    photos: ['p43', 'p44', 'p46', 'p00', 'p45', 'p01'],
     ...ROOM_PRICE, enquiry: 'a Nature Tent', film: 'room-tent',
   },
 ]

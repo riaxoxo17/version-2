@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { Journey, PX_PER_SEC, type JourneyState } from './components/Journey'
 import { Explore } from './components/Explore'
 import { RoomFilm } from './components/RoomFilm'
+import { useBackToClose } from './lib/backClose'
 import { PROPERTY } from './data/resort'
 import { ContactPage, GalleryPage, HallsPage, PageShell, RoomsPage, type Page } from './components/Pages'
 import { CONTACT, DURATION, ROUTE, SCENES } from './data/journey'
@@ -23,26 +24,38 @@ export default function App() {
   const [state, setState] = useState<JourneyState>({ index: 0, id: 'arrival', local: 0, progress: 0, playing: false })
   const [paused, setPaused] = useState(false)
   const [menu, setMenu] = useState(false)
-  const [page, setPage] = useState<Page | null>(readHash)
+  // a link straight to #rooms etc. opens that page on top of the home page, so Back returns home
+  const [page, setPage] = useState<Page | null>(() => {
+    const p = readHash()
+    if (p) window.history.replaceState(null, '', window.location.pathname + window.location.search)
+    return p
+  })
   const jump = useRef<((i: number) => void) | null>(null)
 
   const onState = useCallback((s: JourneyState) => setState(s), [])
   const ready = useCallback(() => { setLoaded(true); window.setTimeout(() => setGone(true), 1600) }, [])
 
-  // pages live on plain #hashes (#rooms, #gallery, #contact)
+  // an in-site link to #rooms, #halls… opens that page too
   useEffect(() => {
-    const on = () => setPage(readHash())
+    const on = () => {
+      const p = readHash()
+      if (!p || (window.history.state && typeof window.history.state.d === 'number')) return
+      window.history.replaceState(window.history.state, '', window.location.pathname + window.location.search)
+      setPage(p)
+    }
     window.addEventListener('hashchange', on)
     return () => window.removeEventListener('hashchange', on)
   }, [])
   const openPage = (p: Page | null, anchor?: string) => {
     setMenu(false)
-    if (p) location.hash = p
-    else history.replaceState(null, '', location.pathname + location.search)
     setPage(p)
     if (p && anchor) window.setTimeout(() => document.getElementById(anchor)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 450)
   }
   const [room, setRoom] = useState<string | null>(null)
+  // the device's back (swipe, back button, gesture) closes whatever is open, innermost first
+  useBackToClose(page !== null, () => setPage(null), page ? `#${page}` : undefined)
+  useBackToClose(room !== null, () => setRoom(null), room ? `#room-${room}` : undefined)
+  useBackToClose(menu, () => setMenu(false))
   const [after, setAfter] = useState(false)
   useEffect(() => {
     const on = () => setAfter(window.scrollY > FILM_END + window.innerHeight * 0.2)
@@ -78,7 +91,10 @@ export default function App() {
 
   return (
     <>
-      <Journey route={route} ready={ready} paused={paused} disabled={page !== null || menu || room !== null} onState={onState} jumpRef={jump} />
+      <Journey route={route} ready={ready} paused={paused} disabled={page !== null || menu || room !== null} onState={onState} jumpRef={jump} onEnd={() => {
+        const el = document.getElementById('stay')
+        if (el && !page && !menu && !room) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY, behavior: 'smooth' })
+      }} />
       <Explore openPage={openPage} openRoom={setRoom} />
 
       {/* ───────────── copy ───────────── */}
@@ -91,11 +107,11 @@ export default function App() {
             <section key={id} aria-hidden={!on} className={`absolute inset-x-6 flex flex-col items-center ${s.pos === 'top' ? 'top-[16svh]' : ''} transition-all duration-[1300ms] ease-[cubic-bezier(.22,1,.36,1)] ${on ? 'translate-y-0 opacity-100 blur-0' : 'translate-y-4 opacity-0 blur-[6px]'}`}>
               {id === 'arrival' ? (
                 <>
-                  <p className="label mb-7 text-cream/80">{s.kicker}</p>
-                  <p className="font-display text-[min(22vw,30svh)] font-light leading-[0.82] tracking-[0.18em] text-cream [text-shadow:0_6px_60px_rgba(0,0,0,0.35)]">VIMAL</p>
-                  <p className="font-kn mt-5 text-xl tracking-[0.08em] text-cream/85 md:text-2xl">{PROPERTY.kannadaName}</p>
+                  <p className="label title-sub mb-7 text-cream">{s.kicker}</p>
+                  <p className="title-mark text-[min(19vw,26svh)] leading-[0.9] tracking-[0.14em] text-cream">VIMAL</p>
+                  <p className="font-kn title-sub mt-5 text-xl tracking-[0.08em] text-cream md:text-3xl">{PROPERTY.kannadaName}</p>
                   <span className="my-6 block h-px w-16 bg-gold/80" />
-                  <p className="font-display text-2xl italic text-cream/95 md:text-4xl">{s.line}</p>
+                  <p className="font-display title-sub text-2xl italic text-cream md:text-4xl">{s.line}</p>
                 </>
               ) : (
                 <>
@@ -189,7 +205,7 @@ export default function App() {
         {page === 'contact' && <ContactPage />}
       </PageShell>
 
-      <RoomFilm id={room} onClose={() => setRoom(null)} onChange={setRoom} onPhotos={(id) => { setRoom(null); openPage('rooms', id) }} />
+      <RoomFilm id={room} onClose={() => setRoom(null)} onChange={setRoom} />
 
       {/* ───────────── preloader ───────────── */}
       {!gone && (

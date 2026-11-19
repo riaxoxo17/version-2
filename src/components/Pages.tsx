@@ -5,12 +5,13 @@ import { CONTACT, wa } from '../data/journey'
 import { DAY, NEARBY } from '../data/resort'
 import { SectionFilm } from './Explore'
 import { roomFilm } from './RoomFilm'
+import { useBackToClose } from '../lib/backClose'
 
 const base = import.meta.env.BASE_URL
 export const img = (id: string, thumb = false) => `${base}media/g/${id}${thumb ? '-t' : ''}.webp`
-interface GItem { id: string; category: string; caption: string; w: number; h: number; note?: string }
+export interface GItem { id: string; category: string; caption: string; w: number; h: number; note?: string }
 const G = gallery as GItem[]
-const byId = Object.fromEntries(G.map((g) => [g.id, g]))
+export const byId = Object.fromEntries(G.map((g) => [g.id, g]))
 
 export type Page = 'rooms' | 'halls' | 'photos' | 'contact'
 
@@ -195,9 +196,10 @@ export function HallsPage() {
 /* ───────────────────────── gallery ───────────────────────── */
 const CATS = ['All', 'Rooms', 'Tents', 'Grounds', 'Pool', 'Adventure', 'Play', 'Celebrations', 'Food', 'Aerial']
 
-function Lightbox({ items, index, setIndex }: { items: GItem[]; index: number; setIndex: (f: number | null | ((o: number | null) => number | null)) => void }) {
+export function Lightbox({ items, index, setIndex }: { items: GItem[]; index: number; setIndex: (f: number | null | ((o: number | null) => number | null)) => void }) {
   const n = items.length
   const go = (d: number) => setIndex((o) => ((o ?? 0) + d + n) % n)
+  useBackToClose(true, () => setIndex(null))
   useEffect(() => {
     const k = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setIndex(null)

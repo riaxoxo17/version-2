@@ -31,9 +31,13 @@ interface Props {
   disabled: boolean
   onState: (s: JourneyState) => void
   jumpRef: React.MutableRefObject<((i: number) => void) | null>
+  /** called once when the film finishes playing on its own */
+  onEnd?: () => void
 }
 
-export function Journey({ route, ready, paused, disabled, onState, jumpRef }: Props) {
+export function Journey({ route, ready, paused, disabled, onState, jumpRef, onEnd }: Props) {
+  const onEndRef = useRef(onEnd)
+  onEndRef.current = onEnd
   const vids = useRef<Record<string, HTMLVideoElement | null>>({})
   const timeline = useMemo(() => {
     const starts: number[] = []
@@ -182,7 +186,7 @@ export function Journey({ route, ready, paused, disabled, onState, jumpRef }: Pr
         const d = v.duration || DURATION[routeRef.current[i]]
         if (v.currentTime >= d - 0.12 || v.ended) {
           if (i < routeRef.current.length - 1) switchTo(i + 1, 0, true)
-          else { mode.current = 'scrub'; v.pause() }
+          else { mode.current = 'scrub'; v.pause(); window.setTimeout(() => onEndRef.current?.(), 150) }
         }
         const j = active.current
         const t = tl.current.starts[j] + (vidAt(j)?.currentTime ?? 0)
