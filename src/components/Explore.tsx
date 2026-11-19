@@ -35,10 +35,10 @@ function FilmSection({ id, film, kicker, title, children, labelledBy }: { id: st
   const f = sceneSrc(film)
   return (
     <section id={id} aria-labelledby={labelledBy} className="relative">
-      <div data-film className="relative h-[100svh] min-h-[560px] overflow-hidden">
+      <div data-film className="relative min-h-[100svh] overflow-hidden">
         <div data-film-inner className="absolute inset-0 will-change-transform"><SectionFilm {...f} /></div>
         <div className="absolute inset-0 bg-gradient-to-t from-night via-night/25 to-night/45" />
-        <div className="absolute inset-x-0 bottom-0 px-6 pb-14 md:px-[6vw] md:pb-20">
+        <div className="relative flex min-h-[100svh] flex-col justify-end px-6 pb-14 pt-28 md:px-[6vw] md:pb-20">
           <p data-reveal className="label text-gold">{kicker}</p>
           <h2 id={labelledBy} data-reveal className="font-display mt-5 max-w-5xl text-[13vw] font-light leading-[0.95] text-cream [text-shadow:0_4px_50px_rgba(0,0,0,0.35)] md:text-[6vw]">{title}</h2>
           {children}
@@ -77,9 +77,9 @@ export function Explore({ openPage, openRoom }: { openPage: (p: Page, anchor?: s
       <FilmSection id="stay" film="stay" kicker={`${PROPERTY.facts[1].value} luxury rooms · 15 nature tents`} labelledBy="stay-title" title={<>Find your place <em className="text-cream/85">to unwind.</em></>}>
         <div data-reveal className="mt-10 grid max-w-5xl gap-3 sm:grid-cols-3">
           {ROOMS.map((r) => (
-            <button key={r.id} type="button" onClick={() => openRoom(r.id)} className="group relative overflow-hidden border border-cream/20 bg-night/40 text-left backdrop-blur-md transition-colors hover:border-gold">
-              <span className="block aspect-[16/9] overflow-hidden"><img src={img(r.photos[0], true)} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-105" /></span>
-              <span className="flex items-center justify-between gap-3 px-4 py-3.5">
+            <button key={r.id} type="button" onClick={() => openRoom(r.id)} className="group relative flex items-center overflow-hidden border border-cream/20 bg-night/40 text-left backdrop-blur-md transition-colors hover:border-gold sm:block">
+              <span className="block h-20 w-28 shrink-0 overflow-hidden sm:aspect-[16/9] sm:h-auto sm:w-full"><img src={img(r.photos[0], true)} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-105" /></span>
+              <span className="flex min-w-0 flex-1 items-center justify-between gap-3 px-4 py-3.5">
                 <span><span className="font-display block text-2xl">{r.name}</span><span className="label block text-[0.58rem] text-cream/60">Walk inside · film</span></span>
                 <span aria-hidden className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-gold/70 text-[0.6rem] text-gold transition-colors group-hover:bg-gold group-hover:text-night">▶</span>
               </span>

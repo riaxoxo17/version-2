@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { Journey, PX_PER_SEC, type JourneyState } from './components/Journey'
 import { Explore } from './components/Explore'
 import { RoomFilm } from './components/RoomFilm'
+import { useBackToClose } from './lib/backClose'
 import { PROPERTY } from './data/resort'
 import { ContactPage, GalleryPage, HallsPage, PageShell, RoomsPage, type Page } from './components/Pages'
 import { CONTACT, DURATION, ROUTE, SCENES } from './data/journey'
@@ -23,26 +24,38 @@ export default function App() {
   const [state, setState] = useState<JourneyState>({ index: 0, id: 'arrival', local: 0, progress: 0, playing: false })
   const [paused, setPaused] = useState(false)
   const [menu, setMenu] = useState(false)
-  const [page, setPage] = useState<Page | null>(readHash)
+  // a link straight to #rooms etc. opens that page on top of the home page, so Back returns home
+  const [page, setPage] = useState<Page | null>(() => {
+    const p = readHash()
+    if (p) window.history.replaceState(null, '', window.location.pathname + window.location.search)
+    return p
+  })
   const jump = useRef<((i: number) => void) | null>(null)
 
   const onState = useCallback((s: JourneyState) => setState(s), [])
   const ready = useCallback(() => { setLoaded(true); window.setTimeout(() => setGone(true), 1600) }, [])
 
-  // pages live on plain #hashes (#rooms, #gallery, #contact)
+  // an in-site link to #rooms, #halls… opens that page too
   useEffect(() => {
-    const on = () => setPage(readHash())
+    const on = () => {
+      const p = readHash()
+      if (!p || (window.history.state && typeof window.history.state.d === 'number')) return
+      window.history.replaceState(window.history.state, '', window.location.pathname + window.location.search)
+      setPage(p)
+    }
     window.addEventListener('hashchange', on)
     return () => window.removeEventListener('hashchange', on)
   }, [])
   const openPage = (p: Page | null, anchor?: string) => {
     setMenu(false)
-    if (p) location.hash = p
-    else history.replaceState(null, '', location.pathname + location.search)
     setPage(p)
     if (p && anchor) window.setTimeout(() => document.getElementById(anchor)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 450)
   }
   const [room, setRoom] = useState<string | null>(null)
+  // the device's back (swipe, back button, gesture) closes whatever is open, innermost first
+  useBackToClose(page !== null, () => setPage(null), page ? `#${page}` : undefined)
+  useBackToClose(room !== null, () => setRoom(null), room ? `#room-${room}` : undefined)
+  useBackToClose(menu, () => setMenu(false))
   const [after, setAfter] = useState(false)
   useEffect(() => {
     const on = () => setAfter(window.scrollY > FILM_END + window.innerHeight * 0.2)

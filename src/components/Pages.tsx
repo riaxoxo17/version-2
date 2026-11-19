@@ -5,6 +5,7 @@ import { CONTACT, wa } from '../data/journey'
 import { DAY, NEARBY } from '../data/resort'
 import { SectionFilm } from './Explore'
 import { roomFilm } from './RoomFilm'
+import { useBackToClose } from '../lib/backClose'
 
 const base = import.meta.env.BASE_URL
 export const img = (id: string, thumb = false) => `${base}media/g/${id}${thumb ? '-t' : ''}.webp`
@@ -198,6 +199,7 @@ const CATS = ['All', 'Rooms', 'Tents', 'Grounds', 'Pool', 'Adventure', 'Play', '
 export function Lightbox({ items, index, setIndex }: { items: GItem[]; index: number; setIndex: (f: number | null | ((o: number | null) => number | null)) => void }) {
   const n = items.length
   const go = (d: number) => setIndex((o) => ((o ?? 0) + d + n) % n)
+  useBackToClose(true, () => setIndex(null))
   useEffect(() => {
     const k = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setIndex(null)
