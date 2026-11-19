@@ -2,31 +2,34 @@ import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { ROOMS } from '../data/rooms'
 import { wa } from '../data/journey'
+import { Lightbox, byId, img, type GItem } from './Pages'
 
 const base = import.meta.env.BASE_URL
 export const roomFilm = (film: string) => ({
-  src: `${base}media/rooms/${film}-${typeof window !== 'undefined' && window.innerWidth < 900 ? 'sm' : 'lg'}.mp4`,
-  poster: `${base}media/rooms/${film}-poster.webp`,
+  src: `${base}media/rooms/${film}-${typeof window !== 'undefined' && window.innerWidth < 900 ? 'sm' : 'lg'}.mp4?v=3`,
+  poster: `${base}media/rooms/${film}-poster.webp?v=3`,
 })
 
 /**
  * Full-screen walk-in: the room's film plays edge to edge (a path through the
  * grounds, the veranda, inside the room, the bathroom), with its details over it.
  */
-export function RoomFilm({ id, onClose, onChange, onPhotos }: { id: string | null; onClose: () => void; onChange: (id: string) => void; onPhotos: (id: string) => void }) {
+export function RoomFilm({ id, onClose, onChange }: { id: string | null; onClose: () => void; onChange: (id: string) => void }) {
   const room = ROOMS.find((r) => r.id === id) ?? null
   const v = useRef<HTMLVideoElement>(null)
   const close = useRef<HTMLButtonElement>(null)
   const [progress, setProgress] = useState(0)
   const [info, setInfo] = useState(true)
+  const [shot, setShot] = useState<number | null>(null)
+  const box = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!room) return
-    setProgress(0); setInfo(true)
+    setProgress(0); setInfo(true); setShot(null); box.current?.scrollTo(0, 0)
     close.current?.focus({ preventScroll: true })
     const el = v.current
     if (el) { el.currentTime = 0; el.play().catch(() => {}) }
-    const k = (e: KeyboardEvent) => e.key === 'Escape' && onClose()
+    const k = (e: KeyboardEvent) => e.key === 'Escape' && !document.querySelector('[data-lightbox]') && onClose()
     window.addEventListener('keydown', k)
     document.documentElement.style.overflow = 'hidden'
     return () => { window.removeEventListener('keydown', k); document.documentElement.style.overflow = '' }
@@ -35,7 +38,8 @@ export function RoomFilm({ id, onClose, onChange, onPhotos }: { id: string | nul
   if (!room?.film) return null
   const f = roomFilm(room.film)
   return createPortal(
-    <div role="dialog" aria-modal="true" aria-label={`${room.name}: walk-in film`} className="fixed inset-0 z-[70] bg-night">
+    <div ref={box} role="dialog" aria-modal="true" aria-label={`${room.name}: walk-in film`} className="fixed inset-0 z-[70] overflow-y-auto overscroll-contain bg-night">
+     <div className="relative h-[100svh] min-h-[560px] overflow-hidden">
       <video key={room.film} ref={v} src={f.src} poster={f.poster} muted playsInline autoPlay loop
         onTimeUpdate={(e) => setProgress(e.currentTarget.currentTime / (e.currentTarget.duration || 1))}
         className="absolute inset-0 h-full w-full object-cover" />
@@ -70,12 +74,13 @@ export function RoomFilm({ id, onClose, onChange, onPhotos }: { id: string | nul
             <p className="font-display mt-1 text-4xl text-gold">{room.price ?? 'Enquire for rates'}</p>
             <div className="mt-5 flex flex-wrap gap-3 md:justify-end">
               <a href={wa(`Hello Vimal Resort, I'd like rates and availability for ${room.enquiry}.`)} target="_blank" rel="noreferrer" className="label bg-gold px-5 py-3.5 text-night hover:bg-cream">Check availability</a>
-              <button type="button" onClick={() => onPhotos(room.id)} className="label border border-cream/35 bg-night/30 px-5 py-3.5 text-cream backdrop-blur hover:border-gold hover:text-gold">{room.photos.length} photos</button>
+              <button type="button" onClick={() => box.current?.scrollTo({ top: box.current.clientHeight, behavior: 'smooth' })} className="label border border-cream/35 bg-night/30 px-5 py-3.5 text-cream backdrop-blur hover:border-gold hover:text-gold">{room.photos.length} photos</button>
             </div>
           </div>
         </div>
         <div className="mt-8 flex items-center gap-4">
           <span className="block h-px flex-1 bg-cream/20"><span className="block h-full origin-left bg-gold" style={{ transform: `scaleX(${progress})` }} /></span>
+          <button type="button" onClick={() => box.current?.scrollTo({ top: box.current.clientHeight, behavior: 'smooth' })} className="label text-[0.6rem] text-gold hover:text-cream">{room.photos.length} photos below ↓</button>
           <button type="button" onClick={() => setInfo(false)} className="label text-[0.6rem] text-cream/60 hover:text-cream">Hide details</button>
         </div>
         <p className="mt-3 text-[0.62rem] text-cream/40">Filmed from the resort’s 360° virtual tour and photographs.</p>
@@ -83,6 +88,26 @@ export function RoomFilm({ id, onClose, onChange, onPhotos }: { id: string | nul
       {!info && (
         <button type="button" onClick={() => setInfo(true)} className="label absolute bottom-8 left-1/2 -translate-x-1/2 bg-night/50 px-4 py-2.5 text-cream backdrop-blur hover:text-gold">Show details</button>
       )}
+     </div>
+
+      {/* the room's photographs */}
+      <section aria-label={`${room.name} photos`} className="px-5 pb-20 pt-14 md:px-10 md:pt-20">
+        <div className="mb-8 flex items-end justify-between gap-6">
+          <div>
+            <p className="label text-gold">Photographs</p>
+            <h3 className="font-display mt-3 text-4xl font-light md:text-5xl">Inside the {room.name}</h3>
+          </div>
+          <button type="button" onClick={() => box.current?.scrollTo({ top: 0, behavior: 'smooth' })} className="label hidden text-cream/60 hover:text-gold md:block">Back to the film ↑</button>
+        </div>
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
+          {room.photos.map((p, i) => (
+            <button key={p} type="button" onClick={() => setShot(i)} className={`group relative overflow-hidden bg-cream/5 ${i === 0 ? 'col-span-2 row-span-2' : ''}`} aria-label={`Open photo ${i + 1}: ${byId[p]?.caption ?? ''}`}>
+              <img src={img(p, i !== 0)} alt={byId[p]?.caption ?? room.name} loading="lazy" className="aspect-[3/2] h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-[1.04]" />
+            </button>
+          ))}
+        </div>
+      </section>
+      {shot != null && <Lightbox items={room.photos.map((p) => byId[p]).filter(Boolean) as GItem[]} index={shot} setIndex={setShot} />}
     </div>,
     document.body,
   )

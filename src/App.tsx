@@ -78,7 +78,10 @@ export default function App() {
 
   return (
     <>
-      <Journey route={route} ready={ready} paused={paused} disabled={page !== null || menu || room !== null} onState={onState} jumpRef={jump} />
+      <Journey route={route} ready={ready} paused={paused} disabled={page !== null || menu || room !== null} onState={onState} jumpRef={jump} onEnd={() => {
+        const el = document.getElementById('stay')
+        if (el && !page && !menu && !room) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY, behavior: 'smooth' })
+      }} />
       <Explore openPage={openPage} openRoom={setRoom} />
 
       {/* ───────────── copy ───────────── */}
@@ -91,11 +94,11 @@ export default function App() {
             <section key={id} aria-hidden={!on} className={`absolute inset-x-6 flex flex-col items-center ${s.pos === 'top' ? 'top-[16svh]' : ''} transition-all duration-[1300ms] ease-[cubic-bezier(.22,1,.36,1)] ${on ? 'translate-y-0 opacity-100 blur-0' : 'translate-y-4 opacity-0 blur-[6px]'}`}>
               {id === 'arrival' ? (
                 <>
-                  <p className="label mb-7 text-cream/80">{s.kicker}</p>
-                  <p className="font-display text-[min(22vw,30svh)] font-light leading-[0.82] tracking-[0.18em] text-cream [text-shadow:0_6px_60px_rgba(0,0,0,0.35)]">VIMAL</p>
-                  <p className="font-kn mt-5 text-xl tracking-[0.08em] text-cream/85 md:text-2xl">{PROPERTY.kannadaName}</p>
+                  <p className="label title-sub mb-7 text-cream">{s.kicker}</p>
+                  <p className="title-mark text-[min(19vw,26svh)] leading-[0.9] tracking-[0.14em] text-cream">VIMAL</p>
+                  <p className="font-kn title-sub mt-5 text-xl tracking-[0.08em] text-cream md:text-3xl">{PROPERTY.kannadaName}</p>
                   <span className="my-6 block h-px w-16 bg-gold/80" />
-                  <p className="font-display text-2xl italic text-cream/95 md:text-4xl">{s.line}</p>
+                  <p className="font-display title-sub text-2xl italic text-cream md:text-4xl">{s.line}</p>
                 </>
               ) : (
                 <>
@@ -189,7 +192,7 @@ export default function App() {
         {page === 'contact' && <ContactPage />}
       </PageShell>
 
-      <RoomFilm id={room} onClose={() => setRoom(null)} onChange={setRoom} onPhotos={(id) => { setRoom(null); openPage('rooms', id) }} />
+      <RoomFilm id={room} onClose={() => setRoom(null)} onChange={setRoom} />
 
       {/* ───────────── preloader ───────────── */}
       {!gone && (

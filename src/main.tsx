@@ -5,6 +5,7 @@ import '@fontsource/cormorant-garamond/400.css'
 import '@fontsource/cormorant-garamond/400-italic.css'
 import '@fontsource-variable/manrope'
 import '@fontsource/noto-serif-kannada/kannada-400.css'
+import '@fontsource/cinzel/latin-500.css'
 import './index.css'
 import App from './App'
 
