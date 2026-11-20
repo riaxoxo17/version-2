@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { ALL_IDS, DURATION } from '../data/journey'
+import { filmSize, prepVideo, safePlay, unwait, useFilmSize } from '../lib/play'
 
 /**
  * The whole site is one film. It plays on its own; scrolling moves the camera
@@ -13,7 +14,7 @@ import { ALL_IDS, DURATION } from '../data/journey'
 export const PX_PER_SEC = 120
 const IDLE_RESUME_MS = 1700
 const base = import.meta.env.BASE_URL
-const src = (id: string, size: 'lg' | 'sm') => `${base}media/scenes/${id}-${size}.mp4?v=2`
+const src = (id: string, size: string) => `${base}media/scenes/${id}-${size}.mp4?v=2`
 const poster = (id: string) => `${base}media/scenes/${id}-poster.webp?v=2`
 
 export interface JourneyState {
@@ -59,7 +60,22 @@ export function Journey({ route, ready, paused, disabled, onState, jumpRef, onEn
   const pending = useRef<number | null>(null)
   const pausedRef = useRef(paused || disabled)
   const reduced = useRef(typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches)
-  const size = useRef<'lg' | 'sm'>(typeof window !== 'undefined' && window.innerWidth < 900 ? 'sm' : 'lg')
+  // turning the phone swaps in the matching film (tall or widescreen) at the same moment
+  const sizeNow = useFilmSize()
+  const size = useRef(filmSize())
+  const resume = useRef<{ id: string; t: number; play: boolean } | null>(null)
+  if (sizeNow !== size.current) {
+    const v = vids.current[activeIdRef.current]
+    resume.current = { id: activeIdRef.current, t: v?.currentTime ?? 0, play: !!v && !v.paused }
+    size.current = sizeNow
+  }
+  const onMeta = (id: string, v: HTMLVideoElement) => {
+    const r = resume.current
+    if (!r || r.id !== id) return
+    resume.current = null
+    v.currentTime = r.t
+    if (r.play) safePlay(v)
+  }
   const readyFired = useRef(false)
   const last = useRef({ index: -1, local: -1, playing: false })
 
@@ -93,15 +109,15 @@ export function Journey({ route, ready, paused, disabled, onState, jumpRef, onEn
       Object.entries(vids.current).forEach(([k, o]) => { if (o && k !== id) window.setTimeout(() => activeIdRef.current !== k && o.pause(), 900) })
     }
     seek(v, Math.max(0, Math.min(local, (v.duration || DURATION[id]) - 0.05)))
-    if (play) v.play().catch(() => {})
-    else v.pause()
+    if (play) safePlay(v)
+    else { unwait(v); v.pause() }
   }, [])
 
   const pastFilm = () => window.scrollY > tl.current.total * PX_PER_SEC - 2
   const goAuto = useCallback(() => {
     if (pausedRef.current || reduced.current || pastFilm()) return
     mode.current = 'auto'
-    vidAt(active.current)?.play().catch(() => {})
+    safePlay(vidAt(active.current))
   }, [])
 
   const takeControl = useCallback(() => {
@@ -207,7 +223,7 @@ export function Journey({ route, ready, paused, disabled, onState, jumpRef, onEn
     window.scrollTo(0, 0)
     ready()
     if (reduced.current) { mode.current = 'scrub'; return }
-    window.setTimeout(() => { mode.current = 'auto'; vidAt(0)?.play().catch(() => {}) }, 900)
+    window.setTimeout(() => { mode.current = 'auto'; safePlay(vidAt(0)) }, 900)
   }
   useEffect(() => { const t = window.setTimeout(onFirstReady, 6000); return () => window.clearTimeout(t) })
 
@@ -221,13 +237,14 @@ export function Journey({ route, ready, paused, disabled, onState, jumpRef, onEn
         {ALL_IDS.map((id) => (
           <video
             key={id}
-            ref={(el) => { vids.current[id] = el }}
+            ref={(el) => { vids.current[id] = el; prepVideo(el) }}
             src={src(id, size.current)}
             poster={poster(id)}
             muted
             playsInline
             preload={near.has(id) ? 'auto' : 'none'}
             onCanPlay={id === route[0] ? onFirstReady : undefined}
+            onLoadedMetadata={(e) => onMeta(id, e.currentTarget)}
             className={`absolute inset-0 h-full w-full object-cover transition-[opacity,transform,filter] duration-[1100ms] ease-[cubic-bezier(.65,0,.35,1)] ${id === activeId ? 'scale-100 opacity-100 blur-0' : 'scale-[1.06] opacity-0 blur-[2px]'}`}
           />
         ))}

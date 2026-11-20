@@ -14,6 +14,8 @@ export interface Space {
   photos: string[] // ids in src/data/gallery.json
   /** walk-in film built from the resort's 360° tour (media/rooms/<film>-lg.mp4) */
   film?: string
+  /** short phone films shown with the photos (media/clips/<id>) */
+  clips?: { id: string; caption: string }[]
   price: string | null
   priceLabel: string
   priceNote: string
@@ -33,7 +35,7 @@ export const ROOMS: Space[] = [
       { label: 'Setting', value: 'Rustic architecture, garden windows' },
       { label: 'On property', value: '105 luxury rooms' },
     ],
-    photos: ['p31', 'p38', 'p33', 'p05', 'p07', 'p02'],
+    photos: ['p31', 'p38', 'p33', 'p05', 'p07', 'p02', 'q04', 'q06'],
     ...ROOM_PRICE, enquiry: 'a Twin Room', film: 'room-twin',
   },
   {
@@ -46,7 +48,7 @@ export const ROOMS: Space[] = [
       { label: 'Family suites', value: 'Family suites available' },
       { label: 'On property', value: '105 luxury rooms' },
     ],
-    photos: ['p06', 'p39', 'p41', 'p08', 'p36', 'p03', 'p10', 'p28', 'p40'],
+    photos: ['p06', 'p39', 'p41', 'p08', 'p36', 'p03', 'p10', 'q03', 'q05', 'q07', 'p28', 'p40'],
     ...ROOM_PRICE, enquiry: 'a King Room', film: 'room-king',
   },
   {
@@ -74,7 +76,20 @@ export const HALLS: Space[] = [
       { label: 'Banquet halls', value: '2,500 sq. ft.' },
       { label: 'Services', value: 'Staging & custom catering' },
     ],
-    photos: ['n08', 'n09'],
+    // w00–w15: the hall and lawn dressed for a wedding (client's Marriage folder, 20 Nov)
+    photos: ['w00', 'w01', 'w02', 'w03', 'w04', 'w05', 'w06', 'w07', 'w08', 'w09', 'w10', 'w11', 'w12', 'w13', 'w14', 'w15', 'n08', 'n09', 'q09', 'h00', 'h01', 'h02'],
+    clips: [
+      { id: 'wed-courtyard-stage', caption: 'The open-roof hall, set for a wedding' },
+      { id: 'wed-stage-reveal', caption: 'From the stage to the whole hall' },
+      { id: 'wed-hall-stage', caption: 'The banquet hall stage' },
+      { id: 'wed-mandala-entry', caption: 'The mandala wall at the hall entrance' },
+      { id: 'wed-lawn-canopy', caption: 'Under the pink canopy on the lawn' },
+      { id: 'wed-lawn-seating', caption: 'Lawn seating under the canopy' },
+      { id: 'wed-mandala-wall', caption: 'Mandala wall and gramophone' },
+      { id: 'wed-garden-table', caption: 'Garden table under a pink umbrella' },
+      { id: 'hall-drone', caption: 'The marriage hall and lawn from the air' },
+      { id: 'banquet-hall', caption: 'Inside the hall, set for a celebration' },
+    ],
     ...EVENT_PRICE, enquiry: 'the Marriage Hall or banquet halls',
   },
   {
@@ -86,7 +101,12 @@ export const HALLS: Space[] = [
       { label: 'Guests', value: '1,000+' },
       { label: 'Mandap', value: 'Pre-built spaces' },
     ],
-    photos: ['n10', 'a04', 'a01'],
+    photos: ['w11', 'w10', 'w09', 'w08', 'w12', 'w13', 'w14', 'w15', 'n10', 'a04', 'a01'],
+    clips: [
+      { id: 'wed-lawn-canopy', caption: 'Under the pink canopy on the lawn' },
+      { id: 'wed-lawn-seating', caption: 'Lawn seating under the canopy' },
+      { id: 'wed-garden-table', caption: 'Garden table under a pink umbrella' },
+    ],
     ...EVENT_PRICE, enquiry: 'the Marriage Lawn',
   },
 ]

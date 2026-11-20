@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { ROOMS } from '../data/rooms'
+import { prepVideo, safePlay } from '../lib/play'
 import { wa } from '../data/journey'
 import { Lightbox, byId, img, type GItem } from './Pages'
 
@@ -28,7 +29,7 @@ export function RoomFilm({ id, onClose, onChange }: { id: string | null; onClose
     setProgress(0); setInfo(true); setShot(null); box.current?.scrollTo(0, 0)
     close.current?.focus({ preventScroll: true })
     const el = v.current
-    if (el) { el.currentTime = 0; el.play().catch(() => {}) }
+    if (el) { prepVideo(el); el.currentTime = 0; safePlay(el) }
     const k = (e: KeyboardEvent) => e.key === 'Escape' && !document.querySelector('[data-lightbox]') && onClose()
     window.addEventListener('keydown', k)
     document.documentElement.style.overflow = 'hidden'
