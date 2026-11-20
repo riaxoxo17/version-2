@@ -42,7 +42,7 @@ const filmSrc = (film: Film, size: string) => typeof film === 'string'
   ? { src: `${base}media/scenes/${film}-${size}.mp4`, poster: `${base}media/scenes/${film}-poster.webp` }
   : clip(film.clip, size as 'lg' | 'pt')
 
-function FilmSection({ id, film, kicker, title, children, labelledBy, onFull }: { id: string; film: Film; kicker: React.ReactNode; title: React.ReactNode; children?: React.ReactNode; labelledBy: string; onFull: (f: FullFilmSpec) => void }) {
+function FilmSection({ id, film, kicker, title, children, labelledBy, onFull, sideFilm }: { sideFilm?: boolean; id: string; film: Film; kicker: React.ReactNode; title: React.ReactNode; children?: React.ReactNode; labelledBy: string; onFull: (f: FullFilmSpec) => void }) {
   const size = useFilmSize()
   const f = filmSrc(film, size)
   const wide = filmSrc(film, 'lg')
@@ -52,7 +52,8 @@ function FilmSection({ id, film, kicker, title, children, labelledBy, onFull }: 
         <div data-film-inner className="absolute inset-0 will-change-transform"><SectionFilm {...f} /></div>
         <div className="absolute inset-0 bg-gradient-to-t from-night via-night/25 to-night/45" />
         <FullScreenButton onClick={() => onFull({ title: id.charAt(0).toUpperCase() + id.slice(1), srcs: [wide.src], poster: wide.poster })} className="absolute right-5 top-[8.25rem] z-10 md:right-[6vw] md:top-32" />
-        <div className="relative flex min-h-[100svh] flex-col justify-end px-6 pb-14 pt-28 md:px-[6vw] md:pb-20">
+        {/* sideFilm: the wide film shows an upright clip on the right, so the words keep to the left */}
+        <div className={`relative flex min-h-[100svh] flex-col justify-end px-6 pb-14 pt-28 md:px-[6vw] md:pb-20 ${sideFilm ? 'md:pr-[42vw] [&_h2]:md:text-[4.6vw]' : ''}`}>
           <p data-reveal className="label text-gold">{kicker}</p>
           <h2 id={labelledBy} data-reveal className="font-display mt-5 max-w-5xl text-[13vw] font-light leading-[0.95] text-cream [text-shadow:0_4px_50px_rgba(0,0,0,0.35)] md:text-[6vw]">{title}</h2>
           {children}
@@ -90,7 +91,7 @@ export function Explore({ openPage, openRoom }: { openPage: (p: Page, anchor?: s
   return (
     <div ref={root} className="relative z-20 bg-night">
       {/* ─────────── WEDDINGS ─────────── */}
-      <FilmSection onFull={setFull} id="weddings" film={{ clip: 'wedding-film' }} labelledBy="weddings-title"
+      <FilmSection onFull={setFull} id="weddings" sideFilm film={{ clip: 'wedding-film' }} labelledBy="weddings-title"
         kicker={<span className="inline-flex items-center gap-2.5"><Laurel className="h-6 w-6 shrink-0 text-gold" /><span>{WEDDING.award}<span className="hidden md:inline"> · {WEDDING.awardBy}</span></span></span>}
         title={<>Karnataka’s best <em className="text-cream/85">destination wedding.</em></>}>
         <p data-reveal className="mt-6 max-w-2xl text-cream/80">Ceremonies in the hall or under the open sky, guests staying on the grounds, and every celebration in one place.</p>
