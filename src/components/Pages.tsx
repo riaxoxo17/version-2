@@ -97,7 +97,13 @@ function SpaceCard({ s, index, onWalk }: { s: Space; index: number; onWalk?: (id
         ) : (
           <button type="button" onClick={() => setOpen(shot)} className="relative block aspect-[3/2] w-full overflow-hidden bg-cream/5" aria-label={`View ${s.name} photos full screen`}>
           {s.photos.map((p, i) => (
-            <img key={p} src={img(p)} alt={`${s.name}: ${byId[p]?.caption ?? ''}`} loading={i < 2 ? 'eager' : 'lazy'} decoding="async"
+            byId[p] && byId[p].h > byId[p].w
+              // upright photos are shown whole, over a soft blurred copy, instead of being cropped
+              ? <span key={p} className={`absolute inset-0 transition-opacity duration-[2000ms] ease-out ${i === shot ? 'opacity-100' : 'opacity-0'}`}>
+                  <img src={img(p, true)} alt="" aria-hidden loading="lazy" className="absolute inset-0 h-full w-full scale-110 object-cover opacity-60 blur-2xl" />
+                  <img src={img(p)} alt={`${s.name}: ${byId[p]?.caption ?? ''}`} loading={i < 2 ? 'eager' : 'lazy'} decoding="async" className="relative mx-auto h-full w-auto object-contain" />
+                </span>
+              : <img key={p} src={img(p)} alt={`${s.name}: ${byId[p]?.caption ?? ''}`} loading={i < 2 ? 'eager' : 'lazy'} decoding="async"
               className={`absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-[2000ms] ease-out ${i === shot ? 'scale-[1.035] opacity-100' : 'scale-100 opacity-0'}`} />
           ))}
           <span className="label absolute right-4 top-4 bg-night/50 px-3 py-1.5 text-[0.58rem] text-cream backdrop-blur">{s.photos.length} photos{s.clips?.length ? ` · ${s.clips.length} film${s.clips.length > 1 ? 's' : ''}` : ''} · view</span>

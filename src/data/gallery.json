@@ -635,6 +635,118 @@
 "h": 1350
 },
 {
+"id": "w00",
+"category": "Celebrations",
+"caption": "The open-roof wedding hall, set with gold chairs",
+"w": 1800,
+"h": 2400
+},
+{
+"id": "w01",
+"category": "Celebrations",
+"caption": "Stage under the open-roof hall",
+"w": 1800,
+"h": 2400
+},
+{
+"id": "w02",
+"category": "Celebrations",
+"caption": "Banquet hall stage with a temple-arch backdrop",
+"w": 1800,
+"h": 2400
+},
+{
+"id": "w03",
+"category": "Celebrations",
+"caption": "Hall doorway dressed with drapes and flowers",
+"w": 1800,
+"h": 2400
+},
+{
+"id": "w04",
+"category": "Celebrations",
+"caption": "Mandala wall and gramophone at the hall entrance",
+"w": 1800,
+"h": 2400
+},
+{
+"id": "w05",
+"category": "Celebrations",
+"caption": "Veena and flower photo corner",
+"w": 1800,
+"h": 2400
+},
+{
+"id": "w06",
+"category": "Celebrations",
+"caption": "Draped walkway to the hall",
+"w": 1800,
+"h": 2400
+},
+{
+"id": "w07",
+"category": "Celebrations",
+"caption": "White draped corridor with chandeliers",
+"w": 1800,
+"h": 2400
+},
+{
+"id": "w08",
+"category": "Celebrations",
+"caption": "Floral arch walkway",
+"w": 1800,
+"h": 2400
+},
+{
+"id": "w09",
+"category": "Celebrations",
+"caption": "Floral arches leading to the lawn stage",
+"w": 1800,
+"h": 2400
+},
+{
+"id": "w10",
+"category": "Celebrations",
+"caption": "Lawn stage under the pink canopy",
+"w": 1800,
+"h": 2400
+},
+{
+"id": "w11",
+"category": "Celebrations",
+"caption": "Pink canopy over the lawn seating",
+"w": 1800,
+"h": 2400
+},
+{
+"id": "w12",
+"category": "Celebrations",
+"caption": "Garden table under a pink umbrella",
+"w": 1800,
+"h": 2400
+},
+{
+"id": "w13",
+"category": "Celebrations",
+"caption": "Curtained walkway through the garden",
+"w": 1800,
+"h": 2400
+},
+{
+"id": "w14",
+"category": "Celebrations",
+"caption": "Flute-and-hands entrance arch",
+"w": 2400,
+"h": 1800
+},
+{
+"id": "w15",
+"category": "Celebrations",
+"caption": "Pink entrance with chevron carpet",
+"w": 1800,
+"h": 2400
+},
+{
 "id": "h00",
 "category": "Aerial",
 "caption": "The marriage hall and its lawn, from the air",
