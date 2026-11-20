@@ -26,11 +26,16 @@ function retryAll() {
     v.play().then(() => { waiting.delete(v); notify() }).catch(() => {})
   })
 }
+// Phones only let a page start a video from a real tap: on iPhone that means the end of
+// a touch (touchend / pointerup / click), not touchstart or a scroll. Any swipe on the page
+// ends in a touchend, so the film starts with the visitor's first touch of any kind.
+const GESTURES = ['touchend', 'pointerup', 'click', 'keydown', 'pointerdown', 'scroll', 'wheel']
 function arm() {
   if (armed) return
   armed = true
-  const go = () => { retryAll(); if (waiting.size === 0) { ['pointerdown', 'touchstart', 'keydown', 'scroll', 'wheel'].forEach((e) => window.removeEventListener(e, go)); armed = false } }
-  ;['pointerdown', 'touchstart', 'keydown', 'scroll', 'wheel'].forEach((e) => window.addEventListener(e, go, { passive: true }))
+  const go = () => { retryAll(); if (waiting.size === 0) { GESTURES.forEach((e) => window.removeEventListener(e, go, true)); armed = false } }
+  GESTURES.forEach((e) => window.addEventListener(e, go, { passive: true, capture: true }))
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) retryAll() })
 }
 
 export function safePlay(v: HTMLVideoElement | null | undefined) {
@@ -39,7 +44,8 @@ export function safePlay(v: HTMLVideoElement | null | undefined) {
   const p = v.play()
   if (!p) return
   p.then(() => { if (waiting.delete(v)) notify() }).catch((err: DOMException) => {
-    if (err && err.name === 'AbortError') return // interrupted by a newer play/pause: not a refusal
+    // only a refusal to autoplay needs the visitor; an interrupted play or a slow file does not
+    if (!err || err.name !== 'NotAllowedError') return
     waiting.add(v); notify(); arm()
   })
 }
@@ -54,3 +60,13 @@ export function onPlaybackBlocked(f: (blocked: boolean) => void) {
   return () => { listeners.delete(f) }
 }
 export const retryPlayback = retryAll
+
+/**
+ * Which encode of a full-screen film to load. A phone held upright shows only the
+ * middle third of a landscape film, so it gets its own tall 9:16 copy ('pt') at full
+ * sharpness instead of a small landscape file stretched to fill the screen.
+ */
+export function filmSize(): 'pt' | 'lg' {
+  if (typeof window === 'undefined') return 'lg'
+  return window.innerWidth < 900 && window.innerHeight > window.innerWidth ? 'pt' : 'lg'
+}

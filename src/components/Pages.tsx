@@ -6,17 +6,17 @@ import { CONTACT, wa } from '../data/journey'
 import { CLIPS, DAY, NEARBY } from '../data/resort'
 import { SectionFilm } from './Explore'
 import { roomFilm } from './RoomFilm'
+import { filmSize } from '../lib/play'
 import { useBackToClose } from '../lib/backClose'
 import { Logo } from './Logo'
 
 const base = import.meta.env.BASE_URL
 export const img = (id: string, thumb = false) => `${base}media/g/${id}${thumb ? '-t' : ''}.webp`
-export interface GItem { id: string; category: string; caption: string; w: number; h: number; note?: string; video?: string; poster?: string }
+export interface GItem { id: string; category: string; caption: string; w: number; h: number; note?: string; video?: string; poster?: string; topic?: string }
 const G = gallery as GItem[]
-const small = () => typeof window !== 'undefined' && window.innerWidth < 900
-export const clip = (id: string, size?: 'sm' | 'lg') => ({ src: `${base}media/clips/${id}-${size ?? (small() ? 'sm' : 'lg')}.mp4`, poster: `${base}media/clips/${id}-poster.webp` })
+export const clip = (id: string, size: 'sm' | 'lg' | 'pt' = 'lg') => ({ src: `${base}media/clips/${id}-${size}.mp4`, poster: `${base}media/clips/${id}-poster.webp` })
 /** the resort's short films, shown in the Photos page and the viewer */
-export const VIDEO_ITEMS: GItem[] = CLIPS.map((c) => ({ id: `v-${c.id}`, category: 'Videos', caption: c.caption, w: 1920, h: 1080, video: clip(c.id).src, poster: clip(c.id).poster }))
+export const VIDEO_ITEMS: GItem[] = CLIPS.map((c) => ({ id: `v-${c.id}`, category: 'Videos', topic: c.topic, caption: c.caption, w: 1920, h: 1080, video: clip(c.id).src, poster: clip(c.id).poster }))
 const ALL = [...G, ...VIDEO_ITEMS]
 const thumb = (g: GItem) => g.poster ?? img(g.id, true)
 export const byId = Object.fromEntries(G.map((g) => [g.id, g]))
@@ -61,7 +61,7 @@ const Heading = ({ kicker, title, sub }: { kicker: string; title: string; sub?: 
 function FilmHero({ scene, kicker, title, sub }: { scene: string; kicker: string; title: string; sub: string }) {
   return (
     <header className="relative -mt-[88px] flex h-[78svh] min-h-[520px] items-end overflow-hidden md:-mt-[104px]">
-      <video src={`${base}media/scenes/${scene}-${typeof window !== 'undefined' && window.innerWidth < 900 ? 'sm' : 'lg'}.mp4`} poster={`${base}media/scenes/${scene}-poster.webp`}
+      <video src={`${base}media/scenes/${scene}-${filmSize()}.mp4`} poster={`${base}media/scenes/${scene}-poster.webp`}
         autoPlay muted loop playsInline className="absolute inset-0 h-full w-full object-cover" />
       <div className="absolute inset-0 bg-gradient-to-t from-night via-night/30 to-night/40" />
       <div className="relative mx-auto w-full max-w-6xl px-6 pb-14 md:px-10 md:pb-20">
@@ -244,10 +244,12 @@ export function Lightbox({ items, index, setIndex }: { items: GItem[]; index: nu
   )
 }
 
+/** lets a section open the gallery on one category (e.g. Adventure) */
+export const galleryStart = { cat: 'All' }
 export function GalleryPage() {
-  const [cat, setCat] = useState('All')
+  const [cat, setCat] = useState(() => { const c = galleryStart.cat; galleryStart.cat = 'All'; return c })
   const [open, setOpen] = useState<number | null>(null)
-  const items = useMemo(() => (cat === 'All' ? ALL : ALL.filter((g) => g.category === cat)), [cat])
+  const items = useMemo(() => (cat === 'All' ? ALL : ALL.filter((g) => g.category === cat || g.topic === cat)), [cat])
   return (
     <div className="pb-24">
       <Heading kicker={`${G.length} photographs · ${VIDEO_ITEMS.length} films`} title="Photos & films" />

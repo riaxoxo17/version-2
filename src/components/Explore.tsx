@@ -1,19 +1,20 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { DAY, NEARBY, PHOTO_ZONES, PROPERTY, WEDDING } from '../data/resort'
+import { CLIPS, DAY, NEARBY, PHOTO_ZONES, PROPERTY, WEDDING } from '../data/resort'
 import { HALLS, ROOMS } from '../data/rooms'
 import { CONTACT, wa } from '../data/journey'
-import { Lightbox, byId, clip, type GItem, type Page } from './Pages'
+import { Lightbox, byId, clip, galleryStart, type GItem, type Page } from './Pages'
+import gallery from '../data/gallery.json'
 import { Laurel, Logo } from './Logo'
-import { prepVideo, safePlay, unwait } from '../lib/play'
+import { filmSize, prepVideo, safePlay, unwait } from '../lib/play'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const base = import.meta.env.BASE_URL
 const img = (id: string, thumb = false) => `${base}media/g/${id}${thumb ? '-t' : ''}.webp`
+const ADVENTURE_MEDIA = `${gallery.filter((g) => g.category === 'Adventure').length} photos & ${CLIPS.filter((c) => c.topic === 'Adventure').length} films`
 const reduced = () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
-const small = () => typeof window !== 'undefined' && window.innerWidth < 900
 
 /** A film that loads as it approaches and plays only while on screen. */
 export function SectionFilm({ src, poster, className = '' }: { src: string; poster: string; className?: string }) {
@@ -32,7 +33,7 @@ export function SectionFilm({ src, poster, className = '' }: { src: string; post
   }, [])
   return <video ref={ref} src={src} poster={poster} muted loop playsInline preload="none" aria-hidden className={`h-full w-full object-cover ${className}`} />
 }
-const sceneSrc = (id: string) => ({ src: `${base}media/scenes/${id}-${small() ? 'sm' : 'lg'}.mp4`, poster: `${base}media/scenes/${id}-poster.webp` })
+const sceneSrc = (id: string) => ({ src: `${base}media/scenes/${id}-${filmSize()}.mp4`, poster: `${base}media/scenes/${id}-poster.webp` })
 
 function FilmSection({ id, film, kicker, title, children, labelledBy }: { id: string; film: string | { src: string; poster: string }; kicker: React.ReactNode; title: React.ReactNode; children?: React.ReactNode; labelledBy: string }) {
   const f = typeof film === 'string' ? sceneSrc(film) : film
@@ -77,7 +78,7 @@ export function Explore({ openPage, openRoom }: { openPage: (p: Page, anchor?: s
   return (
     <div ref={root} className="relative z-20 bg-night">
       {/* ─────────── WEDDINGS ─────────── */}
-      <FilmSection id="weddings" film={clip('banquet-walk')} labelledBy="weddings-title"
+      <FilmSection id="weddings" film={clip('banquet-walk', filmSize())} labelledBy="weddings-title"
         kicker={<span className="inline-flex items-center gap-2.5"><Laurel className="h-6 w-6 shrink-0 text-gold" /><span>{WEDDING.award}<span className="hidden md:inline"> · {WEDDING.awardBy}</span></span></span>}
         title={<>Karnataka’s best <em className="text-cream/85">destination wedding.</em></>}>
         <p data-reveal className="mt-6 max-w-2xl text-cream/80">Ceremonies in the hall or under the open sky, guests staying on the grounds, and every celebration in one place.</p>
@@ -122,7 +123,7 @@ export function Explore({ openPage, openRoom }: { openPage: (p: Page, anchor?: s
       </FilmSection>
 
       {/* ─────────── POOL ─────────── */}
-      <FilmSection id="pool" film={clip('pool-sunset')} kicker="5,000 sq. ft. pool · rain dance" labelledBy="pool-title" title={<>Dive into <em className="text-cream/85">the moment.</em></>}>
+      <FilmSection id="pool" film={clip('pool-sunset', filmSize())} kicker="5,000 sq. ft. pool · rain dance" labelledBy="pool-title" title={<>Dive into <em className="text-cream/85">the moment.</em></>}>
         <div data-reveal className="mt-8 flex flex-wrap items-end gap-x-10 gap-y-4">
           {DAY.gold.prices.map((p) => (
             <div key={p.label}><p className="font-display text-4xl text-gold">{p.price}</p><p className="mt-1 text-xs text-cream/70">{p.label}</p></div>
@@ -137,6 +138,7 @@ export function Explore({ openPage, openRoom }: { openPage: (p: Page, anchor?: s
         <div data-reveal className="mt-6 flex flex-wrap items-baseline gap-6">
           <p><span className="font-display text-4xl text-gold">{DAY.adventure.price}</span> <span className="text-sm text-cream/70">per person, add-on</span></p>
           <button type="button" onClick={() => document.getElementById('packages')?.scrollIntoView({ behavior: 'smooth' })} className="label border-b border-gold pb-1 text-gold">All activities →</button>
+          <button type="button" onClick={() => { galleryStart.cat = 'Adventure'; openPage('photos') }} className="label border-b border-cream/50 pb-1 text-cream/85 hover:border-gold hover:text-gold">{ADVENTURE_MEDIA} →</button>
         </div>
       </FilmSection>
 
@@ -188,7 +190,7 @@ export function Explore({ openPage, openRoom }: { openPage: (p: Page, anchor?: s
       {/* ─────────── VISIT ─────────── */}
       <section id="visit" aria-labelledby="visit-title" className="relative overflow-hidden">
         <div data-film className="relative min-h-svh overflow-hidden">
-          <div data-film-inner className="absolute inset-0"><SectionFilm {...clip('thank-you')} /></div>
+          <div data-film-inner className="absolute inset-0"><SectionFilm {...clip('thank-you', filmSize())} /></div>
           <div className="absolute inset-0 bg-night/65" />
           <div className="relative flex min-h-svh flex-col justify-center px-6 py-32 md:px-[6vw]">
             <p data-reveal className="label text-gold">Visit</p>

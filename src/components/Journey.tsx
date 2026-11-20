@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { ALL_IDS, DURATION } from '../data/journey'
-import { prepVideo, safePlay, unwait } from '../lib/play'
+import { filmSize, prepVideo, safePlay, unwait } from '../lib/play'
 
 /**
  * The whole site is one film. It plays on its own; scrolling moves the camera
@@ -14,7 +14,7 @@ import { prepVideo, safePlay, unwait } from '../lib/play'
 export const PX_PER_SEC = 120
 const IDLE_RESUME_MS = 1700
 const base = import.meta.env.BASE_URL
-const src = (id: string, size: 'lg' | 'sm') => `${base}media/scenes/${id}-${size}.mp4?v=2`
+const src = (id: string, size: string) => `${base}media/scenes/${id}-${size}.mp4?v=2`
 const poster = (id: string) => `${base}media/scenes/${id}-poster.webp?v=2`
 
 export interface JourneyState {
@@ -60,7 +60,7 @@ export function Journey({ route, ready, paused, disabled, onState, jumpRef, onEn
   const pending = useRef<number | null>(null)
   const pausedRef = useRef(paused || disabled)
   const reduced = useRef(typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches)
-  const size = useRef<'lg' | 'sm'>(typeof window !== 'undefined' && window.innerWidth < 900 ? 'sm' : 'lg')
+  const size = useRef(filmSize())
   const readyFired = useRef(false)
   const last = useRef({ index: -1, local: -1, playing: false })
 

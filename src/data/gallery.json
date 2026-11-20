@@ -475,8 +475,78 @@
 },
 {
 "id": "a03",
-"category": "Aerial",
+"category": "Adventure",
 "caption": "The climbing tower",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "m00",
+"category": "Adventure",
+"caption": "The rope course and its towers",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "m01",
+"category": "Adventure",
+"caption": "The tyre-wall climbing tower",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "m02",
+"category": "Adventure",
+"caption": "Sky cycling past the tyre wall",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "m03",
+"category": "Adventure",
+"caption": "Sky cycling over the trees",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "m04",
+"category": "Adventure",
+"caption": "Sky cycling, side by side",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "m05",
+"category": "Adventure",
+"caption": "Children's play area",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "m06",
+"category": "Adventure",
+"caption": "The climbing tower from above",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "m07",
+"category": "Adventure",
+"caption": "On the climbing tower",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "m08",
+"category": "Adventure",
+"caption": "Play area and adventure park",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "m09",
+"category": "Adventure",
+"caption": "The adventure park, pool and rooms",
 "w": 2400,
 "h": 1350
 },

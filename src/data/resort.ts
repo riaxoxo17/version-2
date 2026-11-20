@@ -145,7 +145,8 @@ export const WEDDING = {
 }
 
 /** Short films from the resort's own phone footage (media/clips/<id>-lg.mp4). */
-export interface Clip { id: string; caption: string }
+/** topic: also list the film under that photo category (e.g. Adventure) */
+export interface Clip { id: string; caption: string; topic?: string }
 export const CLIPS: Clip[] = [
   { id: 'gate-dusk', caption: 'The Vimal Resort gateway at dusk' },
   { id: 'gate-sign', caption: 'The gateway sign, lit up' },
@@ -158,10 +159,15 @@ export const CLIPS: Clip[] = [
   { id: 'sculpture-garden', caption: 'The sculpture garden' },
   { id: 'pool-sunset', caption: 'The pool at sunset' },
   { id: 'pool-dusk', caption: 'The pool at dusk' },
-  { id: 'zipline', caption: 'Sky cycling above the adventure park' },
-  { id: 'zipline-2', caption: 'Sky cycling' },
-  { id: 'zip-tower', caption: 'The adventure tower' },
-  { id: 'kids-play', caption: 'Kids’ play area' },
+  { id: 'adventure-drone', caption: 'The adventure park from the air', topic: 'Adventure' },
+  { id: 'tower-drone', caption: 'Around the climbing tower', topic: 'Adventure' },
+  { id: 'rope-course', caption: 'The rope course and climbing towers', topic: 'Adventure' },
+  { id: 'zipline', caption: 'Sky cycling above the adventure park', topic: 'Adventure' },
+  { id: 'sky-cycling-3', caption: 'Sky cycling over the trees', topic: 'Adventure' },
+  { id: 'sky-cycling-4', caption: 'Sky cycling past the tyre wall', topic: 'Adventure' },
+  { id: 'zipline-2', caption: 'Sky cycling', topic: 'Adventure' },
+  { id: 'zip-tower', caption: 'The adventure tower', topic: 'Adventure' },
+  { id: 'kids-play', caption: 'Kids’ play area', topic: 'Adventure' },
   { id: 'banquet-walk', caption: 'Walking into the banquet hall' },
   { id: 'hall-drone', caption: 'The marriage hall and lawn from the air' },
   { id: 'banquet-hall', caption: 'Banquet hall, set for a celebration' },
