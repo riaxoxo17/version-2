@@ -285,7 +285,7 @@ export function ContactPage() {
         <div className="space-y-10 md:col-span-5">
           <div>
             <p className="label text-[0.62rem] text-cream/50">Call</p>
-            <a href={CONTACT.tel} className="font-display mt-2 block text-4xl text-cream hover:text-gold">{CONTACT.phone}</a>
+            <a href={CONTACT.tel} className="mt-2 block font-sans text-4xl font-medium tracking-normal tabular-nums text-cream hover:text-gold">{CONTACT.phone}</a>
           </div>
           <div>
             <p className="label text-[0.62rem] text-cream/50">WhatsApp</p>

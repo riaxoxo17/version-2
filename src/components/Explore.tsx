@@ -140,9 +140,6 @@ export function Explore({ openPage, openRoom }: { openPage: (p: Page, anchor?: s
         </div>
       </FilmSection>
 
-      {/* ─────────── PHOTO ZONES ─────────── */}
-      <PhotoZones />
-
       {/* ─────────── PACKAGES ─────────── */}
       <section id="packages" aria-labelledby="packages-title" className="px-6 py-28 md:px-[6vw] md:py-40">
         <div className="grid gap-12 md:grid-cols-12">
@@ -179,11 +176,14 @@ export function Explore({ openPage, openRoom }: { openPage: (p: Page, anchor?: s
             <p data-reveal className="mt-10 text-sm text-cream/55">{DAY.extras.map((e) => `${e.label}: ${e.value}`).join(' · ')}</p>
             <div data-reveal className="mt-10 flex flex-wrap gap-3">
               <a className="label bg-gold px-6 py-4 text-night hover:bg-cream" href={wa('Hello Vimal Resort, I would like to book a day package.')} target="_blank" rel="noreferrer">Book on WhatsApp</a>
-              <a className="label border border-cream/30 px-6 py-4 text-cream hover:border-gold hover:text-gold" href={CONTACT.tel}>Call {CONTACT.phone}</a>
+              <a className="label border border-cream/30 px-6 py-4 text-cream hover:border-gold hover:text-gold" href={CONTACT.tel}>Call <span className="font-sans text-[0.8rem] font-medium normal-case tracking-normal tabular-nums">{CONTACT.phone}</span></a>
             </div>
           </div>
         </div>
       </section>
+
+      {/* ─────────── PHOTO ZONES ─────────── */}
+      <PhotoZones />
 
       {/* ─────────── VISIT ─────────── */}
       <section id="visit" aria-labelledby="visit-title" className="relative overflow-hidden">
@@ -202,7 +202,7 @@ export function Explore({ openPage, openRoom }: { openPage: (p: Page, anchor?: s
               </div>
               <div>
                 <p className="label mb-3 text-cream/50">Talk to us</p>
-                <a className="font-display block text-2xl" href={CONTACT.tel}>{CONTACT.phone}</a>
+                <a className="block font-sans text-2xl font-medium tracking-normal tabular-nums hover:text-gold" href={CONTACT.tel}>{CONTACT.phone}</a>
                 <a className="mt-1 block text-cream/80" href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
                 <div className="mt-4 flex gap-5">
                   <a className="border-b border-gold pb-1 text-gold" href={CONTACT.whatsapp} target="_blank" rel="noreferrer">WhatsApp →</a>
@@ -228,38 +228,44 @@ export function Explore({ openPage, openRoom }: { openPage: (p: Page, anchor?: s
   )
 }
 
-/** Spots made for pictures: each plays its own short film (or shows a photo); tap to open it full screen. */
+/** Spots made for pictures: a framed set of glimpses; each plays its own short film (or shows a photo) and opens full screen. */
+const SPAN = [
+  'sm:col-span-2 lg:col-span-2 lg:row-span-2',
+  'lg:row-span-2',
+  '', '', '', '', '', '',
+  'lg:col-span-2', 'sm:col-span-2 lg:col-span-2',
+]
 function PhotoZones() {
   const [open, setOpen] = useState<number | null>(null)
   const items: GItem[] = PHOTO_ZONES.map((z) => z.clip
     ? { id: `z-${z.id}`, category: 'Photo zones', caption: `${z.name}: ${z.note}`, w: 1920, h: 1080, video: clip(z.clip).src, poster: clip(z.clip).poster }
     : { ...(byId[z.photo!] as GItem), caption: `${z.name}: ${z.note}` })
   return (
-    <section id="photo-zones" aria-labelledby="zones-title" className="px-6 py-28 md:px-[6vw] md:py-36">
-      <div className="max-w-3xl">
-        <p data-reveal className="label text-gold">Photo zones</p>
-        <h2 id="zones-title" data-reveal className="font-display mt-5 text-6xl font-light leading-[0.95] md:text-[5vw]">Made for <em>pictures.</em></h2>
-        <p data-reveal className="mt-6 text-cream/70">The spots our guests come back to for their photos, from the lit gateway at dusk to the light tunnel and the orchards.</p>
-      </div>
-      <ul className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {PHOTO_ZONES.map((z, i) => (
-          <li key={z.id} data-reveal className={i === 0 || i === 1 ? 'lg:col-span-1' : ''}>
-            <button type="button" onClick={() => setOpen(i)} className="group block w-full text-left" aria-label={`${z.name}: open full screen`}>
-              <span className="relative block aspect-[4/5] overflow-hidden bg-cream/5 sm:aspect-[4/3]">
+    <section id="photo-zones" aria-labelledby="zones-title" className="px-3 py-16 md:px-[3vw] md:py-24">
+      <div className="relative border border-gold/35 px-4 pb-6 pt-14 md:px-10 md:pb-10 md:pt-20">
+        <span aria-hidden className="pointer-events-none absolute inset-2 border border-gold/15 md:inset-3" />
+        <div className="relative mx-auto max-w-3xl text-center">
+          <p data-reveal className="label text-gold">Photo zones</p>
+          <h2 id="zones-title" data-reveal className="font-display mt-5 text-5xl font-light leading-[0.98] md:text-[4.6vw]">A place you’ll leave with <em>thousands of photos.</em></h2>
+          <p data-reveal className="mx-auto mt-6 max-w-xl text-cream/70">Here are a few glimpses of the spots our guests love most, from the heart of lights and the lit gateway to the fountains, the cart wheels and the greenery.</p>
+        </div>
+        <ul className="relative mt-12 grid auto-rows-[15rem] grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 md:mt-16">
+          {PHOTO_ZONES.map((z, i) => (
+            <li key={z.id} data-reveal className={SPAN[i] ?? ''}>
+              <button type="button" onClick={() => setOpen(i)} className="group relative block h-full w-full overflow-hidden bg-cream/5 text-left" aria-label={`${z.name}: open full screen`}>
                 {z.clip
-                  ? <SectionFilm {...clip(z.clip, 'sm')} className="transition-transform duration-[1400ms] ease-out group-hover:scale-[1.04]" />
-                  : <img src={img(z.photo!)} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.04]" />}
-                <span className="absolute inset-0 bg-gradient-to-t from-night/85 via-night/10 to-transparent" />
-                <span className="absolute left-4 top-4 font-display text-sm text-gold">{String(i + 1).padStart(2, '0')}</span>
+                  ? <SectionFilm {...clip(z.clip, 'sm')} className="absolute inset-0 transition-transform duration-[1400ms] ease-out group-hover:scale-[1.04]" />
+                  : <img src={img(z.photo!)} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.04]" />}
+                <span className="absolute inset-0 bg-gradient-to-t from-night/85 via-night/5 to-transparent" />
                 <span className="absolute inset-x-4 bottom-4">
-                  <span className="font-display block text-3xl leading-tight text-cream">{z.name}</span>
-                  <span className="mt-1.5 block text-sm text-cream/75">{z.note}</span>
+                  <span className={`font-display block leading-tight text-cream ${i === 0 ? 'text-4xl' : 'text-2xl'}`}>{z.name}</span>
+                  <span className={`mt-1 block text-sm text-cream/75 ${i === 0 || i === 1 ? '' : 'line-clamp-1 opacity-0 transition-opacity duration-500 group-hover:opacity-100'}`}>{z.note}</span>
                 </span>
-              </span>
-            </button>
-          </li>
-        ))}
-      </ul>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
       {open != null && <Lightbox items={items} index={open} setIndex={setOpen} />}
     </section>
   )

@@ -10,7 +10,7 @@ import { ContactPage, GalleryPage, HallsPage, PageShell, RoomsPage, type Page } 
 import { CONTACT, DURATION, ROUTE, SCENES } from './data/journey'
 
 const FILM_END = ROUTE.reduce((t, id) => t + DURATION[id], 0) * PX_PER_SEC
-const SECTIONS: [string, string][] = [['weddings', 'Weddings'], ['stay', 'Rooms'], ['tents', 'Nature tents'], ['pool', 'The pool'], ['adventure', 'Adventure park'], ['photo-zones', 'Photo zones'], ['packages', 'Day packages'], ['visit', 'Visit']]
+const SECTIONS: [string, string][] = [['weddings', 'Weddings'], ['stay', 'Rooms'], ['tents', 'Nature tents'], ['pool', 'The pool'], ['adventure', 'Adventure park'], ['packages', 'Day packages'], ['photo-zones', 'Photo zones'], ['visit', 'Visit']]
 
 const PAGES: Page[] = ['rooms', 'halls', 'photos', 'contact']
 const PAGE_LABEL: Record<Page, string> = { rooms: 'Rooms', halls: 'Halls', photos: 'Photos', contact: 'Contact' }

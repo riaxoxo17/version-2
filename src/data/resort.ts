@@ -149,6 +149,7 @@ export interface Clip { id: string; caption: string }
 export const CLIPS: Clip[] = [
   { id: 'gate-dusk', caption: 'The Vimal Resort gateway at dusk' },
   { id: 'gate-sign', caption: 'The gateway sign, lit up' },
+  { id: 'heart-lights', caption: 'The heart of lights by the gate' },
   { id: 'entrance-wide', caption: 'Arriving at the entrance' },
   { id: 'entrance-plaza', caption: 'The entrance plaza: topiary and cart wheels' },
   { id: 'light-tunnel', caption: 'The light tunnel and rain curtain' },
@@ -168,12 +169,13 @@ export const CLIPS: Clip[] = [
 /** Spots made for pictures. A zone shows a short film (clip) or a photo (gallery id). */
 export interface PhotoZone { id: string; name: string; note: string; clip?: string; photo?: string }
 export const PHOTO_ZONES: PhotoZone[] = [
+  { id: 'heart', name: 'The heart of lights', note: 'A heart of fairy lights beside the gate, glowing from dusk.', clip: 'heart-lights' },
   { id: 'gateway', name: 'The Vimal Resort gateway', note: 'The lit sign at dusk is the classic arrival photo.', clip: 'gate-dusk' },
   { id: 'tunnel', name: 'The light tunnel', note: 'A vine-covered arch of lights with a rain curtain at its heart.', clip: 'light-tunnel' },
-  { id: 'plaza', name: 'Entrance plaza', note: 'Topiary in the round, framed by the cart-wheel walls.', clip: 'entrance-plaza' },
-  { id: 'wheel', name: 'Cart-wheel wall', note: 'Stone, greenery and a painted wheel, softly lit in the evening.', photo: 'q00' },
   { id: 'fountain', name: 'Fountain plaza', note: 'The white statue fountain on its patterned stone circle.', photo: 'p30' },
   { id: 'sculpture', name: 'Sculpture garden', note: 'Flowering trees around a white sculpture, best at golden hour.', clip: 'sculpture-garden' },
+  { id: 'plaza', name: 'Entrance plaza', note: 'Topiary in the round, framed by the cart-wheel walls.', clip: 'entrance-plaza' },
+  { id: 'wheel', name: 'Cart-wheel wall', note: 'Stone, greenery and a painted wheel, softly lit in the evening.', photo: 'q00' },
   { id: 'palms', name: 'Palm pathway', note: 'A long, lamp-lit walk beneath the coconut palms.', photo: 'q01' },
   { id: 'greenery', name: 'The orchards', note: 'Shade, grass and 1,500+ trees: mango, sapota, guava and teak.', photo: 'p20' },
   { id: 'garden-path', name: 'Garden pathway', note: 'A winding red-brick path through the trees.', clip: 'garden-path' },
