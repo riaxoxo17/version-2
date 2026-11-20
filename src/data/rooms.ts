@@ -76,8 +76,8 @@ export const HALLS: Space[] = [
       { label: 'Banquet halls', value: '2,500 sq. ft.' },
       { label: 'Services', value: 'Staging & custom catering' },
     ],
-    photos: ['n08', 'n09', 'q09'],
-    clips: [{ id: 'banquet-hall', caption: 'Inside the hall, set for a celebration' }],
+    photos: ['n08', 'n09', 'q09', 'h00', 'h01', 'h02'],
+    clips: [{ id: 'hall-drone', caption: 'The marriage hall and lawn from the air' }, { id: 'banquet-hall', caption: 'Inside the hall, set for a celebration' }],
     ...EVENT_PRICE, enquiry: 'the Marriage Hall or banquet halls',
   },
   {

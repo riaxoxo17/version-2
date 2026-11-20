@@ -563,5 +563,26 @@
 "caption": "Banquet hall with a decorated stage",
 "w": 2400,
 "h": 1350
+},
+{
+"id": "h00",
+"category": "Aerial",
+"caption": "The marriage hall and its lawn, from the air",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "h01",
+"category": "Aerial",
+"caption": "The marriage hall beside the lawn",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "h02",
+"category": "Aerial",
+"caption": "The marriage hall and lawn, wide view",
+"w": 2400,
+"h": 1350
 }
 ]
