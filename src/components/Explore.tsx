@@ -132,7 +132,7 @@ export function Explore({ openPage, openRoom }: { openPage: (p: Page, anchor?: s
       </FilmSection>
 
       {/* ─────────── ADVENTURE ─────────── */}
-      <FilmSection id="adventure" film={clip('zipline')} kicker="2-acre park · 20+ activities" labelledBy="adventure-title" title={<>Adventure <em className="text-cream/85">is calling.</em></>}>
+      <FilmSection id="adventure" film="adventure" kicker="2-acre park · 20+ activities" labelledBy="adventure-title" title={<>Adventure <em className="text-cream/85">is calling.</em></>}>
         <p data-reveal className="mt-6 max-w-2xl text-cream/80">{DAY.adventure.includes.slice(0, 8).join(' · ')} and more.</p>
         <div data-reveal className="mt-6 flex flex-wrap items-baseline gap-6">
           <p><span className="font-display text-4xl text-gold">{DAY.adventure.price}</span> <span className="text-sm text-cream/70">per person, add-on</span></p>
