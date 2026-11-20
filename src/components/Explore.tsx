@@ -212,7 +212,7 @@ export function Explore({ openPage, openRoom }: { openPage: (p: Page, anchor?: s
                 </div>
               </div>
               <div>
-                <p className="label mb-3 text-cream/50">Nearby</p>
+                <p className="label mb-3 text-cream/50">Nearby <span className="normal-case tracking-normal text-cream/40">· by road</span></p>
                 <ul className="space-y-1.5 text-cream/80">
                   {NEARBY.map((n) => <li key={n.place} className="flex justify-between gap-4 border-b border-cream/10 pb-1.5"><span>{n.place}</span><span className="tabular-nums text-cream/55">{n.km}</span></li>)}
                 </ul>

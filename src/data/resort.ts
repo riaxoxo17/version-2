@@ -23,13 +23,20 @@ export const PROPERTY = {
   ],
 }
 
+/** Driving distance from the resort by road (Google Maps, driving route), nearest first. */
 export const NEARBY = [
-  { place: 'Lakkundi Temples', km: '10 km' },
-  { place: 'Gadag town', km: '11 km' },
-  { place: 'Basaveshwara Statue', km: '12 km' },
-  { place: 'Magadi Bird Sanctuary', km: '30 km' },
-  { place: 'Badami', km: '77 km' },
-  { place: 'Hampi', km: '120 km' },
+  { place: 'Jala Shankar Temple', km: '7 km' },
+  { place: 'Gadag Zoo', km: '12 km' },
+  { place: 'Gadag town', km: '14 km' },
+  { place: 'Basaveshwara Statue', km: '15 km' },
+  { place: 'Gadag Railway Station', km: '16 km' },
+  { place: 'Magadi Bird Sanctuary', km: '20 km' },
+  { place: 'Lakkundi Temples', km: '24 km' },
+  { place: 'Kappatagudda', km: '29 km' },
+  { place: 'Hubli Airport', km: '75 km' },
+  { place: 'Badami', km: '85 km' },
+  { place: 'Hampi', km: '119 km' },
+  { place: 'Belgaum Airport', km: '179 km' },
 ]
 
 /** Day packages: published reference prices (MapX tour). */

@@ -317,8 +317,10 @@ export function ContactPage() {
             <a href={CONTACT.instagram} target="_blank" rel="noreferrer" className="mt-2 block text-cream hover:text-gold">Instagram {CONTACT.instagramHandle}</a>
           </div>
           <div className="border-t border-cream/10 pt-6 text-sm text-cream/55">
-            <p className="label mb-3 text-[0.6rem] text-cream/45">Nearby</p>
-            {NEARBY.map((n) => `${n.place} ${n.km}`).join(' · ')}
+            <p className="label mb-3 text-[0.6rem] text-cream/45">Nearby · by road</p>
+            <ul className="grid grid-cols-1 gap-x-8 gap-y-1.5 sm:grid-cols-2">
+              {NEARBY.map((n) => <li key={n.place} className="flex justify-between gap-4 border-b border-cream/10 pb-1.5"><span>{n.place}</span><span className="tabular-nums">{n.km}</span></li>)}
+            </ul>
           </div>
         </div>
 
