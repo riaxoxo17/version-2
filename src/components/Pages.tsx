@@ -99,7 +99,7 @@ function SpaceCard({ s, index, onWalk }: { s: Space; index: number; onWalk?: (id
             <img key={p} src={img(p)} alt={`${s.name}: ${byId[p]?.caption ?? ''}`} loading={i < 2 ? 'eager' : 'lazy'} decoding="async"
               className={`absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-[2000ms] ease-out ${i === shot ? 'scale-[1.035] opacity-100' : 'scale-100 opacity-0'}`} />
           ))}
-          <span className="label absolute right-4 top-4 bg-night/50 px-3 py-1.5 text-[0.58rem] text-cream backdrop-blur">{s.photos.length} photos{s.clips?.length ? ` · ${s.clips.length} film` : ''} · view</span>
+          <span className="label absolute right-4 top-4 bg-night/50 px-3 py-1.5 text-[0.58rem] text-cream backdrop-blur">{s.photos.length} photos{s.clips?.length ? ` · ${s.clips.length} film${s.clips.length > 1 ? 's' : ''}` : ''} · view</span>
         </button>
         )}
         <div className="mt-3 grid grid-cols-5 gap-2 sm:grid-cols-7">
