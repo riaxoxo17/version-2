@@ -162,6 +162,7 @@ export const CLIPS: Clip[] = [
   { id: 'zipline-2', caption: 'Sky cycling' },
   { id: 'zip-tower', caption: 'The adventure tower' },
   { id: 'kids-play', caption: 'Kids’ play area' },
+  { id: 'banquet-walk', caption: 'Walking into the banquet hall' },
   { id: 'banquet-hall', caption: 'Banquet hall, set for a celebration' },
   { id: 'thank-you', caption: 'Thank you, visit again' },
 ]

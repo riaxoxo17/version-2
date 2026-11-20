@@ -99,10 +99,16 @@ function SpaceCard({ s, index, onWalk }: { s: Space; index: number; onWalk?: (id
             <img key={p} src={img(p)} alt={`${s.name}: ${byId[p]?.caption ?? ''}`} loading={i < 2 ? 'eager' : 'lazy'} decoding="async"
               className={`absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-[2000ms] ease-out ${i === shot ? 'scale-[1.035] opacity-100' : 'scale-100 opacity-0'}`} />
           ))}
-          <span className="label absolute right-4 top-4 bg-night/50 px-3 py-1.5 text-[0.58rem] text-cream backdrop-blur">{s.photos.length} photos · view</span>
+          <span className="label absolute right-4 top-4 bg-night/50 px-3 py-1.5 text-[0.58rem] text-cream backdrop-blur">{s.photos.length} photos{s.clips?.length ? ` · ${s.clips.length} film` : ''} · view</span>
         </button>
         )}
         <div className="mt-3 grid grid-cols-5 gap-2 sm:grid-cols-7">
+          {s.clips?.map((c, k) => (
+            <button key={c.id} type="button" onClick={() => setOpen(s.photos.length + k)} aria-label={`Play film: ${c.caption}`} className="relative aspect-square overflow-hidden opacity-90 ring-1 ring-gold/60 transition-opacity hover:opacity-100">
+              <img src={clip(c.id).poster} alt="" loading="lazy" className="h-full w-full object-cover" />
+              <span aria-hidden className="absolute inset-0 grid place-items-center bg-night/30 text-xs text-gold">▶</span>
+            </button>
+          ))}
           {s.photos.map((p, i) => (
             <button key={p} type="button" onClick={() => setShot(i)} aria-label={`Show photo ${i + 1}`} className={`aspect-square overflow-hidden transition-opacity ${i === shot ? 'opacity-100 ring-1 ring-gold' : 'opacity-50 hover:opacity-90'}`}>
               <img src={img(p, true)} alt="" loading="lazy" className="h-full w-full object-cover" />
@@ -128,7 +134,7 @@ function SpaceCard({ s, index, onWalk }: { s: Space; index: number; onWalk?: (id
           <a href={wa(`Hello Vimal Resort, I'd like rates and availability for ${s.enquiry}.`)} target="_blank" rel="noreferrer" className="label bg-gold px-6 py-3.5 text-night transition-colors hover:bg-cream">Check availability</a>
         </div>
       </div>
-      {open != null && <Lightbox items={s.photos.map((p) => byId[p]).filter(Boolean)} index={open} setIndex={setOpen} />}
+      {open != null && <Lightbox items={[...s.photos.map((p) => byId[p]).filter(Boolean), ...(s.clips ?? []).map((c) => ({ id: `c-${c.id}`, category: 'Videos', caption: c.caption, w: 1920, h: 1080, video: clip(c.id).src, poster: clip(c.id).poster }))]} index={open} setIndex={setOpen} />}
     </article>
   )
 }

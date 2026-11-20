@@ -77,7 +77,7 @@ export function Explore({ openPage, openRoom }: { openPage: (p: Page, anchor?: s
   return (
     <div ref={root} className="relative z-20 bg-night">
       {/* ─────────── WEDDINGS ─────────── */}
-      <FilmSection id="weddings" film={clip('banquet-hall')} labelledBy="weddings-title"
+      <FilmSection id="weddings" film={clip('banquet-walk')} labelledBy="weddings-title"
         kicker={<span className="inline-flex items-center gap-2.5"><Laurel className="h-6 w-6 shrink-0 text-gold" /><span>{WEDDING.award}<span className="hidden md:inline"> · {WEDDING.awardBy}</span></span></span>}
         title={<>Karnataka’s best <em className="text-cream/85">destination wedding.</em></>}>
         <p data-reveal className="mt-6 max-w-2xl text-cream/80">Ceremonies in the hall or under the open sky, guests staying on the grounds, and every celebration in one place.</p>

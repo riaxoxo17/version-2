@@ -14,6 +14,8 @@ export interface Space {
   photos: string[] // ids in src/data/gallery.json
   /** walk-in film built from the resort's 360° tour (media/rooms/<film>-lg.mp4) */
   film?: string
+  /** short phone films shown with the photos (media/clips/<id>) */
+  clips?: { id: string; caption: string }[]
   price: string | null
   priceLabel: string
   priceNote: string
@@ -75,6 +77,7 @@ export const HALLS: Space[] = [
       { label: 'Services', value: 'Staging & custom catering' },
     ],
     photos: ['n08', 'n09', 'q09'],
+    clips: [{ id: 'banquet-hall', caption: 'Inside the hall, set for a celebration' }],
     ...EVENT_PRICE, enquiry: 'the Marriage Hall or banquet halls',
   },
   {
