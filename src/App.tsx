@@ -3,6 +3,7 @@ import { Journey, PX_PER_SEC, type JourneyState } from './components/Journey'
 import { Explore } from './components/Explore'
 import { RoomFilm } from './components/RoomFilm'
 import { useBackToClose } from './lib/backClose'
+import { onPlaybackBlocked, retryPlayback } from './lib/play'
 import { PROPERTY, WEDDING } from './data/resort'
 import { Laurel, Logo } from './components/Logo'
 import { ContactPage, GalleryPage, HallsPage, PageShell, RoomsPage, type Page } from './components/Pages'
@@ -53,6 +54,9 @@ export default function App() {
     if (p && anchor) window.setTimeout(() => document.getElementById(anchor)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 450)
   }
   const [room, setRoom] = useState<string | null>(null)
+  // some phones (Low Power Mode, battery or data savers) refuse to autoplay: offer a play button
+  const [blocked, setBlocked] = useState(false)
+  useEffect(() => onPlaybackBlocked(setBlocked), [])
   // the device's back (swipe, back button, gesture) closes whatever is open, innermost first
   useBackToClose(page !== null, () => setPage(null), page ? `#${page}` : undefined)
   useBackToClose(room !== null, () => setRoom(null), room ? `#room-${room}` : undefined)
@@ -134,6 +138,14 @@ export default function App() {
           )
         })}
       </main>
+
+      {/* ───────────── play button, only if the device blocked autoplay ───────────── */}
+      {blocked && gone && !page && !room && !menu && (
+        <button type="button" onClick={() => retryPlayback()} className="fixed bottom-[11svh] left-1/2 z-[35] flex -translate-x-1/2 items-center gap-2.5 rounded-full border border-gold bg-night/60 py-1.5 pl-1.5 pr-4 text-cream backdrop-blur-md md:bottom-[9svh]">
+          <span aria-hidden className="grid h-7 w-7 place-items-center rounded-full bg-gold text-[0.6rem] text-night">▶</span>
+          <span className="label whitespace-nowrap text-[0.62rem]">Tap to play the film</span>
+        </button>
+      )}
 
       {/* ───────────── into the resort cue ───────────── */}
       <button type="button" onClick={() => toSection('weddings')} tabIndex={isLast && !after ? 0 : -1}

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { ALL_IDS, DURATION } from '../data/journey'
+import { prepVideo, safePlay, unwait } from '../lib/play'
 
 /**
  * The whole site is one film. It plays on its own; scrolling moves the camera
@@ -93,15 +94,15 @@ export function Journey({ route, ready, paused, disabled, onState, jumpRef, onEn
       Object.entries(vids.current).forEach(([k, o]) => { if (o && k !== id) window.setTimeout(() => activeIdRef.current !== k && o.pause(), 900) })
     }
     seek(v, Math.max(0, Math.min(local, (v.duration || DURATION[id]) - 0.05)))
-    if (play) v.play().catch(() => {})
-    else v.pause()
+    if (play) safePlay(v)
+    else { unwait(v); v.pause() }
   }, [])
 
   const pastFilm = () => window.scrollY > tl.current.total * PX_PER_SEC - 2
   const goAuto = useCallback(() => {
     if (pausedRef.current || reduced.current || pastFilm()) return
     mode.current = 'auto'
-    vidAt(active.current)?.play().catch(() => {})
+    safePlay(vidAt(active.current))
   }, [])
 
   const takeControl = useCallback(() => {
@@ -207,7 +208,7 @@ export function Journey({ route, ready, paused, disabled, onState, jumpRef, onEn
     window.scrollTo(0, 0)
     ready()
     if (reduced.current) { mode.current = 'scrub'; return }
-    window.setTimeout(() => { mode.current = 'auto'; vidAt(0)?.play().catch(() => {}) }, 900)
+    window.setTimeout(() => { mode.current = 'auto'; safePlay(vidAt(0)) }, 900)
   }
   useEffect(() => { const t = window.setTimeout(onFirstReady, 6000); return () => window.clearTimeout(t) })
 
@@ -221,7 +222,7 @@ export function Journey({ route, ready, paused, disabled, onState, jumpRef, onEn
         {ALL_IDS.map((id) => (
           <video
             key={id}
-            ref={(el) => { vids.current[id] = el }}
+            ref={(el) => { vids.current[id] = el; prepVideo(el) }}
             src={src(id, size.current)}
             poster={poster(id)}
             muted

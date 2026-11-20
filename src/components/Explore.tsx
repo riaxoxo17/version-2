@@ -6,6 +6,7 @@ import { HALLS, ROOMS } from '../data/rooms'
 import { CONTACT, wa } from '../data/journey'
 import { Lightbox, byId, clip, type GItem, type Page } from './Pages'
 import { Laurel, Logo } from './Logo'
+import { prepVideo, safePlay, unwait } from '../lib/play'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -20,10 +21,11 @@ export function SectionFilm({ src, poster, className = '' }: { src: string; post
   useEffect(() => {
     const v = ref.current
     if (!v) return
+    prepVideo(v)
     const near = new IntersectionObserver(([e]) => { if (e.isIntersecting) { v.preload = 'auto'; near.disconnect() } }, { rootMargin: '120% 0px' })
     const vis = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting && !reduced()) v.play().catch(() => {})
-      else v.pause()
+      if (e.isIntersecting && !reduced()) safePlay(v)
+      else { unwait(v); v.pause() }
     }, { threshold: 0.25 })
     near.observe(v); vis.observe(v)
     return () => { near.disconnect(); vis.disconnect() }
