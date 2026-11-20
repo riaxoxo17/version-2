@@ -51,7 +51,7 @@ function FilmSection({ id, film, kicker, title, children, labelledBy, onFull }: 
       <div data-film className="relative min-h-[100svh] overflow-hidden">
         <div data-film-inner className="absolute inset-0 will-change-transform"><SectionFilm {...f} /></div>
         <div className="absolute inset-0 bg-gradient-to-t from-night via-night/25 to-night/45" />
-        <FullScreenButton onClick={() => onFull({ title: id.charAt(0).toUpperCase() + id.slice(1), srcs: [wide.src], poster: wide.poster })} className="absolute right-5 top-24 z-10 md:right-[6vw] md:top-28" />
+        <FullScreenButton onClick={() => onFull({ title: id.charAt(0).toUpperCase() + id.slice(1), srcs: [wide.src], poster: wide.poster })} className="absolute right-5 top-[8.25rem] z-10 md:right-[6vw] md:top-32" />
         <div className="relative flex min-h-[100svh] flex-col justify-end px-6 pb-14 pt-28 md:px-[6vw] md:pb-20">
           <p data-reveal className="label text-gold">{kicker}</p>
           <h2 id={labelledBy} data-reveal className="font-display mt-5 max-w-5xl text-[13vw] font-light leading-[0.95] text-cream [text-shadow:0_4px_50px_rgba(0,0,0,0.35)] md:text-[6vw]">{title}</h2>
