@@ -127,7 +127,7 @@ export function Explore({ openPage, openRoom }: { openPage: (p: Page, anchor?: s
           {DAY.gold.prices.map((p) => (
             <div key={p.label}><p className="font-display text-4xl text-gold">{p.price}</p><p className="mt-1 text-xs text-cream/70">{p.label}</p></div>
           ))}
-          <a href="#packages" className="label border-b border-gold pb-1 text-gold">Gold day package →</a>
+          <button type="button" onClick={() => document.getElementById('packages')?.scrollIntoView({ behavior: 'smooth' })} className="label border-b border-gold pb-1 text-gold">Gold day package →</button>
         </div>
       </FilmSection>
 
@@ -136,7 +136,7 @@ export function Explore({ openPage, openRoom }: { openPage: (p: Page, anchor?: s
         <p data-reveal className="mt-6 max-w-2xl text-cream/80">{DAY.adventure.includes.slice(0, 8).join(' · ')} and more.</p>
         <div data-reveal className="mt-6 flex flex-wrap items-baseline gap-6">
           <p><span className="font-display text-4xl text-gold">{DAY.adventure.price}</span> <span className="text-sm text-cream/70">per person, add-on</span></p>
-          <a href="#packages" className="label border-b border-gold pb-1 text-gold">All activities →</a>
+          <button type="button" onClick={() => document.getElementById('packages')?.scrollIntoView({ behavior: 'smooth' })} className="label border-b border-gold pb-1 text-gold">All activities →</button>
         </div>
       </FilmSection>
 

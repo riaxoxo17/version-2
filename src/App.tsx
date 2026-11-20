@@ -29,7 +29,8 @@ export default function App() {
   // a link straight to #rooms etc. opens that page on top of the home page, so Back returns home
   const [page, setPage] = useState<Page | null>(() => {
     const p = readHash()
-    if (p) window.history.replaceState(null, '', window.location.pathname + window.location.search)
+    // any address #fragment (a page or an old section link) is cleared so the visit starts at the film
+    if (window.location.hash) window.history.replaceState(null, '', window.location.pathname + window.location.search)
     return p
   })
   const jump = useRef<((i: number) => void) | null>(null)
