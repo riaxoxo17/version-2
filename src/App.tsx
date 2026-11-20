@@ -3,7 +3,8 @@ import { Journey, PX_PER_SEC, type JourneyState } from './components/Journey'
 import { Explore } from './components/Explore'
 import { RoomFilm } from './components/RoomFilm'
 import { useBackToClose } from './lib/backClose'
-import { onPlaybackBlocked, retryPlayback } from './lib/play'
+import { isUprightTouch, onPlaybackBlocked, retryPlayback, useFilmSize } from './lib/play'
+import { FullFilm, FullScreenButton, RotateIcon } from './components/FullFilm'
 import { PROPERTY, WEDDING } from './data/resort'
 import { Laurel, Logo } from './components/Logo'
 import { ContactPage, GalleryPage, HallsPage, PageShell, RoomsPage, type Page } from './components/Pages'
@@ -57,6 +58,15 @@ export default function App() {
   const [room, setRoom] = useState<string | null>(null)
   // some phones (Low Power Mode, battery or data savers) refuse to autoplay: offer a play button
   const [blocked, setBlocked] = useState(false)
+  // on a phone held upright, suggest turning it for the widescreen film (once per visit, for a few seconds)
+  const filmSz = useFilmSize()
+  const [turnHint, setTurnHint] = useState(() => { try { return !sessionStorage.getItem('vr-turn') } catch { return true } })
+  const [full, setFull] = useState(false)
+  useEffect(() => {
+    if (!gone || !turnHint) return
+    const t = window.setTimeout(() => { setTurnHint(false); try { sessionStorage.setItem('vr-turn', '1') } catch { /* private mode */ } }, 9000)
+    return () => window.clearTimeout(t)
+  }, [gone, turnHint])
   useEffect(() => onPlaybackBlocked(setBlocked), [])
   // the device's back (swipe, back button, gesture) closes whatever is open, innermost first
   useBackToClose(page !== null, () => setPage(null), page ? `#${page}` : undefined)
@@ -97,7 +107,7 @@ export default function App() {
 
   return (
     <>
-      <Journey route={route} ready={ready} paused={paused} disabled={page !== null || menu || room !== null} onState={onState} jumpRef={jump} onEnd={() => {
+      <Journey route={route} ready={ready} paused={paused} disabled={page !== null || menu || room !== null || full} onState={onState} jumpRef={jump} onEnd={() => {
         const el = document.getElementById('weddings')
         if (el && !page && !menu && !room) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY, behavior: 'smooth' })
       }} />
@@ -147,6 +157,16 @@ export default function App() {
           <span className="label whitespace-nowrap text-[0.62rem]">Tap to play the film</span>
         </button>
       )}
+
+      {/* ───────────── phones held upright: turn sideways, or watch full screen ───────────── */}
+      {turnHint && !blocked && gone && filmSz === 'pt' && isUprightTouch() && !page && !room && !menu && !after && (
+        <div className="fixed bottom-[11svh] left-1/2 z-[35] flex -translate-x-1/2 items-center gap-3 whitespace-nowrap rounded-full border border-gold/60 bg-night/60 py-1.5 pl-4 pr-1.5 text-cream backdrop-blur-md">
+          <RotateIcon className="h-4 w-4 text-gold" />
+          <span className="label text-[0.6rem]">Turn sideways</span>
+          <FullScreenButton onClick={() => { setTurnHint(false); setFull(true) }} className="!py-1.5" />
+        </div>
+      )}
+      {full && <FullFilm film={{ title: 'Vimal Resort', srcs: route.map((id) => `${import.meta.env.BASE_URL}media/scenes/${id}-lg.mp4?v=2`), poster: `${import.meta.env.BASE_URL}media/scenes/${route[0]}-poster.webp` }} onClose={() => setFull(false)} />}
 
       {/* ───────────── into the resort cue ───────────── */}
       <button type="button" onClick={() => toSection('weddings')} tabIndex={isLast && !after ? 0 : -1}

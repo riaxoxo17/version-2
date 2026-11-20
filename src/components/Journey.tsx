@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { ALL_IDS, DURATION } from '../data/journey'
-import { filmSize, prepVideo, safePlay, unwait } from '../lib/play'
+import { filmSize, prepVideo, safePlay, unwait, useFilmSize } from '../lib/play'
 
 /**
  * The whole site is one film. It plays on its own; scrolling moves the camera
@@ -60,7 +60,22 @@ export function Journey({ route, ready, paused, disabled, onState, jumpRef, onEn
   const pending = useRef<number | null>(null)
   const pausedRef = useRef(paused || disabled)
   const reduced = useRef(typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+  // turning the phone swaps in the matching film (tall or widescreen) at the same moment
+  const sizeNow = useFilmSize()
   const size = useRef(filmSize())
+  const resume = useRef<{ id: string; t: number; play: boolean } | null>(null)
+  if (sizeNow !== size.current) {
+    const v = vids.current[activeIdRef.current]
+    resume.current = { id: activeIdRef.current, t: v?.currentTime ?? 0, play: !!v && !v.paused }
+    size.current = sizeNow
+  }
+  const onMeta = (id: string, v: HTMLVideoElement) => {
+    const r = resume.current
+    if (!r || r.id !== id) return
+    resume.current = null
+    v.currentTime = r.t
+    if (r.play) safePlay(v)
+  }
   const readyFired = useRef(false)
   const last = useRef({ index: -1, local: -1, playing: false })
 
@@ -229,6 +244,7 @@ export function Journey({ route, ready, paused, disabled, onState, jumpRef, onEn
             playsInline
             preload={near.has(id) ? 'auto' : 'none'}
             onCanPlay={id === route[0] ? onFirstReady : undefined}
+            onLoadedMetadata={(e) => onMeta(id, e.currentTarget)}
             className={`absolute inset-0 h-full w-full object-cover transition-[opacity,transform,filter] duration-[1100ms] ease-[cubic-bezier(.65,0,.35,1)] ${id === activeId ? 'scale-100 opacity-100 blur-0' : 'scale-[1.06] opacity-0 blur-[2px]'}`}
           />
         ))}

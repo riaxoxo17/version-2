@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 /**
  * Phones only autoplay a video that is muted and inline, and some (iPhone Low
  * Power Mode, Android battery savers, data savers) refuse to autoplay at all.
@@ -70,3 +71,19 @@ export function filmSize(): 'pt' | 'lg' {
   if (typeof window === 'undefined') return 'lg'
   return window.innerWidth < 900 && window.innerHeight > window.innerWidth ? 'pt' : 'lg'
 }
+
+/** The film size for the current screen, updated when the phone is turned. */
+export function useFilmSize() {
+  const [s, setS] = useState(filmSize)
+  useEffect(() => {
+    let t = 0
+    const on = () => { window.clearTimeout(t); t = window.setTimeout(() => setS(filmSize()), 200) }
+    window.addEventListener('resize', on)
+    window.addEventListener('orientationchange', on)
+    return () => { window.clearTimeout(t); window.removeEventListener('resize', on); window.removeEventListener('orientationchange', on) }
+  }, [])
+  return s
+}
+
+/** a phone or tablet held upright */
+export const isUprightTouch = () => typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches && window.innerHeight > window.innerWidth
