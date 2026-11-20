@@ -33,7 +33,7 @@ export const ROOMS: Space[] = [
       { label: 'Setting', value: 'Rustic architecture, garden windows' },
       { label: 'On property', value: '105 luxury rooms' },
     ],
-    photos: ['p31', 'p38', 'p33', 'p05', 'p07', 'p02'],
+    photos: ['p31', 'p38', 'p33', 'p05', 'p07', 'p02', 'q04', 'q06'],
     ...ROOM_PRICE, enquiry: 'a Twin Room', film: 'room-twin',
   },
   {
@@ -46,7 +46,7 @@ export const ROOMS: Space[] = [
       { label: 'Family suites', value: 'Family suites available' },
       { label: 'On property', value: '105 luxury rooms' },
     ],
-    photos: ['p06', 'p39', 'p41', 'p08', 'p36', 'p03', 'p10', 'p28', 'p40'],
+    photos: ['p06', 'p39', 'p41', 'p08', 'p36', 'p03', 'p10', 'q03', 'q05', 'q07', 'p28', 'p40'],
     ...ROOM_PRICE, enquiry: 'a King Room', film: 'room-king',
   },
   {
@@ -74,7 +74,7 @@ export const HALLS: Space[] = [
       { label: 'Banquet halls', value: '2,500 sq. ft.' },
       { label: 'Services', value: 'Staging & custom catering' },
     ],
-    photos: ['n08', 'n09'],
+    photos: ['n08', 'n09', 'q09'],
     ...EVENT_PRICE, enquiry: 'the Marriage Hall or banquet halls',
   },
   {

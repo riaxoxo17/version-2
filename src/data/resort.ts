@@ -5,7 +5,7 @@
  */
 export const PROPERTY = {
   name: 'Vimal Resort & Entertainment Park',
-  kannadaName: 'ವಿಮಲ್ ರೆಸಾರ್ಟ್',
+  kannadaName: 'ವಿಮಲ ರೆಸಾರ್ಟ್', // as written on the resort's own gate sign
   tagline: 'Where every journey becomes a memory',
   facts: [
     { value: '23', unit: 'acres', label: 'of gardens & orchards' },
@@ -123,4 +123,58 @@ export const ZONES: Zone[] = [
     details: ['Photo: a drone view from above the resort, not the view from the tower itself.'],
     photos: ['a01'],
   },
+]
+
+/**
+ * Destination weddings. Source for the award and the figures: the resort's own
+ * Instagram post (@vimalresort): "recognised as the Best Destination Wedding
+ * Venue in Karnataka at the Karnataka Tourism Awards".
+ * awardPhoto: set to a gallery id once the award photo is supplied.
+ */
+export const WEDDING = {
+  award: 'Best Destination Wedding Venue in Karnataka',
+  awardBy: 'Karnataka Tourism Awards',
+  awardPhoto: null as string | null,
+  facts: [
+    { value: '2', label: 'fully air-conditioned halls' },
+    { value: '4,000+', label: 'floating capacity' },
+    { value: '600+', label: 'guests can stay over' },
+    { value: '40,000', label: 'sq. ft. open-sky lawn' },
+  ],
+  photos: ['q08', 'q09', 'n09', 'n10'],
+}
+
+/** Short films from the resort's own phone footage (media/clips/<id>-lg.mp4). */
+export interface Clip { id: string; caption: string }
+export const CLIPS: Clip[] = [
+  { id: 'gate-dusk', caption: 'The Vimal Resort gateway at dusk' },
+  { id: 'gate-sign', caption: 'The gateway sign, lit up' },
+  { id: 'entrance-wide', caption: 'Arriving at the entrance' },
+  { id: 'entrance-plaza', caption: 'The entrance plaza: topiary and cart wheels' },
+  { id: 'light-tunnel', caption: 'The light tunnel and rain curtain' },
+  { id: 'palm-path', caption: 'Under the palms' },
+  { id: 'garden-path', caption: 'Garden pathway' },
+  { id: 'sculpture-garden', caption: 'The sculpture garden' },
+  { id: 'pool-sunset', caption: 'The pool at sunset' },
+  { id: 'pool-dusk', caption: 'The pool at dusk' },
+  { id: 'zipline', caption: 'Sky cycling above the adventure park' },
+  { id: 'zipline-2', caption: 'Sky cycling' },
+  { id: 'zip-tower', caption: 'The adventure tower' },
+  { id: 'kids-play', caption: 'Kids’ play area' },
+  { id: 'banquet-hall', caption: 'Banquet hall, set for a celebration' },
+  { id: 'thank-you', caption: 'Thank you, visit again' },
+]
+
+/** Spots made for pictures. A zone shows a short film (clip) or a photo (gallery id). */
+export interface PhotoZone { id: string; name: string; note: string; clip?: string; photo?: string }
+export const PHOTO_ZONES: PhotoZone[] = [
+  { id: 'gateway', name: 'The Vimal Resort gateway', note: 'The lit sign at dusk is the classic arrival photo.', clip: 'gate-dusk' },
+  { id: 'tunnel', name: 'The light tunnel', note: 'A vine-covered arch of lights with a rain curtain at its heart.', clip: 'light-tunnel' },
+  { id: 'plaza', name: 'Entrance plaza', note: 'Topiary in the round, framed by the cart-wheel walls.', clip: 'entrance-plaza' },
+  { id: 'wheel', name: 'Cart-wheel wall', note: 'Stone, greenery and a painted wheel, softly lit in the evening.', photo: 'q00' },
+  { id: 'fountain', name: 'Fountain plaza', note: 'The white statue fountain on its patterned stone circle.', photo: 'p30' },
+  { id: 'sculpture', name: 'Sculpture garden', note: 'Flowering trees around a white sculpture, best at golden hour.', clip: 'sculpture-garden' },
+  { id: 'palms', name: 'Palm pathway', note: 'A long, lamp-lit walk beneath the coconut palms.', photo: 'q01' },
+  { id: 'greenery', name: 'The orchards', note: 'Shade, grass and 1,500+ trees: mango, sapota, guava and teak.', photo: 'p20' },
+  { id: 'garden-path', name: 'Garden pathway', note: 'A winding red-brick path through the trees.', clip: 'garden-path' },
 ]

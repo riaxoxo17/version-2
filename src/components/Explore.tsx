@@ -1,10 +1,11 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { DAY, NEARBY, PROPERTY } from '../data/resort'
+import { DAY, NEARBY, PHOTO_ZONES, PROPERTY, WEDDING } from '../data/resort'
 import { HALLS, ROOMS } from '../data/rooms'
 import { CONTACT, wa } from '../data/journey'
-import type { Page } from './Pages'
+import { Lightbox, byId, clip, type GItem, type Page } from './Pages'
+import { Laurel, Logo } from './Logo'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -31,8 +32,8 @@ export function SectionFilm({ src, poster, className = '' }: { src: string; post
 }
 const sceneSrc = (id: string) => ({ src: `${base}media/scenes/${id}-${small() ? 'sm' : 'lg'}.mp4`, poster: `${base}media/scenes/${id}-poster.webp` })
 
-function FilmSection({ id, film, kicker, title, children, labelledBy }: { id: string; film: string; kicker: string; title: React.ReactNode; children?: React.ReactNode; labelledBy: string }) {
-  const f = sceneSrc(film)
+function FilmSection({ id, film, kicker, title, children, labelledBy }: { id: string; film: string | { src: string; poster: string }; kicker: React.ReactNode; title: React.ReactNode; children?: React.ReactNode; labelledBy: string }) {
+  const f = typeof film === 'string' ? sceneSrc(film) : film
   return (
     <section id={id} aria-labelledby={labelledBy} className="relative">
       <div data-film className="relative min-h-[100svh] overflow-hidden">
@@ -73,6 +74,30 @@ export function Explore({ openPage, openRoom }: { openPage: (p: Page, anchor?: s
 
   return (
     <div ref={root} className="relative z-20 bg-night">
+      {/* ─────────── WEDDINGS ─────────── */}
+      <FilmSection id="weddings" film={clip('banquet-hall')} labelledBy="weddings-title"
+        kicker={<span className="inline-flex items-center gap-2.5"><Laurel className="h-6 w-6 shrink-0 text-gold" /><span>{WEDDING.award}<span className="hidden md:inline"> · {WEDDING.awardBy}</span></span></span>}
+        title={<>Karnataka’s best <em className="text-cream/85">destination wedding.</em></>}>
+        <p data-reveal className="mt-6 max-w-2xl text-cream/80">Ceremonies in the hall or under the open sky, guests staying on the grounds, and every celebration in one place.</p>
+        <dl data-reveal className="mt-8 grid max-w-4xl grid-cols-2 gap-x-8 gap-y-5 md:grid-cols-4">
+          {WEDDING.facts.map((f) => (
+            <div key={f.label}><dt className="sr-only">{f.label}</dt><dd><span className="font-display block text-4xl text-gold md:text-5xl">{f.value}</span><span className="mt-1 block text-xs text-cream/70">{f.label}</span></dd></div>
+          ))}
+        </dl>
+        <div data-reveal className="mt-9 grid max-w-4xl gap-3 sm:grid-cols-2">
+          {HALLS.map((h) => (
+            <button key={h.id} type="button" onClick={() => openPage('halls', h.id)} className="group flex items-center gap-4 border border-cream/20 bg-night/40 p-3 text-left backdrop-blur-md transition-colors hover:border-gold">
+              <img src={img(h.photos[0], true)} alt="" loading="lazy" className="h-16 w-24 shrink-0 object-cover" />
+              <span className="min-w-0 flex-1"><span className="font-display block text-2xl">{h.name}</span><span className="block truncate text-xs text-cream/60">{h.facts.map((f) => f.value).join(' · ')}</span></span>
+              <span aria-hidden className="text-xl text-gold transition-transform group-hover:translate-x-1">→</span>
+            </button>
+          ))}
+        </div>
+        <div data-reveal className="mt-6 flex flex-wrap gap-3">
+          <a className="label bg-gold px-6 py-4 text-night hover:bg-cream" href={wa('Hello Vimal Resort, I would like to plan a wedding. Date: , Guests: ')} target="_blank" rel="noreferrer">Plan your wedding</a>
+        </div>
+      </FilmSection>
+
       {/* ─────────── ROOMS ─────────── */}
       <FilmSection id="stay" film="stay" kicker={`${PROPERTY.facts[1].value} luxury rooms · 15 nature tents`} labelledBy="stay-title" title={<>Find your place <em className="text-cream/85">to unwind.</em></>}>
         <div data-reveal className="mt-10 grid max-w-5xl gap-3 sm:grid-cols-3">
@@ -95,7 +120,7 @@ export function Explore({ openPage, openRoom }: { openPage: (p: Page, anchor?: s
       </FilmSection>
 
       {/* ─────────── POOL ─────────── */}
-      <FilmSection id="pool" film="pool" kicker="5,000 sq. ft. pool · rain dance" labelledBy="pool-title" title={<>Dive into <em className="text-cream/85">the moment.</em></>}>
+      <FilmSection id="pool" film={clip('pool-sunset')} kicker="5,000 sq. ft. pool · rain dance" labelledBy="pool-title" title={<>Dive into <em className="text-cream/85">the moment.</em></>}>
         <div data-reveal className="mt-8 flex flex-wrap items-end gap-x-10 gap-y-4">
           {DAY.gold.prices.map((p) => (
             <div key={p.label}><p className="font-display text-4xl text-gold">{p.price}</p><p className="mt-1 text-xs text-cream/70">{p.label}</p></div>
@@ -105,7 +130,7 @@ export function Explore({ openPage, openRoom }: { openPage: (p: Page, anchor?: s
       </FilmSection>
 
       {/* ─────────── ADVENTURE ─────────── */}
-      <FilmSection id="adventure" film="adventure" kicker="2-acre park · 20+ activities" labelledBy="adventure-title" title={<>Adventure <em className="text-cream/85">is calling.</em></>}>
+      <FilmSection id="adventure" film={clip('zipline')} kicker="2-acre park · 20+ activities" labelledBy="adventure-title" title={<>Adventure <em className="text-cream/85">is calling.</em></>}>
         <p data-reveal className="mt-6 max-w-2xl text-cream/80">{DAY.adventure.includes.slice(0, 8).join(' · ')} and more.</p>
         <div data-reveal className="mt-6 flex flex-wrap items-baseline gap-6">
           <p><span className="font-display text-4xl text-gold">{DAY.adventure.price}</span> <span className="text-sm text-cream/70">per person, add-on</span></p>
@@ -113,18 +138,8 @@ export function Explore({ openPage, openRoom }: { openPage: (p: Page, anchor?: s
         </div>
       </FilmSection>
 
-      {/* ─────────── CELEBRATIONS ─────────── */}
-      <FilmSection id="celebrate" film="lawn" kicker="Weddings · receptions · parties" labelledBy="celebrate-title" title={<>Room for every <em className="text-cream/85">celebration.</em></>}>
-        <div data-reveal className="mt-10 grid max-w-4xl gap-3 sm:grid-cols-2">
-          {HALLS.map((h) => (
-            <button key={h.id} type="button" onClick={() => openPage('halls', h.id)} className="group flex items-center gap-4 border border-cream/20 bg-night/40 p-3 text-left backdrop-blur-md transition-colors hover:border-gold">
-              <img src={img(h.photos[0], true)} alt="" loading="lazy" className="h-16 w-24 shrink-0 object-cover" />
-              <span className="min-w-0 flex-1"><span className="font-display block text-2xl">{h.name}</span><span className="block truncate text-xs text-cream/60">{h.facts.map((f) => f.value).join(' · ')}</span></span>
-              <span aria-hidden className="text-xl text-gold transition-transform group-hover:translate-x-1">→</span>
-            </button>
-          ))}
-        </div>
-      </FilmSection>
+      {/* ─────────── PHOTO ZONES ─────────── */}
+      <PhotoZones />
 
       {/* ─────────── PACKAGES ─────────── */}
       <section id="packages" aria-labelledby="packages-title" className="px-6 py-28 md:px-[6vw] md:py-40">
@@ -171,7 +186,7 @@ export function Explore({ openPage, openRoom }: { openPage: (p: Page, anchor?: s
       {/* ─────────── VISIT ─────────── */}
       <section id="visit" aria-labelledby="visit-title" className="relative overflow-hidden">
         <div data-film className="relative min-h-svh overflow-hidden">
-          <div data-film-inner className="absolute inset-0"><SectionFilm {...sceneSrc('finale')} /></div>
+          <div data-film-inner className="absolute inset-0"><SectionFilm {...clip('thank-you')} /></div>
           <div className="absolute inset-0 bg-night/65" />
           <div className="relative flex min-h-svh flex-col justify-center px-6 py-32 md:px-[6vw]">
             <p data-reveal className="label text-gold">Visit</p>
@@ -202,11 +217,48 @@ export function Explore({ openPage, openRoom }: { openPage: (p: Page, anchor?: s
           </div>
         </div>
         <footer className="relative flex flex-col gap-3 border-t border-cream/10 bg-night px-6 py-8 text-[0.7rem] text-cream/45 md:flex-row md:items-center md:justify-between md:px-[6vw]">
-          <span className="font-display text-base tracking-[0.3em] text-cream/85">VIMAL <span className="font-kn ml-3 text-sm tracking-normal text-cream/55">{PROPERTY.kannadaName}</span></span>
+          <span className="flex items-center gap-4 text-cream/85"><Logo title={false} className="w-24" /><span className="font-kn text-sm text-cream/55">{PROPERTY.kannadaName}</span></span>
           <span>{PROPERTY.name} · Gadag, Karnataka · {CONTACT.instagramHandle}</span>
           <span>Day visits {DAY.timings}</span>
         </footer>
       </section>
     </div>
+  )
+}
+
+/** Spots made for pictures: each plays its own short film (or shows a photo); tap to open it full screen. */
+function PhotoZones() {
+  const [open, setOpen] = useState<number | null>(null)
+  const items: GItem[] = PHOTO_ZONES.map((z) => z.clip
+    ? { id: `z-${z.id}`, category: 'Photo zones', caption: `${z.name}: ${z.note}`, w: 1920, h: 1080, video: clip(z.clip).src, poster: clip(z.clip).poster }
+    : { ...(byId[z.photo!] as GItem), caption: `${z.name}: ${z.note}` })
+  return (
+    <section id="photo-zones" aria-labelledby="zones-title" className="px-6 py-28 md:px-[6vw] md:py-36">
+      <div className="max-w-3xl">
+        <p data-reveal className="label text-gold">Photo zones</p>
+        <h2 id="zones-title" data-reveal className="font-display mt-5 text-6xl font-light leading-[0.95] md:text-[5vw]">Made for <em>pictures.</em></h2>
+        <p data-reveal className="mt-6 text-cream/70">The spots our guests come back to for their photos, from the lit gateway at dusk to the light tunnel and the orchards.</p>
+      </div>
+      <ul className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {PHOTO_ZONES.map((z, i) => (
+          <li key={z.id} data-reveal className={i === 0 || i === 1 ? 'lg:col-span-1' : ''}>
+            <button type="button" onClick={() => setOpen(i)} className="group block w-full text-left" aria-label={`${z.name}: open full screen`}>
+              <span className="relative block aspect-[4/5] overflow-hidden bg-cream/5 sm:aspect-[4/3]">
+                {z.clip
+                  ? <SectionFilm {...clip(z.clip, 'sm')} className="transition-transform duration-[1400ms] ease-out group-hover:scale-[1.04]" />
+                  : <img src={img(z.photo!)} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.04]" />}
+                <span className="absolute inset-0 bg-gradient-to-t from-night/85 via-night/10 to-transparent" />
+                <span className="absolute left-4 top-4 font-display text-sm text-gold">{String(i + 1).padStart(2, '0')}</span>
+                <span className="absolute inset-x-4 bottom-4">
+                  <span className="font-display block text-3xl leading-tight text-cream">{z.name}</span>
+                  <span className="mt-1.5 block text-sm text-cream/75">{z.note}</span>
+                </span>
+              </span>
+            </button>
+          </li>
+        ))}
+      </ul>
+      {open != null && <Lightbox items={items} index={open} setIndex={setOpen} />}
+    </section>
   )
 }

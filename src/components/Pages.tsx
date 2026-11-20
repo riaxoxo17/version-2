@@ -1,16 +1,24 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import gallery from '../data/gallery.json'
 import { HALLS, OCCASIONS, ROOMS, ROOM_COUNTS, type Space } from '../data/rooms'
 import { CONTACT, wa } from '../data/journey'
-import { DAY, NEARBY } from '../data/resort'
+import { CLIPS, DAY, NEARBY } from '../data/resort'
 import { SectionFilm } from './Explore'
 import { roomFilm } from './RoomFilm'
 import { useBackToClose } from '../lib/backClose'
+import { Logo } from './Logo'
 
 const base = import.meta.env.BASE_URL
 export const img = (id: string, thumb = false) => `${base}media/g/${id}${thumb ? '-t' : ''}.webp`
-export interface GItem { id: string; category: string; caption: string; w: number; h: number; note?: string }
+export interface GItem { id: string; category: string; caption: string; w: number; h: number; note?: string; video?: string; poster?: string }
 const G = gallery as GItem[]
+const small = () => typeof window !== 'undefined' && window.innerWidth < 900
+export const clip = (id: string, size?: 'sm' | 'lg') => ({ src: `${base}media/clips/${id}-${size ?? (small() ? 'sm' : 'lg')}.mp4`, poster: `${base}media/clips/${id}-poster.webp` })
+/** the resort's short films, shown in the Photos page and the viewer */
+export const VIDEO_ITEMS: GItem[] = CLIPS.map((c) => ({ id: `v-${c.id}`, category: 'Videos', caption: c.caption, w: 1920, h: 1080, video: clip(c.id).src, poster: clip(c.id).poster }))
+const ALL = [...G, ...VIDEO_ITEMS]
+const thumb = (g: GItem) => g.poster ?? img(g.id, true)
 export const byId = Object.fromEntries(G.map((g) => [g.id, g]))
 
 export type Page = 'rooms' | 'halls' | 'photos' | 'contact'
@@ -31,7 +39,7 @@ export function PageShell({ page, onClose, children }: { page: Page | null; onCl
     <div ref={ref} role="dialog" aria-modal="true" aria-label={page ?? undefined}
       className={`fixed inset-0 z-40 overflow-y-auto overscroll-contain bg-night/[0.97] backdrop-blur-xl transition-[opacity,transform] duration-700 ease-[cubic-bezier(.22,1,.36,1)] ${page ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-6 opacity-0'}`}>
       <div className="sticky top-0 z-10 flex items-center justify-between bg-gradient-to-b from-night to-night/0 px-6 py-6 md:px-10 md:py-8">
-        <button type="button" onClick={onClose} className="font-display text-xl tracking-[0.42em] text-cream" tabIndex={page ? 0 : -1} aria-label="Back to the film">VIMAL</button>
+        <button type="button" onClick={onClose} className="block w-[92px] text-cream md:w-[110px]" tabIndex={page ? 0 : -1} aria-label="Vimal Resort: back to the film"><Logo title={false} /></button>
         <button ref={closeBtn} type="button" onClick={onClose} className="label flex items-center gap-3 text-cream/85 hover:text-gold" tabIndex={page ? 0 : -1}>
           Back to the film <span aria-hidden className="text-base">×</span>
         </button>
@@ -194,7 +202,7 @@ export function HallsPage() {
 }
 
 /* ───────────────────────── gallery ───────────────────────── */
-const CATS = ['All', 'Rooms', 'Tents', 'Grounds', 'Pool', 'Adventure', 'Play', 'Celebrations', 'Food', 'Aerial']
+const CATS = ['All', 'Videos', 'Rooms', 'Tents', 'Grounds', 'Pool', 'Adventure', 'Play', 'Celebrations', 'Food', 'Aerial']
 
 export function Lightbox({ items, index, setIndex }: { items: GItem[]; index: number; setIndex: (f: number | null | ((o: number | null) => number | null)) => void }) {
   const n = items.length
@@ -211,9 +219,11 @@ export function Lightbox({ items, index, setIndex }: { items: GItem[]; index: nu
   })
   const cur = items[index]
   if (!cur) return null
-  return (
-    <div data-lightbox role="dialog" aria-modal="true" aria-label={cur.caption} className="fixed inset-0 z-50 flex items-center justify-center bg-night/97 p-3 md:p-10" onClick={() => setIndex(null)}>
-      <img key={cur.id} src={img(cur.id)} alt={cur.caption} className="max-h-full max-w-full object-contain" onClick={(e) => e.stopPropagation()} />
+  return createPortal(
+    <div data-lightbox role="dialog" aria-modal="true" aria-label={cur.caption} className="fixed inset-0 z-[90] flex items-center justify-center bg-night/97 p-3 md:p-10" onClick={() => setIndex(null)}>
+      {cur.video
+        ? <video key={cur.id} src={cur.video} poster={cur.poster} autoPlay muted loop playsInline controls className="max-h-full max-w-full object-contain" onClick={(e) => e.stopPropagation()} />
+        : <img key={cur.id} src={img(cur.id)} alt={cur.caption} className="max-h-full max-w-full object-contain" onClick={(e) => e.stopPropagation()} />}
       <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-4 bg-gradient-to-t from-night/80 to-transparent p-6 text-sm" onClick={(e) => e.stopPropagation()}>
         <p className="text-cream/85">{cur.caption}{cur.note && <span className="ml-2 text-cream/50">· {cur.note}</span>}</p>
         <p className="label text-[0.6rem] text-cream/55">{index + 1} / {n}</p>
@@ -223,20 +233,21 @@ export function Lightbox({ items, index, setIndex }: { items: GItem[]; index: nu
         <button type="button" onClick={(e) => { e.stopPropagation(); go(1) }} className="absolute right-2 top-1/2 -translate-y-1/2 p-4 text-4xl text-cream/80 hover:text-gold" aria-label="Next photo">›</button>
       </>}
       <button type="button" onClick={() => setIndex(null)} className="label absolute right-6 top-6 text-cream" autoFocus>Close ×</button>
-    </div>
+    </div>,
+    document.body,
   )
 }
 
 export function GalleryPage() {
   const [cat, setCat] = useState('All')
   const [open, setOpen] = useState<number | null>(null)
-  const items = useMemo(() => (cat === 'All' ? G : G.filter((g) => g.category === cat)), [cat])
+  const items = useMemo(() => (cat === 'All' ? ALL : ALL.filter((g) => g.category === cat)), [cat])
   return (
     <div className="pb-24">
-      <Heading kicker={`${G.length} photographs`} title="Photos" />
+      <Heading kicker={`${G.length} photographs · ${VIDEO_ITEMS.length} films`} title="Photos & films" />
       <div className="mx-auto max-w-7xl px-6 md:px-10">
         <div role="tablist" aria-label="Filter photos" className="mb-10 flex flex-wrap gap-x-6 gap-y-3">
-          {CATS.filter((c) => c === 'All' || G.some((g) => g.category === c)).map((c) => (
+          {CATS.filter((c) => c === 'All' || ALL.some((g) => g.category === c)).map((c) => (
             <button key={c} role="tab" aria-selected={cat === c} type="button" onClick={() => setCat(c)}
               className={`label border-b pb-1.5 transition-colors ${cat === c ? 'border-gold text-gold' : 'border-transparent text-cream/60 hover:text-cream'}`}>{c}</button>
           ))}
@@ -245,7 +256,8 @@ export function GalleryPage() {
         <div className="columns-1 gap-4 sm:columns-2 lg:columns-3">
           {items.map((g, i) => (
             <button key={g.id} type="button" onClick={() => setOpen(i)} className="group relative mb-4 block w-full overflow-hidden break-inside-avoid bg-cream/5" aria-label={`Open: ${g.caption}`}>
-              <img src={img(g.id, true)} alt={g.caption} loading="lazy" decoding="async" style={{ aspectRatio: `${g.w} / ${g.h}` }} className="w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]" />
+              <img src={thumb(g)} alt={g.caption} loading="lazy" decoding="async" style={{ aspectRatio: `${g.w} / ${g.h}` }} className="w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]" />
+              {g.video && <span aria-hidden className="absolute left-3 top-3 grid h-9 w-9 place-items-center rounded-full border border-gold bg-night/50 text-[0.6rem] text-gold backdrop-blur">▶</span>}
               <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-night/80 to-transparent p-4 text-left text-sm text-cream opacity-0 transition-opacity duration-500 group-hover:opacity-100">{g.caption}</span>
             </button>
           ))}

@@ -3,12 +3,13 @@ import { Journey, PX_PER_SEC, type JourneyState } from './components/Journey'
 import { Explore } from './components/Explore'
 import { RoomFilm } from './components/RoomFilm'
 import { useBackToClose } from './lib/backClose'
-import { PROPERTY } from './data/resort'
+import { PROPERTY, WEDDING } from './data/resort'
+import { Laurel, Logo } from './components/Logo'
 import { ContactPage, GalleryPage, HallsPage, PageShell, RoomsPage, type Page } from './components/Pages'
 import { CONTACT, DURATION, ROUTE, SCENES } from './data/journey'
 
 const FILM_END = ROUTE.reduce((t, id) => t + DURATION[id], 0) * PX_PER_SEC
-const SECTIONS: [string, string][] = [['stay', 'Rooms'], ['tents', 'Nature tents'], ['pool', 'The pool'], ['adventure', 'Adventure park'], ['celebrate', 'Celebrations'], ['packages', 'Day packages'], ['visit', 'Visit']]
+const SECTIONS: [string, string][] = [['weddings', 'Weddings'], ['stay', 'Rooms'], ['tents', 'Nature tents'], ['pool', 'The pool'], ['adventure', 'Adventure park'], ['photo-zones', 'Photo zones'], ['packages', 'Day packages'], ['visit', 'Visit']]
 
 const PAGES: Page[] = ['rooms', 'halls', 'photos', 'contact']
 const PAGE_LABEL: Record<Page, string> = { rooms: 'Rooms', halls: 'Halls', photos: 'Photos', contact: 'Contact' }
@@ -92,7 +93,7 @@ export default function App() {
   return (
     <>
       <Journey route={route} ready={ready} paused={paused} disabled={page !== null || menu || room !== null} onState={onState} jumpRef={jump} onEnd={() => {
-        const el = document.getElementById('stay')
+        const el = document.getElementById('weddings')
         if (el && !page && !menu && !room) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY, behavior: 'smooth' })
       }} />
       <Explore openPage={openPage} openRoom={setRoom} />
@@ -107,11 +108,15 @@ export default function App() {
             <section key={id} aria-hidden={!on} className={`absolute inset-x-6 flex flex-col items-center ${s.pos === 'top' ? 'top-[16svh]' : ''} transition-all duration-[1300ms] ease-[cubic-bezier(.22,1,.36,1)] ${on ? 'translate-y-0 opacity-100 blur-0' : 'translate-y-4 opacity-0 blur-[6px]'}`}>
               {id === 'arrival' ? (
                 <>
-                  <p className="label title-sub mb-7 text-cream">{s.kicker}</p>
-                  <p className="title-mark text-[min(19vw,26svh)] leading-[0.9] tracking-[0.14em] text-cream">VIMAL</p>
-                  <p className="font-kn title-sub mt-5 text-xl tracking-[0.08em] text-cream md:text-3xl">{PROPERTY.kannadaName}</p>
-                  <span className="my-6 block h-px w-16 bg-gold/80" />
+                  <p className="label title-sub mb-6 text-cream">{s.kicker}</p>
+                  <Logo className="logo-hero w-[min(74vw,62svh)]" />
+                  <p className="font-kn title-sub mt-4 text-xl tracking-[0.06em] text-cream md:text-2xl">{PROPERTY.kannadaName}</p>
+                  <span className="my-5 block h-px w-16 bg-gold/80" />
                   <p className="font-display title-sub text-2xl italic text-cream md:text-4xl">{s.line}</p>
+                  <p className="title-sub mt-6 flex items-center gap-2.5 rounded-full border border-gold/50 bg-night/35 px-4 py-2 text-[0.7rem] uppercase tracking-[0.18em] text-cream backdrop-blur-sm md:text-xs">
+                    <Laurel className="h-5 w-5 shrink-0 text-gold" />
+                    <span>{WEDDING.award}<span className="hidden text-cream/65 sm:inline"> · {WEDDING.awardBy}</span></span>
+                  </p>
                 </>
               ) : (
                 <>
@@ -131,7 +136,7 @@ export default function App() {
       </main>
 
       {/* ───────────── into the resort cue ───────────── */}
-      <button type="button" onClick={() => toSection('stay')} tabIndex={isLast && !after ? 0 : -1}
+      <button type="button" onClick={() => toSection('weddings')} tabIndex={isLast && !after ? 0 : -1}
         className={`label fixed bottom-8 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-3 text-cream/85 transition-all duration-1000 hover:text-gold ${isLast && loaded && !page && !after ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-6 opacity-0'}`}>
         Scroll to explore the resort
         <span aria-hidden className="block h-10 w-px animate-pulse bg-gradient-to-b from-gold to-transparent" />
@@ -139,7 +144,7 @@ export default function App() {
 
       {/* ───────────── header ───────────── */}
       <header className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between px-6 py-6 transition-[opacity,background-color] duration-1000 md:px-10 md:py-8 ${after ? "bg-night/85 backdrop-blur-md md:py-6" : ""} ${loaded && !page ? 'opacity-100' : 'pointer-events-none opacity-0'}`}>
-        <button type="button" onClick={() => goTo('arrival')} className="font-display text-xl tracking-[0.42em] text-cream" aria-label="Vimal Resort: back to the start">VIMAL</button>
+        <button type="button" onClick={() => goTo('arrival')} className="block w-[92px] text-cream md:w-[110px]" aria-label="Vimal Resort: back to the start"><Logo title={false} /></button>
         <nav aria-label="Main" className="flex items-center gap-6 md:gap-9">
           {PAGES.map((p) => (
             <button key={p} type="button" onClick={() => openPage(p)} className="label hidden text-cream/85 hover:text-gold md:inline">{PAGE_LABEL[p]}</button>
@@ -210,7 +215,7 @@ export default function App() {
       {/* ───────────── preloader ───────────── */}
       {!gone && (
         <div role="status" aria-label="Loading" className={`fixed inset-0 z-[60] flex flex-col items-center justify-center bg-night transition-opacity duration-[1400ms] ${loaded ? 'opacity-0' : 'opacity-100'}`}>
-          <p className="font-display animate-[breathe_2.4s_ease-in-out_infinite] text-5xl font-light tracking-[0.5em] text-cream md:text-7xl">VIMAL</p>
+          <Logo className="w-[min(60vw,320px)] animate-[breathe_2.4s_ease-in-out_infinite] text-cream" />
           <p className="label mt-6 text-cream/45">Gadag · Karnataka</p>
         </div>
       )}

@@ -493,5 +493,75 @@
 "caption": "The pool",
 "w": 2400,
 "h": 1350
+},
+{
+"id": "q00",
+"category": "Grounds",
+"caption": "Cart-wheel wall at the entrance, at dusk",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "q01",
+"category": "Grounds",
+"caption": "Palm-lined pathway at dusk",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "q02",
+"category": "Rooms",
+"caption": "The new room block",
+"w": 1448,
+"h": 1086
+},
+{
+"id": "q03",
+"category": "Rooms",
+"caption": "Contemporary room",
+"w": 1600,
+"h": 721
+},
+{
+"id": "q04",
+"category": "Rooms",
+"caption": "Contemporary twin room",
+"w": 1600,
+"h": 721
+},
+{
+"id": "q05",
+"category": "Rooms",
+"caption": "Contemporary room",
+"w": 1600,
+"h": 721
+},
+{
+"id": "q06",
+"category": "Rooms",
+"caption": "Contemporary twin room",
+"w": 1600,
+"h": 721
+},
+{
+"id": "q07",
+"category": "Rooms",
+"caption": "Contemporary room",
+"w": 1600,
+"h": 721
+},
+{
+"id": "q08",
+"category": "Celebrations",
+"caption": "Open-air courtyard set for a wedding",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "q09",
+"category": "Celebrations",
+"caption": "Banquet hall with a decorated stage",
+"w": 2400,
+"h": 1350
 }
 ]
