@@ -17,7 +17,6 @@ import { filmSize, prepVideo, safePlay, unwait, useFilmSize } from '../lib/play'
  * page's film-length maths (FILM_END) collapses to the hero.
  */
 export const PX_PER_SEC = 0
-const IDLE_RESUME_MS = 1700
 const base = import.meta.env.BASE_URL
 const src = (id: string, size: string) => `${base}media/scenes/${id}-${size}.mp4?v=2`
 const poster = (id: string) => `${base}media/scenes/${id}-poster.webp?v=2`
@@ -60,8 +59,6 @@ export function Journey({ route, ready, paused, disabled, onState, jumpRef, onEn
   const activeIdRef = useRef(route[0])
   const active = useRef(0)
   const mode = useRef<'auto' | 'scrub'>('auto')
-  const expectedY = useRef(0)
-  const idle = useRef(0)
   const pending = useRef<number | null>(null)
   const pausedRef = useRef(paused || disabled)
   const reduced = useRef(typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches)
@@ -84,11 +81,6 @@ export function Journey({ route, ready, paused, disabled, onState, jumpRef, onEn
   const readyFired = useRef(false)
   const last = useRef({ index: -1, local: -1, playing: false })
 
-  const sceneAt = (t: number) => {
-    const s = tl.current.starts
-    for (let i = s.length - 1; i >= 0; i--) if (t >= s[i]) return i
-    return 0
-  }
   const vidAt = (i: number) => vids.current[routeRef.current[i]]
 
   const emit = useCallback((index: number, local: number, playing: boolean) => {
