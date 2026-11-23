@@ -46,7 +46,7 @@ export const SCENES: Record<string, Scene> = {
 // fields in to the gate, cut straight into DJI_0023 rising over the "Vimal Resort" sign. The palm-path shot closes the site (Visit section).
 export const ROUTE = ['arrival']
 /** seconds into the opening when the title fades so the real gate sign can be seen */
-export const TITLE_OUT = 12.5
+export const TITLE_OUT = 12
 export const ALL_IDS = ROUTE
 
 export const DURATION: Record<string, number> = Object.fromEntries(Object.keys(SCENES).map((id) => [id, (durations as Record<string, number>)[id] ?? 6]))
