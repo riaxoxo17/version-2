@@ -18,8 +18,8 @@ import { filmSize, prepVideo, safePlay, unwait, useFilmSize } from '../lib/play'
  */
 export const PX_PER_SEC = 0
 const base = import.meta.env.BASE_URL
-const src = (id: string, size: string) => `${base}media/scenes/${id}-${size}.mp4?v=3`
-const poster = (id: string) => `${base}media/scenes/${id}-poster.webp?v=3`
+const src = (id: string, size: string) => `${base}media/scenes/${id}-${size}.mp4?v=4`
+const poster = (id: string) => `${base}media/scenes/${id}-poster.webp?v=4`
 
 export interface JourneyState {
   index: number

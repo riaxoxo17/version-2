@@ -167,7 +167,7 @@ export default function App() {
           <FullScreenButton onClick={() => { setTurnHint(false); setFull(true) }} className="!py-1.5" />
         </div>
       )}
-      {full && <FullFilm film={{ title: 'Vimal Resort', srcs: route.map((id) => `${import.meta.env.BASE_URL}media/scenes/${id}-lg.mp4?v=3`), poster: `${import.meta.env.BASE_URL}media/scenes/${route[0]}-poster.webp` }} onClose={() => setFull(false)} />}
+      {full && <FullFilm film={{ title: 'Vimal Resort', srcs: route.map((id) => `${import.meta.env.BASE_URL}media/scenes/${id}-lg.mp4?v=4`), poster: `${import.meta.env.BASE_URL}media/scenes/${route[0]}-poster.webp` }} onClose={() => setFull(false)} />}
 
       {/* ───────────── into the resort cue ───────────── */}
       <button type="button" onClick={() => toSection('weddings')} tabIndex={isLast && !after ? 0 : -1}

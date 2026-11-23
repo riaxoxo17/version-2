@@ -42,11 +42,11 @@ export const SCENES: Record<string, Scene> = {
   finale: { id: 'finale', chapter: 'Visit', kicker: 'Vimal Resort & Entertainment Park', line: 'Your story begins at Vimal' },
 }
 
-// The opening is one continuous drone shot (vimal2-tools/opening.sh): it flies in from the fields
-// to the gate, then rises over the "Vimal Resort" sign. The palm-path shot closes the site (Visit section).
+// The opening is one continuous flight (vimal2-tools/reverse_join.py): DJI_0025 in reverse, from the
+// fields in to the gate, cut straight into DJI_0023 rising over the "Vimal Resort" sign. The palm-path shot closes the site (Visit section).
 export const ROUTE = ['arrival']
 /** seconds into the opening when the title fades so the real gate sign can be seen */
-export const TITLE_OUT = 10.8
+export const TITLE_OUT = 12.5
 export const ALL_IDS = ROUTE
 
 export const DURATION: Record<string, number> = Object.fromEntries(Object.keys(SCENES).map((id) => [id, (durations as Record<string, number>)[id] ?? 6]))
