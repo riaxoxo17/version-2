@@ -11,7 +11,12 @@ import { filmSize, prepVideo, safePlay, unwait, useFilmSize } from '../lib/play'
  * The route (scene order) can change at the fork without moving the playhead,
  * because every scene before the fork keeps its place.
  */
-export const PX_PER_SEC = 120
+/**
+ * The opening film is no longer driven by the scroll: it plays by itself in a one-screen
+ * hero, and scrolling simply slides the page on to Weddings (and back). Kept as 0 so the
+ * page's film-length maths (FILM_END) collapses to the hero.
+ */
+export const PX_PER_SEC = 0
 const IDLE_RESUME_MS = 1700
 const base = import.meta.env.BASE_URL
 const src = (id: string, size: string) => `${base}media/scenes/${id}-${size}.mp4?v=2`
@@ -113,24 +118,19 @@ export function Journey({ route, ready, paused, disabled, onState, jumpRef, onEn
     else { unwait(v); v.pause() }
   }, [])
 
-  const pastFilm = () => window.scrollY > tl.current.total * PX_PER_SEC - 2
+  // the film is out of view once the hero has mostly scrolled away
+  const pastFilm = () => window.scrollY > window.innerHeight * 0.85
   const goAuto = useCallback(() => {
     if (pausedRef.current || reduced.current || pastFilm()) return
     mode.current = 'auto'
     safePlay(vidAt(active.current))
   }, [])
 
-  const takeControl = useCallback(() => {
-    if (mode.current === 'auto') { mode.current = 'scrub'; vidAt(active.current)?.pause() }
-    window.clearTimeout(idle.current)
-    if (!pausedRef.current) idle.current = window.setTimeout(goAuto, IDLE_RESUME_MS)
-  }, [goAuto])
+  const takeControl = useCallback(() => {}, [])
 
   useEffect(() => {
     jumpRef.current = (i: number) => {
-      const y = tl.current.starts[i] * PX_PER_SEC + 1
-      expectedY.current = y
-      window.scrollTo({ top: y, behavior: 'auto' })
+      window.scrollTo({ top: 0, behavior: 'auto' })
       const play = !pausedRef.current && !reduced.current
       switchTo(i, 0, play)
       mode.current = play ? 'auto' : 'scrub'
@@ -149,27 +149,30 @@ export function Journey({ route, ready, paused, disabled, onState, jumpRef, onEn
     const onKey = (e: KeyboardEvent) => {
       if (!disabled && ['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', ' ', 'Home', 'End'].includes(e.key)) takeControl()
     }
+    let lastY = window.scrollY
+    let glide = 0
+    const glideTo = (top: number) => {
+      glide = window.setTimeout(() => { glide = 0 }, 900)
+      window.scrollTo({ top, behavior: 'smooth' })
+    }
     const onScroll = () => {
       if (disabled) return
       const y = window.scrollY
-      if (mode.current === 'auto' && Math.abs(y - expectedY.current) < 4) return
-      if (y > tl.current.total * PX_PER_SEC) {
-        // past the film: the page content takes over; hold the last frame
-        mode.current = 'scrub'
-        window.clearTimeout(idle.current)
-        const last = routeRef.current.length - 1
-        if (active.current !== last) switchTo(last, DURATION[routeRef.current[last]] - 0.1, false)
-        else vidAt(last)?.pause()
-        emit(last, DURATION[routeRef.current[last]], false)
-        return
+      const h = window.innerHeight
+      const down = y > lastY
+      lastY = y
+      // one scroll in the hero slides the whole film away and brings the next section up, and back
+      const nextEl = document.getElementById('weddings') as HTMLElement | null
+      const next = nextEl ? nextEl.getBoundingClientRect().top + y : h
+      if (!glide && y > 2 && y < next - 2) glideTo(down ? next : 0)
+      const last = routeRef.current.length - 1
+      if (y > h * 0.85) {
+        vidAt(active.current)?.pause()
+        emit(active.current, vidAt(active.current)?.currentTime ?? 0, false)
+      } else if (y < h * 0.5 && mode.current === 'auto' && !pausedRef.current && !reduced.current) {
+        const v = vidAt(active.current)
+        if (v && v.paused && !(active.current === last && v.currentTime >= (v.duration || DURATION[routeRef.current[last]]) - 0.15)) safePlay(v)
       }
-      if (mode.current === 'auto') takeControl()
-      const t = Math.min(tl.current.total - 0.05, Math.max(0, y / PX_PER_SEC))
-      const i = sceneAt(t)
-      const local = t - tl.current.starts[i]
-      if (i !== active.current) switchTo(i, local, false)
-      else { const v = vidAt(i); if (v) seek(v, local) }
-      emit(i, local, false)
     }
     window.addEventListener('wheel', onInput, { passive: true })
     window.addEventListener('touchstart', onInput, { passive: true })
@@ -205,11 +208,7 @@ export function Journey({ route, ready, paused, disabled, onState, jumpRef, onEn
           else { mode.current = 'scrub'; v.pause(); window.setTimeout(() => onEndRef.current?.(), 150) }
         }
         const j = active.current
-        const t = tl.current.starts[j] + (vidAt(j)?.currentTime ?? 0)
-        const y = Math.round(t * PX_PER_SEC)
-        expectedY.current = y
-        if (Math.abs(window.scrollY - y) > 1) window.scrollTo(0, y)
-        emit(j, t - tl.current.starts[j], true)
+        emit(j, vidAt(j)?.currentTime ?? 0, true)
       }
       raf = requestAnimationFrame(tick)
     }
@@ -232,7 +231,7 @@ export function Journey({ route, ready, paused, disabled, onState, jumpRef, onEn
 
   return (
     <>
-      <div aria-hidden style={{ height: `calc(${Math.ceil(timeline.total * PX_PER_SEC)}px + 100svh)` }} />
+      <div aria-hidden style={{ height: '100svh' }} />
       <div className="fixed inset-0 overflow-hidden bg-night" aria-hidden>
         {ALL_IDS.map((id) => (
           <video
