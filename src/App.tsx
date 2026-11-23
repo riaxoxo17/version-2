@@ -8,7 +8,7 @@ import { FullFilm, FullScreenButton, RotateIcon } from './components/FullFilm'
 import { PROPERTY, WEDDING } from './data/resort'
 import { Laurel, Logo } from './components/Logo'
 import { ContactPage, GalleryPage, HallsPage, PageShell, RoomsPage, type Page } from './components/Pages'
-import { CONTACT, DURATION, ROUTE, SCENES } from './data/journey'
+import { CONTACT, DURATION, ROUTE, SCENES, TITLE_OUT } from './data/journey'
 
 const FILM_END = ROUTE.reduce((t, id) => t + DURATION[id], 0) * PX_PER_SEC
 const SECTIONS: [string, string][] = [['weddings', 'Weddings'], ['stay', 'Rooms'], ['tents', 'Nature tents'], ['pool', 'The pool'], ['adventure', 'Adventure park'], ['packages', 'Day packages'], ['photo-zones', 'Photo zones'], ['visit', 'Visit']]
@@ -97,7 +97,8 @@ export default function App() {
   const d = DURATION[state.id]
   const isFirst = state.index === 0
   const isLast = state.index === route.length - 1
-  const lineOn = isFirst || isLast || (state.local > 0.6 && state.local < d - 0.9)
+  // the title shows while the drone flies in, then clears so the real gate sign takes over
+  const lineOn = state.id === 'arrival' ? state.local < TITLE_OUT : isFirst || isLast || (state.local > 0.6 && state.local < d - 0.9)
 
   const goTo = (id: string) => {
     const i = route.indexOf(id)
@@ -166,7 +167,7 @@ export default function App() {
           <FullScreenButton onClick={() => { setTurnHint(false); setFull(true) }} className="!py-1.5" />
         </div>
       )}
-      {full && <FullFilm film={{ title: 'Vimal Resort', srcs: route.map((id) => `${import.meta.env.BASE_URL}media/scenes/${id}-lg.mp4?v=2`), poster: `${import.meta.env.BASE_URL}media/scenes/${route[0]}-poster.webp` }} onClose={() => setFull(false)} />}
+      {full && <FullFilm film={{ title: 'Vimal Resort', srcs: route.map((id) => `${import.meta.env.BASE_URL}media/scenes/${id}-lg.mp4?v=3`), poster: `${import.meta.env.BASE_URL}media/scenes/${route[0]}-poster.webp` }} onClose={() => setFull(false)} />}
 
       {/* ───────────── into the resort cue ───────────── */}
       <button type="button" onClick={() => toSection('weddings')} tabIndex={isLast && !after ? 0 : -1}
