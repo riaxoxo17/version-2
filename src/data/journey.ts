@@ -42,7 +42,8 @@ export const SCENES: Record<string, Scene> = {
   finale: { id: 'finale', chapter: 'Visit', kicker: 'Vimal Resort & Entertainment Park', line: 'Your story begins at Vimal' },
 }
 
-export const ROUTE = ['arrival', 'gate', 'palms']
+// the opening film: arrival and the gate. The palm-path drone shot now closes the site (Visit section).
+export const ROUTE = ['arrival', 'gate']
 export const ALL_IDS = ROUTE
 
 export const DURATION: Record<string, number> = Object.fromEntries(Object.keys(SCENES).map((id) => [id, (durations as Record<string, number>)[id] ?? 6]))

@@ -203,7 +203,7 @@ export function Explore({ openPage, openRoom }: { openPage: (p: Page, anchor?: s
       {/* ─────────── VISIT ─────────── */}
       <section id="visit" aria-labelledby="visit-title" className="relative overflow-hidden">
         <div data-film className="relative min-h-svh overflow-hidden">
-          <div data-film-inner className="absolute inset-0"><SectionFilm {...clip('thank-you', visitSize)} /></div>
+          <div data-film-inner className="absolute inset-0"><SectionFilm {...filmSrc('palms', visitSize)} /></div>
           <div className="absolute inset-0 bg-night/65" />
           <div className="relative flex min-h-svh flex-col justify-center px-6 py-32 md:px-[6vw]">
             <p data-reveal className="label text-gold">Visit</p>

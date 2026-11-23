@@ -176,18 +176,29 @@ export default function App() {
       </button>
 
       {/* ───────────── header ───────────── */}
-      <header className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between px-6 py-6 transition-[opacity,background-color] duration-1000 md:px-10 md:py-8 ${after ? "bg-night/85 backdrop-blur-md md:py-6" : ""} ${loaded && !page ? 'opacity-100' : 'pointer-events-none opacity-0'}`}>
-        <button type="button" onClick={() => goTo('arrival')} className="block w-[92px] text-cream md:w-[110px]" aria-label="Vimal Resort: back to the start"><Logo title={false} /></button>
-        <nav aria-label="Main" className="flex items-center gap-6 md:gap-9">
-          {PAGES.map((p) => (
-            <button key={p} type="button" onClick={() => openPage(p)} className="label hidden text-cream/85 hover:text-gold md:inline">{PAGE_LABEL[p]}</button>
-          ))}
-          <button type="button" onClick={() => setMenu(true)} className="label flex items-center gap-3 text-cream" aria-expanded={menu} aria-controls="chapters">
-            Explore
-            <span aria-hidden className="flex w-6 flex-col gap-[5px]"><span className="h-px bg-cream" /><span className="h-px w-4 bg-cream" /></span>
+      {/* Explore on the left (it turns into Close in the same spot), logo in the middle, Contact us always on the right */}
+      <header className={`fixed inset-x-0 top-0 z-50 grid grid-cols-[1fr_auto_1fr] items-center gap-4 px-5 py-5 transition-[opacity,background-color] duration-1000 md:px-10 md:py-7 ${after && !menu ? "bg-night/85 backdrop-blur-md md:py-5" : ""} ${loaded && !page ? 'opacity-100' : 'pointer-events-none opacity-0'}`}>
+        <nav aria-label="Main" className="flex items-center gap-7 justify-self-start">
+          <button type="button" onClick={() => setMenu((m) => !m)} className="label flex items-center gap-3 text-cream hover:text-gold" aria-expanded={menu} aria-controls="chapters">
+            {menu
+              ? <span aria-hidden className="relative block h-4 w-6"><span className="absolute inset-x-0 top-1/2 h-px rotate-45 bg-current" /><span className="absolute inset-x-0 top-1/2 h-px -rotate-45 bg-current" /></span>
+              : <span aria-hidden className="flex w-6 flex-col gap-[5px]"><span className="h-px bg-current" /><span className="h-px w-4 bg-current" /></span>}
+            {menu ? 'Close' : 'Explore'}
           </button>
+          {!menu && PAGES.filter((p) => p !== 'contact').map((p) => (
+            <button key={p} type="button" onClick={() => openPage(p)} className="label hidden text-cream/85 hover:text-gold lg:inline">{PAGE_LABEL[p]}</button>
+          ))}
         </nav>
+        <button type="button" onClick={() => { setMenu(false); goTo('arrival') }} className="block w-[80px] justify-self-center text-cream md:w-[104px]" aria-label="Vimal Resort: back to the start"><Logo title={false} /></button>
+        <button type="button" onClick={() => openPage('contact')} className="label justify-self-end whitespace-nowrap border border-gold/70 px-3.5 py-2 text-[0.62rem] text-cream transition-colors hover:bg-gold hover:text-night md:px-5 md:py-2.5 md:text-[0.68rem]">Contact us</button>
       </header>
+
+      {/* a way to the contact page from every section and page */}
+      <button type="button" onClick={() => openPage('contact')} aria-label="Contact us"
+        className={`fixed bottom-5 right-5 z-[48] flex items-center gap-2.5 rounded-full bg-gold py-2.5 pl-3 pr-4 text-night shadow-[0_8px_30px_rgba(0,0,0,0.35)] transition-[opacity,transform] duration-500 hover:bg-cream md:bottom-8 md:right-8 ${(after || (page && page !== 'contact')) && !menu && !room ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-3 opacity-0'}`}>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" className="h-4 w-4" aria-hidden><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2" /></svg>
+        <span className="label text-[0.62rem]">Contact us</span>
+      </button>
 
       {/* ───────────── footer: progress ───────────── */}
       <footer className={`fixed inset-x-0 bottom-0 z-30 flex items-end justify-between gap-6 px-6 pb-6 transition-opacity duration-1000 md:px-10 md:pb-8 ${loaded && !isLast && !page && !after ? 'opacity-100' : 'pointer-events-none opacity-0'}`}>
@@ -204,7 +215,6 @@ export default function App() {
       {/* ───────────── explore menu ───────────── */}
       <div id="chapters" role="dialog" aria-modal="true" aria-label="Explore"
         className={`fixed inset-0 z-[45] overflow-y-auto bg-night/92 backdrop-blur-lg transition-opacity duration-700 ${menu ? 'opacity-100' : 'pointer-events-none opacity-0'}`}>
-        <button type="button" onClick={() => setMenu(false)} className="label absolute right-6 top-7 text-cream md:right-10 md:top-9" tabIndex={menu ? 0 : -1}>Close</button>
         <div className="grid min-h-full gap-12 px-8 py-24 md:grid-cols-2 md:px-[10vw]">
           <ol className="flex flex-col justify-center gap-0.5">
             <li className="label mb-4 text-[0.6rem] text-gold">The film</li>
