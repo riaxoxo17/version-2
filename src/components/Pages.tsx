@@ -8,7 +8,6 @@ import { SectionFilm } from './Explore'
 import { roomFilm } from './RoomFilm'
 import { useFilmSize } from '../lib/play'
 import { useBackToClose } from '../lib/backClose'
-import { Logo } from './Logo'
 
 const base = import.meta.env.BASE_URL
 export const img = (id: string, thumb = false) => `${base}media/g/${id}${thumb ? '-t' : ''}.webp`
@@ -38,10 +37,10 @@ export function PageShell({ page, onClose, children }: { page: Page | null; onCl
   return (
     <div ref={ref} role="dialog" aria-modal="true" aria-label={page ?? undefined}
       className={`fixed inset-0 z-40 overflow-y-auto overscroll-contain bg-night/[0.97] backdrop-blur-xl transition-[opacity,transform] duration-700 ease-[cubic-bezier(.22,1,.36,1)] ${page ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-6 opacity-0'}`}>
-      <div className="sticky top-0 z-10 flex items-center justify-between bg-gradient-to-b from-night to-night/0 px-6 py-6 md:px-10 md:py-8">
-        <button type="button" onClick={onClose} className="block w-[92px] text-cream md:w-[110px]" tabIndex={page ? 0 : -1} aria-label="Vimal Resort: back to the film"><Logo title={false} /></button>
-        <button ref={closeBtn} type="button" onClick={onClose} className="label flex items-center gap-3 text-cream/85 hover:text-gold" tabIndex={page ? 0 : -1}>
-          Back to the film <span aria-hidden className="text-base">×</span>
+      {/* the site header (Explore · logo · Contact us) stays on top of every page; this is the way back */}
+      <div className="px-6 pb-2 pt-[92px] md:px-10 md:pt-[118px]">
+        <button ref={closeBtn} type="button" onClick={onClose} className="label flex items-center gap-2 text-[0.62rem] text-cream/70 hover:text-gold" tabIndex={page ? 0 : -1}>
+          <span aria-hidden>←</span> Back to the resort
         </button>
       </div>
       {page && children}
@@ -225,7 +224,7 @@ export function HallsPage() {
 }
 
 /* ───────────────────────── gallery ───────────────────────── */
-const CATS = ['All', 'Videos', 'Rooms', 'Tents', 'Grounds', 'Pool', 'Adventure', 'Play', 'Celebrations', 'Food', 'Aerial']
+const CATS = ['All', 'Videos', 'Rooms', 'Tents', 'Grounds', 'Pool', 'Adventure', 'Play', 'Celebrations', 'Food', 'Aerial', 'Awards']
 
 export function Lightbox({ items, index, setIndex }: { items: GItem[]; index: number; setIndex: (f: number | null | ((o: number | null) => number | null)) => void }) {
   const n = items.length

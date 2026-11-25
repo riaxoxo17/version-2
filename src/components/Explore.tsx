@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { CLIPS, DAY, NEARBY, PHOTO_ZONES, PROPERTY, WEDDING } from '../data/resort'
+import { AWARDS, CLIPS, DAY, NEARBY, PHOTO_ZONES, PROPERTY, WEDDING } from '../data/resort'
 import { HALLS, ROOMS } from '../data/rooms'
 import { CONTACT, wa } from '../data/journey'
 import { Lightbox, byId, clip, galleryStart, type GItem, type Page } from './Pages'
@@ -190,6 +190,31 @@ export function Explore({ openPage, openRoom }: { openPage: (p: Page, anchor?: s
             </div>
           </div>
         </div>
+      </section>
+
+      {/* ─────────── AWARDS ─────────── */}
+      <section id="awards" aria-labelledby="awards-title" className="border-y border-gold/15 px-6 py-24 md:px-[6vw] md:py-32">
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <p data-reveal className="label inline-flex items-center gap-2.5 text-gold"><Laurel className="h-5 w-5 text-gold" /> Recognition</p>
+            <h2 id="awards-title" data-reveal className="font-display mt-5 text-5xl font-light leading-[0.95] md:text-[4.2vw]">Award-winning, <em>year after year.</em></h2>
+          </div>
+          <button data-reveal type="button" onClick={() => { galleryStart.cat = 'Awards'; openPage('photos') }} className="label border-b border-gold pb-1 text-gold">See the awards →</button>
+        </div>
+        <ol data-reveal className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {AWARDS.map((a) => (
+            <li key={a.title} className="flex flex-col border border-cream/15 bg-cream/[0.03]">
+              {a.photo
+                ? <button type="button" onClick={() => { galleryStart.cat = 'Awards'; openPage('photos') }} className="block aspect-[4/3] overflow-hidden bg-night" aria-label={`See the ${a.by} award`}><img src={img(a.photo, true)} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-[1200ms] hover:scale-105" /></button>
+                : <span aria-hidden className="grid aspect-[4/3] place-items-center bg-gold/[0.06]"><Laurel className="h-14 w-14 text-gold/70" /></span>}
+              <div className="flex flex-1 flex-col p-5">
+                <p className="font-display text-4xl text-gold">{a.year}</p>
+                <p className="mt-3 font-display text-xl leading-snug text-cream">{a.title}</p>
+                <p className="mt-3 text-xs leading-relaxed text-cream/55">{a.by}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
       </section>
 
       {/* ─────────── PHOTO ZONES ─────────── */}

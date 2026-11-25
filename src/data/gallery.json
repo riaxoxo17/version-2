@@ -1263,5 +1263,117 @@
 "caption": "Family Tent",
 "w": 2400,
 "h": 1600
+},
+{
+"id": "x00",
+"category": "Adventure",
+"caption": "The climbing tower and rope course from above",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "x01",
+"category": "Adventure",
+"caption": "Guests on the rope course",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "x02",
+"category": "Adventure",
+"caption": "The rope course from the air",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "x03",
+"category": "Aerial",
+"caption": "The pool and gardens from overhead",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "x04",
+"category": "Aerial",
+"caption": "The pool, plaza and rooms from overhead",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "x05",
+"category": "Aerial",
+"caption": "The resort beside the highway",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "x06",
+"category": "Aerial",
+"caption": "The pool among the trees",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "x07",
+"category": "Aerial",
+"caption": "The entrance, pool and room blocks",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "x08",
+"category": "Aerial",
+"caption": "The lawn and room blocks from above",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "x09",
+"category": "Aerial",
+"caption": "The resort among the fields and wind turbines",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "y10",
+"category": "Awards",
+"caption": "Karnataka Tourism Awards 2026: Best Wedding Venue",
+"w": 2400,
+"h": 1656
+},
+{
+"id": "y11",
+"category": "Awards",
+"caption": "Karnataka Tourism Awards 2026 medal",
+"w": 2040,
+"h": 2400
+},
+{
+"id": "y12",
+"category": "Awards",
+"caption": "India Business Awards 2025: Best Premier Luxury Resort, North Karnataka",
+"w": 1740,
+"h": 2400
+},
+{
+"id": "y13",
+"category": "Awards",
+"caption": "India Business Awards 2025 trophy",
+"w": 1198,
+"h": 2400
+},
+{
+"id": "y14",
+"category": "Awards",
+"caption": "India 5000 Best MSME Awards 2024: Quality Excellence",
+"w": 1656,
+"h": 2400
+},
+{
+"id": "y15",
+"category": "Awards",
+"caption": "India 5000 Best MSME Awards 2024 trophy",
+"w": 1355,
+"h": 2400
 }
 ]

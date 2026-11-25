@@ -11,7 +11,7 @@ import { ContactPage, GalleryPage, HallsPage, PageShell, RoomsPage, type Page } 
 import { CONTACT, DURATION, ROUTE, SCENES, TITLE_OUT } from './data/journey'
 
 const FILM_END = ROUTE.reduce((t, id) => t + DURATION[id], 0) * PX_PER_SEC
-const SECTIONS: [string, string][] = [['weddings', 'Weddings'], ['stay', 'Rooms & tents'], ['pool', 'The pool'], ['adventure', 'Adventure park'], ['packages', 'Day packages'], ['photo-zones', 'Photo zones'], ['visit', 'Visit']]
+const SECTIONS: [string, string][] = [['weddings', 'Weddings'], ['stay', 'Rooms & tents'], ['pool', 'The pool'], ['adventure', 'Adventure park'], ['packages', 'Day packages'], ['awards', 'Awards'], ['photo-zones', 'Photo zones'], ['visit', 'Visit']]
 
 const PAGES: Page[] = ['rooms', 'halls', 'photos', 'contact']
 const PAGE_LABEL: Record<Page, string> = { rooms: 'Rooms', halls: 'Halls', photos: 'Photos', contact: 'Contact' }
@@ -52,6 +52,7 @@ export default function App() {
   }, [])
   const openPage = (p: Page | null, anchor?: string) => {
     setMenu(false)
+    if (p) setRoom(null)
     setPage(p)
     if (p && anchor) window.setTimeout(() => document.getElementById(anchor)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 450)
   }
@@ -79,7 +80,7 @@ export default function App() {
     window.addEventListener('scroll', on, { passive: true })
     return () => window.removeEventListener('scroll', on)
   }, [])
-  const toSection = (id: string) => { setMenu(false); window.setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'auto' }), 50) }
+  const toSection = (id: string) => { setMenu(false); setPage(null); setRoom(null); window.setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'auto' }), 50) }
 
 
   useEffect(() => {
@@ -178,9 +179,9 @@ export default function App() {
 
       {/* ───────────── header ───────────── */}
       {/* Explore on the left (it turns into Close in the same spot), logo in the middle, Contact us always on the right */}
-      <header className={`fixed inset-x-0 top-0 z-50 grid grid-cols-[1fr_auto_1fr] items-center gap-4 px-5 py-5 transition-[opacity,background-color] duration-1000 md:px-10 md:py-7 ${after && !menu ? "bg-night/85 backdrop-blur-md md:py-5" : ""} ${loaded && !page ? 'opacity-100' : 'pointer-events-none opacity-0'}`}>
+      <header className={`fixed inset-x-0 top-0 z-[80] grid grid-cols-[1fr_auto_1fr] items-center gap-4 px-5 py-5 transition-[opacity,background-color] duration-1000 md:px-10 md:py-7 ${(after || page || room) && !menu ? "bg-night/85 backdrop-blur-md md:py-5" : ""} ${loaded ? 'opacity-100' : 'pointer-events-none opacity-0'}`}>
         <nav aria-label="Main" className="flex items-center gap-7 justify-self-start">
-          <button type="button" onClick={() => setMenu((m) => !m)} className="label flex items-center gap-3 text-cream hover:text-gold" aria-expanded={menu} aria-controls="chapters">
+          <button type="button" onClick={() => { setRoom(null); setMenu((m) => !m) }} className="label flex items-center gap-3 text-cream hover:text-gold" aria-expanded={menu} aria-controls="chapters">
             {menu
               ? <span aria-hidden className="relative block h-4 w-6"><span className="absolute inset-x-0 top-1/2 h-px rotate-45 bg-current" /><span className="absolute inset-x-0 top-1/2 h-px -rotate-45 bg-current" /></span>
               : <span aria-hidden className="flex w-6 flex-col gap-[5px]"><span className="h-px bg-current" /><span className="h-px w-4 bg-current" /></span>}
@@ -190,7 +191,7 @@ export default function App() {
             <button key={p} type="button" onClick={() => openPage(p)} className="label hidden text-cream/85 hover:text-gold lg:inline">{PAGE_LABEL[p]}</button>
           ))}
         </nav>
-        <button type="button" onClick={() => { setMenu(false); goTo('arrival') }} className="block w-[80px] justify-self-center text-cream md:w-[104px]" aria-label="Vimal Resort: back to the start"><Logo title={false} /></button>
+        <button type="button" onClick={() => { setMenu(false); setPage(null); setRoom(null); window.setTimeout(() => goTo('arrival'), 30) }} className="block w-[80px] justify-self-center text-cream md:w-[104px]" aria-label="Vimal Resort: back to the start"><Logo title={false} /></button>
         <button type="button" onClick={() => openPage('contact')} className="label justify-self-end whitespace-nowrap border border-gold/70 px-3.5 py-2 text-[0.62rem] text-cream transition-colors hover:bg-gold hover:text-night md:px-5 md:py-2.5 md:text-[0.68rem]">Contact us</button>
       </header>
 
@@ -215,13 +216,13 @@ export default function App() {
 
       {/* ───────────── explore menu ───────────── */}
       <div id="chapters" role="dialog" aria-modal="true" aria-label="Explore"
-        className={`fixed inset-0 z-[45] overflow-y-auto bg-night/92 backdrop-blur-lg transition-opacity duration-700 ${menu ? 'opacity-100' : 'pointer-events-none opacity-0'}`}>
+        className={`fixed inset-0 z-[78] overflow-y-auto bg-night/92 backdrop-blur-lg transition-opacity duration-700 ${menu ? 'opacity-100' : 'pointer-events-none opacity-0'}`}>
         <div className="grid min-h-full gap-12 px-8 py-24 md:grid-cols-2 md:px-[10vw]">
           <ol className="flex flex-col justify-center gap-0.5">
             <li className="label mb-4 text-[0.6rem] text-gold">The film</li>
             {route.map((id) => (
               <li key={id}>
-                <button type="button" tabIndex={menu ? 0 : -1} onClick={() => { setMenu(false); goTo(id) }}
+                <button type="button" tabIndex={menu ? 0 : -1} onClick={() => { setMenu(false); setPage(null); setRoom(null); goTo(id) }}
                   className={`group text-left font-display text-3xl font-light transition-colors md:text-[2.6rem] ${id === state.id ? 'text-gold' : 'text-cream/85 hover:text-cream'}`}>
                   <span className="inline-block transition-transform duration-500 group-hover:translate-x-2">{SCENES[id].chapter}</span>
                 </button>
