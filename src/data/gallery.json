@@ -623,7 +623,7 @@
 {
 "id": "q08",
 "category": "Celebrations",
-"caption": "Open-air courtyard set for a wedding",
+"caption": "The Courtyard Marriage Hall set for a wedding",
 "w": 2400,
 "h": 1350
 },
@@ -637,14 +637,14 @@
 {
 "id": "w00",
 "category": "Celebrations",
-"caption": "The open-roof wedding hall, set with gold chairs",
+"caption": "The Courtyard Marriage Hall, set with gold chairs",
 "w": 1800,
 "h": 2400
 },
 {
 "id": "w01",
 "category": "Celebrations",
-"caption": "Stage under the open-roof hall",
+"caption": "Stage in the Courtyard Marriage Hall",
 "w": 1800,
 "h": 2400
 },
@@ -707,14 +707,14 @@
 {
 "id": "w10",
 "category": "Celebrations",
-"caption": "Lawn stage under the pink canopy",
+"caption": "Lawn stage under the pink canopy, main lawn",
 "w": 1800,
 "h": 2400
 },
 {
 "id": "w11",
 "category": "Celebrations",
-"caption": "Pink canopy over the lawn seating",
+"caption": "Pink canopy over the lawn seating, main lawn",
 "w": 1800,
 "h": 2400
 },

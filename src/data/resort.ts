@@ -176,7 +176,7 @@ export const CLIPS: Clip[] = [
   { id: 'zip-tower', caption: 'The adventure tower', topic: 'Adventure' },
   { id: 'kids-play', caption: 'Kids’ play area', topic: 'Adventure' },
   { id: 'wedding-film', caption: 'The resort dressed for a wedding', topic: 'Celebrations' },
-  { id: 'wed-courtyard-stage', caption: 'The open-roof hall, set for a wedding', topic: 'Celebrations' },
+  { id: 'wed-courtyard-stage', caption: 'The Courtyard Marriage Hall, set for a wedding', topic: 'Celebrations' },
   { id: 'wed-stage-reveal', caption: 'From the stage to the whole hall', topic: 'Celebrations' },
   { id: 'wed-hall-stage', caption: 'The banquet hall stage', topic: 'Celebrations' },
   { id: 'wed-mandala-entry', caption: 'The mandala wall at the hall entrance', topic: 'Celebrations' },

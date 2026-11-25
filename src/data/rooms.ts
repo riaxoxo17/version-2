@@ -120,48 +120,48 @@ export const ROOMS: Space[] = [
 
 const EVENT_PRICE = { price: null, priceLabel: 'Event pricing', priceNote: 'Venue rates and seating capacities are confirmed by the resort.' }
 
+// Two wedding venues (client, 25 Nov): the main marriage hall with the big lawn in front, and the
+// smaller marriage hall in the new building's glass-roofed courtyard.
 export const HALLS: Space[] = [
   {
-    id: 'hall', name: 'Marriage Hall', kicker: 'Indoor ceremonies',
+    id: 'main-hall', name: 'Main Marriage Hall & Lawn', kicker: 'The grand venue',
     description:
-      'A grand hall under warm timber beams, with lights down the aisle and space for staging, décor and catering. Banquet halls alongside for receptions, parties and corporate events.',
+      'The main marriage hall, under warm timber beams with space for staging, décor and catering, opens onto a vast manicured lawn with pre-built mandap spaces for grand weddings under the open sky. Banquet halls alongside for receptions and parties.',
     facts: [
       { label: 'Marriage hall', value: '7,500 sq. ft.' },
+      { label: 'Lawn', value: '40,000 sq. ft. · 1,000+ guests' },
       { label: 'Banquet halls', value: '2,500 sq. ft.' },
-      { label: 'Services', value: 'Staging & custom catering' },
+      { label: 'Services', value: 'Mandap spaces · staging · catering' },
     ],
-    // w00–w15: the hall and lawn dressed for a wedding (client's Marriage folder, 20 Nov)
-    photos: ['w00', 'w01', 'w02', 'w03', 'w04', 'w05', 'w06', 'w07', 'w08', 'w09', 'w10', 'w11', 'w12', 'w13', 'w14', 'w15', 'n08', 'n09', 'q09', 'h00', 'h01', 'h02'],
+    photos: ['n08', 'n09', 'h00', 'h01', 'h02', 'n10', 'a04', 'w11', 'w10', 'w09', 'w08', 'w12', 'w13', 'w14', 'w15'],
     clips: [
-      { id: 'wed-courtyard-stage', caption: 'The open-roof hall, set for a wedding' },
-      { id: 'wed-stage-reveal', caption: 'From the stage to the whole hall' },
-      { id: 'wed-hall-stage', caption: 'The banquet hall stage' },
-      { id: 'wed-mandala-entry', caption: 'The mandala wall at the hall entrance' },
-      { id: 'wed-lawn-canopy', caption: 'Under the pink canopy on the lawn' },
-      { id: 'wed-lawn-seating', caption: 'Lawn seating under the canopy' },
-      { id: 'wed-mandala-wall', caption: 'Mandala wall and gramophone' },
-      { id: 'wed-garden-table', caption: 'Garden table under a pink umbrella' },
       { id: 'hall-drone', caption: 'The marriage hall and lawn from the air' },
       { id: 'banquet-hall', caption: 'Inside the hall, set for a celebration' },
-    ],
-    ...EVENT_PRICE, enquiry: 'the Marriage Hall or banquet halls',
-  },
-  {
-    id: 'lawn', name: 'Marriage Lawn', kicker: 'Open-air celebrations',
-    description:
-      'An expansive manicured lawn with pre-built mandap spaces, ringed by gardens and orchards, for grand Indian weddings under the open sky.',
-    facts: [
-      { label: 'Area', value: '40,000 sq. ft.' },
-      { label: 'Guests', value: '1,000+' },
-      { label: 'Mandap', value: 'Pre-built spaces' },
-    ],
-    photos: ['w11', 'w10', 'w09', 'w08', 'w12', 'w13', 'w14', 'w15', 'n10', 'a04', 'a01'],
-    clips: [
       { id: 'wed-lawn-canopy', caption: 'Under the pink canopy on the lawn' },
       { id: 'wed-lawn-seating', caption: 'Lawn seating under the canopy' },
       { id: 'wed-garden-table', caption: 'Garden table under a pink umbrella' },
     ],
-    ...EVENT_PRICE, enquiry: 'the Marriage Lawn',
+    ...EVENT_PRICE, enquiry: 'the Main Marriage Hall & Lawn',
+  },
+  {
+    id: 'courtyard-hall', name: 'Courtyard Marriage Hall', kicker: 'Intimate weddings',
+    description:
+      'A smaller marriage hall in the new building: rows of seating down the open courtyard under its arched glass roof, a stage at the far end, and the guest rooms of the Courtyard Suites on the galleries all around.',
+    facts: [
+      { label: 'Setting', value: 'Glass-roofed courtyard' },
+      { label: 'Size', value: 'Smaller, more intimate' },
+      { label: 'Stay', value: 'Courtyard Suites all around' },
+      { label: 'Services', value: 'Staging · décor · catering' },
+    ],
+    photos: ['w00', 'w01', 'q08', 'rn00', 'rn01', 'w03', 'w04', 'w05', 'w06', 'w07', 'w02', 'q09'],
+    clips: [
+      { id: 'wed-courtyard-stage', caption: 'The courtyard hall, set for a wedding' },
+      { id: 'wed-stage-reveal', caption: 'From the stage to the whole courtyard' },
+      { id: 'wed-hall-stage', caption: 'A stage with a temple-arch backdrop' },
+      { id: 'wed-mandala-entry', caption: 'The mandala wall at the entrance' },
+      { id: 'wed-mandala-wall', caption: 'Mandala wall and gramophone' },
+    ],
+    ...EVENT_PRICE, enquiry: 'the Courtyard Marriage Hall',
   },
 ]
 

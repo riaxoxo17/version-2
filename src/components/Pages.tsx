@@ -77,15 +77,19 @@ function FilmHero({ scene, kicker, title, sub }: { scene: string; kicker: string
 function SpaceCard({ s, index, onWalk }: { s: Space; index: number; onWalk?: (id: string) => void }) {
   const [shot, setShot] = useState(0)
   const [open, setOpen] = useState<number | null>(null)
+  // a room with a walk-in film shows it first; tapping any photo swaps the big frame to that photo
+  const hasFilm = !!(s.film && onWalk)
+  const [mode, setMode] = useState<'film' | 'photos'>(hasFilm ? 'film' : 'photos')
+  const [paused, setPaused] = useState(false)
   useEffect(() => {
-    if (s.photos.length < 2) return
+    if (s.photos.length < 2 || mode !== 'photos' || paused) return
     const t = window.setInterval(() => setShot((x) => (x + 1) % s.photos.length), 4500)
     return () => window.clearInterval(t)
-  }, [s.photos.length])
+  }, [s.photos.length, mode, paused])
   return (
     <article id={s.id} className="grid gap-8 border-t border-cream/10 py-14 md:grid-cols-12 md:gap-12 md:py-20">
       <div className={`md:col-span-7 ${index % 2 ? 'md:order-2' : ''}`}>
-        {s.film && onWalk ? (
+        {hasFilm && mode === 'film' && s.film && onWalk ? (
           <button type="button" onClick={() => onWalk(s.id)} className="group relative block aspect-[3/2] w-full overflow-hidden bg-cream/5" aria-label={`Walk inside the ${s.name}: full-screen film`}>
             <SectionFilm {...roomFilm(s.film)} />
             <span className="absolute inset-0 bg-gradient-to-t from-night/60 via-transparent to-transparent" />
@@ -110,6 +114,12 @@ function SpaceCard({ s, index, onWalk }: { s: Space; index: number; onWalk?: (id
         </button>
         )}
         <div className="mt-3 grid grid-cols-5 gap-2 sm:grid-cols-7">
+          {hasFilm && s.film && (
+            <button type="button" onClick={() => setMode('film')} aria-label="Show the walk-in film" className={`relative aspect-square overflow-hidden transition-opacity ${mode === 'film' ? 'opacity-100 ring-1 ring-gold' : 'opacity-70 hover:opacity-100'}`}>
+              <img src={roomFilm(s.film).poster} alt="" loading="lazy" className="h-full w-full object-cover" />
+              <span aria-hidden className="absolute inset-0 grid place-items-center bg-night/35 text-[0.55rem] uppercase tracking-[0.14em] text-gold">▶ Film</span>
+            </button>
+          )}
           {s.clips?.map((c, k) => (
             <button key={c.id} type="button" onClick={() => setOpen(s.photos.length + k)} aria-label={`Play film: ${c.caption}`} className="relative aspect-square overflow-hidden opacity-90 ring-1 ring-gold/60 transition-opacity hover:opacity-100">
               <img src={clip(c.id).poster} alt="" loading="lazy" className="h-full w-full object-cover" />
@@ -117,7 +127,7 @@ function SpaceCard({ s, index, onWalk }: { s: Space; index: number; onWalk?: (id
             </button>
           ))}
           {s.photos.map((p, i) => (
-            <button key={p} type="button" onClick={() => setShot(i)} aria-label={`Show photo ${i + 1}`} className={`aspect-square overflow-hidden transition-opacity ${i === shot ? 'opacity-100 ring-1 ring-gold' : 'opacity-50 hover:opacity-90'}`}>
+            <button key={p} type="button" onClick={() => { setMode('photos'); setShot(i); setPaused(true) }} aria-label={`Show photo ${i + 1}`} className={`aspect-square overflow-hidden transition-opacity ${mode === 'photos' && i === shot ? 'opacity-100 ring-1 ring-gold' : 'opacity-50 hover:opacity-90'}`}>
               <img src={img(p, true)} alt="" loading="lazy" className="h-full w-full object-cover" />
             </button>
           ))}
