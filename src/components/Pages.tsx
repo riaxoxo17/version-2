@@ -149,7 +149,7 @@ function SpaceCard({ s, index, onWalk }: { s: Space; index: number; onWalk?: (id
 export function RoomsPage({ onWalk }: { onWalk?: (id: string) => void }) {
   return (
     <div className="pb-24">
-      <FilmHero scene="stay" kicker={ROOM_COUNTS} title="Rooms & Tents" sub="Carved-wood heritage rooms, bright contemporary rooms on the garden, and canvas tents among the trees. Press play to walk inside each one." />
+      <FilmHero scene="stay" kicker={ROOM_COUNTS} title="Rooms & Tents" sub="Balcony and deluxe rooms on the garden, carved-wood heritage super deluxe rooms, courtyard suites in the new building, and canvas tents among the trees." />
       <nav aria-label="Room types" className="mx-auto flex max-w-6xl flex-wrap gap-x-8 gap-y-3 px-6 pt-10 md:px-10">
         {ROOMS.map((r) => <a key={r.id} href={`#rooms`} onClick={(e) => { e.preventDefault(); document.getElementById(r.id)?.scrollIntoView({ behavior: 'smooth' }) }} className="label text-cream/70 hover:text-gold">{r.name}</a>)}
       </nav>

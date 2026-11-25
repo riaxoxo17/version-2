@@ -51,7 +51,7 @@ export function RoomFilm({ id, onClose, onChange }: { id: string | null; onClose
       {/* top bar: room switcher + close */}
       <div className="absolute inset-x-0 top-0 flex items-center justify-between gap-2 px-3 py-4 md:gap-4 md:px-10 md:py-7">
         <nav aria-label="Room types" className="flex gap-1 overflow-x-auto">
-          {ROOMS.map((r) => (
+          {ROOMS.filter((r) => r.film).map((r) => (
             <button key={r.id} type="button" onClick={() => onChange(r.id)} aria-current={r.id === room.id}
               className={`label whitespace-nowrap border-b px-1.5 py-1.5 text-[0.6rem] transition-colors md:px-2 md:text-[0.68rem] ${r.id === room.id ? 'border-gold text-gold' : 'border-transparent text-cream/70 hover:text-cream'}`}>{r.name}</button>
           ))}

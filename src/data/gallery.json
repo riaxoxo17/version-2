@@ -766,5 +766,502 @@
 "caption": "The marriage hall and lawn, wide view",
 "w": 2400,
 "h": 1350
+},
+{
+"id": "ra00",
+"category": "Rooms",
+"caption": "Balcony Room",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "ra01",
+"category": "Rooms",
+"caption": "Balcony Room",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "ra02",
+"category": "Rooms",
+"caption": "Balcony Room",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "ra03",
+"category": "Rooms",
+"caption": "Balcony Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "ra04",
+"category": "Rooms",
+"caption": "Balcony Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "ra05",
+"category": "Rooms",
+"caption": "Balcony Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "ra06",
+"category": "Rooms",
+"caption": "Balcony Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "ra07",
+"category": "Rooms",
+"caption": "Balcony Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "ra08",
+"category": "Rooms",
+"caption": "Balcony Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "ra09",
+"category": "Rooms",
+"caption": "Balcony Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "ra10",
+"category": "Rooms",
+"caption": "Balcony Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "ra11",
+"category": "Rooms",
+"caption": "Balcony Room",
+"w": 1600,
+"h": 2400
+},
+{
+"id": "rb00",
+"category": "Rooms",
+"caption": "Deluxe Room",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rb01",
+"category": "Rooms",
+"caption": "Deluxe Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rb02",
+"category": "Rooms",
+"caption": "Deluxe Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rb03",
+"category": "Rooms",
+"caption": "Deluxe Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rb04",
+"category": "Rooms",
+"caption": "Deluxe Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rb05",
+"category": "Rooms",
+"caption": "Deluxe Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rb06",
+"category": "Rooms",
+"caption": "Deluxe Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rb07",
+"category": "Rooms",
+"caption": "Deluxe Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rb08",
+"category": "Rooms",
+"caption": "Deluxe Room",
+"w": 1600,
+"h": 2400
+},
+{
+"id": "rb09",
+"category": "Rooms",
+"caption": "Deluxe Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rc00",
+"category": "Rooms",
+"caption": "Super Deluxe Room",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rc01",
+"category": "Rooms",
+"caption": "Super Deluxe Room",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rc02",
+"category": "Rooms",
+"caption": "Super Deluxe Room",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rc03",
+"category": "Rooms",
+"caption": "Super Deluxe Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rc04",
+"category": "Rooms",
+"caption": "Super Deluxe Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rc05",
+"category": "Rooms",
+"caption": "Super Deluxe Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rc06",
+"category": "Rooms",
+"caption": "Super Deluxe Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rc07",
+"category": "Rooms",
+"caption": "Super Deluxe Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rc08",
+"category": "Rooms",
+"caption": "Super Deluxe Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rc09",
+"category": "Rooms",
+"caption": "Super Deluxe Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rc10",
+"category": "Rooms",
+"caption": "Super Deluxe Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rc11",
+"category": "Rooms",
+"caption": "Super Deluxe Room",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rd00",
+"category": "Rooms",
+"caption": "Super Deluxe Family Room",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rd01",
+"category": "Rooms",
+"caption": "Super Deluxe Family Room",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rd02",
+"category": "Rooms",
+"caption": "Super Deluxe Family Room",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rd03",
+"category": "Rooms",
+"caption": "Super Deluxe Family Room",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rd04",
+"category": "Rooms",
+"caption": "Super Deluxe Family Room",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rd05",
+"category": "Rooms",
+"caption": "Super Deluxe Family Room",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rd06",
+"category": "Rooms",
+"caption": "Super Deluxe Family Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rd07",
+"category": "Rooms",
+"caption": "Super Deluxe Family Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rd08",
+"category": "Rooms",
+"caption": "Super Deluxe Family Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rd09",
+"category": "Rooms",
+"caption": "Super Deluxe Family Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rd10",
+"category": "Rooms",
+"caption": "Super Deluxe Family Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rd11",
+"category": "Rooms",
+"caption": "Super Deluxe Family Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rd12",
+"category": "Rooms",
+"caption": "Super Deluxe Family Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rn00",
+"category": "Rooms",
+"caption": "Courtyard Suite",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rn01",
+"category": "Rooms",
+"caption": "Courtyard Suite",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rn02",
+"category": "Rooms",
+"caption": "Courtyard Suite",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rn03",
+"category": "Rooms",
+"caption": "Courtyard Suite",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rn04",
+"category": "Rooms",
+"caption": "Courtyard Suite",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rn05",
+"category": "Rooms",
+"caption": "Courtyard Suite",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rn06",
+"category": "Rooms",
+"caption": "Courtyard Suite",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rn07",
+"category": "Rooms",
+"caption": "Courtyard Suite",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rn08",
+"category": "Rooms",
+"caption": "Courtyard Suite",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rn09",
+"category": "Rooms",
+"caption": "Courtyard Suite",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rn10",
+"category": "Rooms",
+"caption": "Courtyard Suite",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rn11",
+"category": "Rooms",
+"caption": "Courtyard Suite",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "tn00",
+"category": "Tents",
+"caption": "Nature Tent",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "tn01",
+"category": "Tents",
+"caption": "Nature Tent",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "tn02",
+"category": "Tents",
+"caption": "Nature Tent",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "tn03",
+"category": "Tents",
+"caption": "Nature Tent",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "tn04",
+"category": "Tents",
+"caption": "Nature Tent",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "tf00",
+"category": "Tents",
+"caption": "Family Tent",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "tf01",
+"category": "Tents",
+"caption": "Family Tent",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "tf02",
+"category": "Tents",
+"caption": "Family Tent",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "tf03",
+"category": "Tents",
+"caption": "Family Tent",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "tf04",
+"category": "Tents",
+"caption": "Family Tent",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "tf05",
+"category": "Tents",
+"caption": "Family Tent",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "tf06",
+"category": "Tents",
+"caption": "Family Tent",
+"w": 2400,
+"h": 1600
 }
 ]

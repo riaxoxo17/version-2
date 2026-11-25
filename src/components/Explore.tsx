@@ -116,23 +116,18 @@ export function Explore({ openPage, openRoom }: { openPage: (p: Page, anchor?: s
 
       {/* ─────────── ROOMS ─────────── */}
       <FilmSection onFull={setFull} id="stay" film="stay" kicker={`${PROPERTY.facts[1].value} luxury rooms · 15 nature tents`} labelledBy="stay-title" title={<>Find your place <em className="text-cream/85">to unwind.</em></>}>
-        <div data-reveal className="mt-10 grid max-w-5xl gap-3 sm:grid-cols-3">
+        {/* every room type and both tents; a card with a walk-in film plays it, the others open their photos */}
+        <div data-reveal className="mt-8 grid max-w-6xl grid-cols-2 gap-2.5 sm:grid-cols-4 md:gap-3">
           {ROOMS.map((r) => (
-            <button key={r.id} type="button" onClick={() => openRoom(r.id)} className="group relative flex items-center overflow-hidden border border-cream/20 bg-night/40 text-left backdrop-blur-md transition-colors hover:border-gold sm:block">
-              <span className="block h-20 w-28 shrink-0 overflow-hidden sm:aspect-[16/9] sm:h-auto sm:w-full"><img src={img(r.photos[0], true)} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-105" /></span>
-              <span className="flex min-w-0 flex-1 items-center justify-between gap-3 px-4 py-3.5">
-                <span><span className="font-display block text-2xl">{r.name}</span><span className="label block text-[0.58rem] text-cream/60">Walk inside · film</span></span>
-                <span aria-hidden className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-gold/70 text-[0.6rem] text-gold transition-colors group-hover:bg-gold group-hover:text-night">▶</span>
+            <button key={r.id} type="button" onClick={() => (r.film ? openRoom(r.id) : openPage('rooms', r.id))} className="group relative overflow-hidden border border-cream/20 bg-night/40 text-left backdrop-blur-md transition-colors hover:border-gold">
+              <span className="block aspect-[4/3] overflow-hidden"><img src={img(r.photos[0], true)} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-105" /></span>
+              <span className="flex items-center justify-between gap-2 px-3 py-2.5 md:px-4 md:py-3">
+                <span className="min-w-0"><span className="font-display block text-lg leading-tight md:text-xl">{r.name}</span><span className="label block truncate text-[0.55rem] text-cream/60">{r.kicker} · {r.film ? 'Walk inside' : `${r.photos.length} photos`}</span></span>
+                <span aria-hidden className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-gold/70 text-[0.55rem] text-gold transition-colors group-hover:bg-gold group-hover:text-night">{r.film ? '▶' : '→'}</span>
               </span>
             </button>
           ))}
         </div>
-      </FilmSection>
-
-      {/* ─────────── TENTS ─────────── */}
-      <FilmSection onFull={setFull} id="tents" film="tents" kicker="15 nature tents" labelledBy="tents-title" title={<>Sleep beneath <em className="text-cream/85">the trees.</em></>}>
-        <p data-reveal className="mt-6 max-w-lg text-cream/80">Scalloped canvas cottages on the lawn, with hand-printed interiors and private steps, made for families and groups.</p>
-        <button data-reveal type="button" onClick={() => openRoom('tent')} className="label mt-8 inline-flex items-center gap-3 bg-gold px-6 py-4 text-night hover:bg-cream">▶ Walk into a tent</button>
       </FilmSection>
 
       {/* ─────────── POOL ─────────── */}

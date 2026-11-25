@@ -11,7 +11,7 @@ import { ContactPage, GalleryPage, HallsPage, PageShell, RoomsPage, type Page } 
 import { CONTACT, DURATION, ROUTE, SCENES, TITLE_OUT } from './data/journey'
 
 const FILM_END = ROUTE.reduce((t, id) => t + DURATION[id], 0) * PX_PER_SEC
-const SECTIONS: [string, string][] = [['weddings', 'Weddings'], ['stay', 'Rooms'], ['tents', 'Nature tents'], ['pool', 'The pool'], ['adventure', 'Adventure park'], ['packages', 'Day packages'], ['photo-zones', 'Photo zones'], ['visit', 'Visit']]
+const SECTIONS: [string, string][] = [['weddings', 'Weddings'], ['stay', 'Rooms & tents'], ['pool', 'The pool'], ['adventure', 'Adventure park'], ['packages', 'Day packages'], ['photo-zones', 'Photo zones'], ['visit', 'Visit']]
 
 const PAGES: Page[] = ['rooms', 'halls', 'photos', 'contact']
 const PAGE_LABEL: Record<Page, string> = { rooms: 'Rooms', halls: 'Halls', photos: 'Photos', contact: 'Contact' }
@@ -167,7 +167,7 @@ export default function App() {
           <FullScreenButton onClick={() => { setTurnHint(false); setFull(true) }} className="!py-1.5" />
         </div>
       )}
-      {full && <FullFilm film={{ title: 'Vimal Resort', srcs: route.map((id) => `${import.meta.env.BASE_URL}media/scenes/${id}-lg.mp4?v=5`), poster: `${import.meta.env.BASE_URL}media/scenes/${route[0]}-poster.webp` }} onClose={() => setFull(false)} />}
+      {full && <FullFilm film={{ title: 'Vimal Resort', srcs: route.map((id) => `${import.meta.env.BASE_URL}media/scenes/${id}-lg.mp4?v=6`), poster: `${import.meta.env.BASE_URL}media/scenes/${route[0]}-poster.webp` }} onClose={() => setFull(false)} />}
 
       {/* ───────────── into the resort cue ───────────── */}
       <button type="button" onClick={() => toSection('weddings')} tabIndex={isLast && !after ? 0 : -1}
