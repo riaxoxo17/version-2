@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { ALL_IDS, DURATION } from '../data/journey'
+import { filmSize, prepVideo, safePlay, unwait, useFilmSize } from '../lib/play'
 
 /**
  * The whole site is one film. It plays on its own; scrolling moves the camera
@@ -10,11 +11,15 @@ import { ALL_IDS, DURATION } from '../data/journey'
  * The route (scene order) can change at the fork without moving the playhead,
  * because every scene before the fork keeps its place.
  */
-export const PX_PER_SEC = 120
-const IDLE_RESUME_MS = 1700
+/**
+ * The opening film is no longer driven by the scroll: it plays by itself in a one-screen
+ * hero, and scrolling simply slides the page on to Weddings (and back). Kept as 0 so the
+ * page's film-length maths (FILM_END) collapses to the hero.
+ */
+export const PX_PER_SEC = 0
 const base = import.meta.env.BASE_URL
-const src = (id: string, size: 'lg' | 'sm') => `${base}media/scenes/${id}-${size}.mp4?v=2`
-const poster = (id: string) => `${base}media/scenes/${id}-poster.webp?v=2`
+const src = (id: string, size: string) => `${base}media/scenes/${id}-${size}.mp4?v=6`
+const poster = (id: string) => `${base}media/scenes/${id}-poster.webp?v=6`
 
 export interface JourneyState {
   index: number
@@ -54,20 +59,28 @@ export function Journey({ route, ready, paused, disabled, onState, jumpRef, onEn
   const activeIdRef = useRef(route[0])
   const active = useRef(0)
   const mode = useRef<'auto' | 'scrub'>('auto')
-  const expectedY = useRef(0)
-  const idle = useRef(0)
   const pending = useRef<number | null>(null)
   const pausedRef = useRef(paused || disabled)
   const reduced = useRef(typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches)
-  const size = useRef<'lg' | 'sm'>(typeof window !== 'undefined' && window.innerWidth < 900 ? 'sm' : 'lg')
+  // turning the phone swaps in the matching film (tall or widescreen) at the same moment
+  const sizeNow = useFilmSize()
+  const size = useRef(filmSize())
+  const resume = useRef<{ id: string; t: number; play: boolean } | null>(null)
+  if (sizeNow !== size.current) {
+    const v = vids.current[activeIdRef.current]
+    resume.current = { id: activeIdRef.current, t: v?.currentTime ?? 0, play: !!v && !v.paused }
+    size.current = sizeNow
+  }
+  const onMeta = (id: string, v: HTMLVideoElement) => {
+    const r = resume.current
+    if (!r || r.id !== id) return
+    resume.current = null
+    v.currentTime = r.t
+    if (r.play) safePlay(v)
+  }
   const readyFired = useRef(false)
   const last = useRef({ index: -1, local: -1, playing: false })
 
-  const sceneAt = (t: number) => {
-    const s = tl.current.starts
-    for (let i = s.length - 1; i >= 0; i--) if (t >= s[i]) return i
-    return 0
-  }
   const vidAt = (i: number) => vids.current[routeRef.current[i]]
 
   const emit = useCallback((index: number, local: number, playing: boolean) => {
@@ -93,28 +106,23 @@ export function Journey({ route, ready, paused, disabled, onState, jumpRef, onEn
       Object.entries(vids.current).forEach(([k, o]) => { if (o && k !== id) window.setTimeout(() => activeIdRef.current !== k && o.pause(), 900) })
     }
     seek(v, Math.max(0, Math.min(local, (v.duration || DURATION[id]) - 0.05)))
-    if (play) v.play().catch(() => {})
-    else v.pause()
+    if (play) safePlay(v)
+    else { unwait(v); v.pause() }
   }, [])
 
-  const pastFilm = () => window.scrollY > tl.current.total * PX_PER_SEC - 2
+  // the film is out of view once the hero has mostly scrolled away
+  const pastFilm = () => window.scrollY > window.innerHeight * 0.85
   const goAuto = useCallback(() => {
     if (pausedRef.current || reduced.current || pastFilm()) return
     mode.current = 'auto'
-    vidAt(active.current)?.play().catch(() => {})
+    safePlay(vidAt(active.current))
   }, [])
 
-  const takeControl = useCallback(() => {
-    if (mode.current === 'auto') { mode.current = 'scrub'; vidAt(active.current)?.pause() }
-    window.clearTimeout(idle.current)
-    if (!pausedRef.current) idle.current = window.setTimeout(goAuto, IDLE_RESUME_MS)
-  }, [goAuto])
+  const takeControl = useCallback(() => {}, [])
 
   useEffect(() => {
     jumpRef.current = (i: number) => {
-      const y = tl.current.starts[i] * PX_PER_SEC + 1
-      expectedY.current = y
-      window.scrollTo({ top: y, behavior: 'auto' })
+      window.scrollTo({ top: 0, behavior: 'auto' })
       const play = !pausedRef.current && !reduced.current
       switchTo(i, 0, play)
       mode.current = play ? 'auto' : 'scrub'
@@ -133,27 +141,30 @@ export function Journey({ route, ready, paused, disabled, onState, jumpRef, onEn
     const onKey = (e: KeyboardEvent) => {
       if (!disabled && ['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', ' ', 'Home', 'End'].includes(e.key)) takeControl()
     }
+    let lastY = window.scrollY
+    let glide = 0
+    const glideTo = (top: number) => {
+      glide = window.setTimeout(() => { glide = 0 }, 900)
+      window.scrollTo({ top, behavior: 'smooth' })
+    }
     const onScroll = () => {
       if (disabled) return
       const y = window.scrollY
-      if (mode.current === 'auto' && Math.abs(y - expectedY.current) < 4) return
-      if (y > tl.current.total * PX_PER_SEC) {
-        // past the film: the page content takes over; hold the last frame
-        mode.current = 'scrub'
-        window.clearTimeout(idle.current)
-        const last = routeRef.current.length - 1
-        if (active.current !== last) switchTo(last, DURATION[routeRef.current[last]] - 0.1, false)
-        else vidAt(last)?.pause()
-        emit(last, DURATION[routeRef.current[last]], false)
-        return
+      const h = window.innerHeight
+      const down = y > lastY
+      lastY = y
+      // one scroll in the hero slides the whole film away and brings the next section up, and back
+      const nextEl = document.getElementById('weddings') as HTMLElement | null
+      const next = nextEl ? nextEl.getBoundingClientRect().top + y : h
+      if (!glide && y > 2 && y < next - 2) glideTo(down ? next : 0)
+      const last = routeRef.current.length - 1
+      if (y > h * 0.85) {
+        vidAt(active.current)?.pause()
+        emit(active.current, vidAt(active.current)?.currentTime ?? 0, false)
+      } else if (y < h * 0.5 && mode.current === 'auto' && !pausedRef.current && !reduced.current) {
+        const v = vidAt(active.current)
+        if (v && v.paused && !(active.current === last && v.currentTime >= (v.duration || DURATION[routeRef.current[last]]) - 0.15)) safePlay(v)
       }
-      if (mode.current === 'auto') takeControl()
-      const t = Math.min(tl.current.total - 0.05, Math.max(0, y / PX_PER_SEC))
-      const i = sceneAt(t)
-      const local = t - tl.current.starts[i]
-      if (i !== active.current) switchTo(i, local, false)
-      else { const v = vidAt(i); if (v) seek(v, local) }
-      emit(i, local, false)
     }
     window.addEventListener('wheel', onInput, { passive: true })
     window.addEventListener('touchstart', onInput, { passive: true })
@@ -189,11 +200,7 @@ export function Journey({ route, ready, paused, disabled, onState, jumpRef, onEn
           else { mode.current = 'scrub'; v.pause(); window.setTimeout(() => onEndRef.current?.(), 150) }
         }
         const j = active.current
-        const t = tl.current.starts[j] + (vidAt(j)?.currentTime ?? 0)
-        const y = Math.round(t * PX_PER_SEC)
-        expectedY.current = y
-        if (Math.abs(window.scrollY - y) > 1) window.scrollTo(0, y)
-        emit(j, t - tl.current.starts[j], true)
+        emit(j, vidAt(j)?.currentTime ?? 0, true)
       }
       raf = requestAnimationFrame(tick)
     }
@@ -207,7 +214,7 @@ export function Journey({ route, ready, paused, disabled, onState, jumpRef, onEn
     window.scrollTo(0, 0)
     ready()
     if (reduced.current) { mode.current = 'scrub'; return }
-    window.setTimeout(() => { mode.current = 'auto'; vidAt(0)?.play().catch(() => {}) }, 900)
+    window.setTimeout(() => { mode.current = 'auto'; safePlay(vidAt(0)) }, 900)
   }
   useEffect(() => { const t = window.setTimeout(onFirstReady, 6000); return () => window.clearTimeout(t) })
 
@@ -216,18 +223,19 @@ export function Journey({ route, ready, paused, disabled, onState, jumpRef, onEn
 
   return (
     <>
-      <div aria-hidden style={{ height: `calc(${Math.ceil(timeline.total * PX_PER_SEC)}px + 100svh)` }} />
+      <div aria-hidden style={{ height: '100svh' }} />
       <div className="fixed inset-0 overflow-hidden bg-night" aria-hidden>
         {ALL_IDS.map((id) => (
           <video
             key={id}
-            ref={(el) => { vids.current[id] = el }}
+            ref={(el) => { vids.current[id] = el; prepVideo(el) }}
             src={src(id, size.current)}
             poster={poster(id)}
             muted
             playsInline
             preload={near.has(id) ? 'auto' : 'none'}
             onCanPlay={id === route[0] ? onFirstReady : undefined}
+            onLoadedMetadata={(e) => onMeta(id, e.currentTarget)}
             className={`absolute inset-0 h-full w-full object-cover transition-[opacity,transform,filter] duration-[1100ms] ease-[cubic-bezier(.65,0,.35,1)] ${id === activeId ? 'scale-100 opacity-100 blur-0' : 'scale-[1.06] opacity-0 blur-[2px]'}`}
           />
         ))}

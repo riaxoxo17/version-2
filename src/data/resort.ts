@@ -5,7 +5,7 @@
  */
 export const PROPERTY = {
   name: 'Vimal Resort & Entertainment Park',
-  kannadaName: 'ವಿಮಲ್ ರೆಸಾರ್ಟ್',
+  kannadaName: 'ವಿಮಲ ರೆಸಾರ್ಟ್', // as written on the resort's own gate sign
   tagline: 'Where every journey becomes a memory',
   facts: [
     { value: '23', unit: 'acres', label: 'of gardens & orchards' },
@@ -23,13 +23,20 @@ export const PROPERTY = {
   ],
 }
 
+/** Driving distance from the resort by road (Google Maps, driving route), nearest first. */
 export const NEARBY = [
-  { place: 'Lakkundi Temples', km: '10 km' },
-  { place: 'Gadag town', km: '11 km' },
-  { place: 'Basaveshwara Statue', km: '12 km' },
-  { place: 'Magadi Bird Sanctuary', km: '30 km' },
-  { place: 'Badami', km: '77 km' },
-  { place: 'Hampi', km: '120 km' },
+  { place: 'Jala Shankar Temple', km: '7 km' },
+  { place: 'Gadag Zoo', km: '12 km' },
+  { place: 'Gadag town', km: '14 km' },
+  { place: 'Basaveshwara Statue', km: '15 km' },
+  { place: 'Gadag Railway Station', km: '16 km' },
+  { place: 'Magadi Bird Sanctuary', km: '20 km' },
+  { place: 'Lakkundi Temples', km: '24 km' },
+  { place: 'Kappatagudda', km: '29 km' },
+  { place: 'Hubli Airport', km: '75 km' },
+  { place: 'Badami', km: '85 km' },
+  { place: 'Hampi', km: '119 km' },
+  { place: 'Belgaum Airport', km: '179 km' },
 ]
 
 /** Day packages: published reference prices (MapX tour). */
@@ -123,4 +130,89 @@ export const ZONES: Zone[] = [
     details: ['Photo: a drone view from above the resort, not the view from the tower itself.'],
     photos: ['a01'],
   },
+]
+
+/**
+ * Destination weddings. Source for the award and the figures: the resort's own
+ * Instagram post (@vimalresort): "recognised as the Best Destination Wedding
+ * Venue in Karnataka at the Karnataka Tourism Awards".
+ * awardPhoto: set to a gallery id once the award photo is supplied.
+ */
+export const WEDDING = {
+  // wording as on the certificate (Awards folder, IMG_1781)
+  award: 'Best Wedding Venue',
+  awardBy: 'Karnataka Tourism Awards 2026',
+  awardPhoto: 'y10' as string | null,
+  facts: [
+    { value: '2', label: 'fully air-conditioned halls' },
+    { value: '4,000+', label: 'floating capacity' },
+    { value: '600+', label: 'guests can stay over' },
+    { value: '40,000', label: 'sq. ft. open-sky lawn' },
+  ],
+  photos: ['q08', 'q09', 'n09', 'n10'],
+}
+
+/** Short films from the resort's own phone footage (media/clips/<id>-lg.mp4). */
+/** topic: also list the film under that photo category (e.g. Adventure) */
+export interface Clip { id: string; caption: string; topic?: string }
+export const CLIPS: Clip[] = [
+  { id: 'gate-dusk', caption: 'The Vimal Resort gateway at dusk' },
+  { id: 'gate-sign', caption: 'The gateway sign, lit up' },
+  { id: 'heart-lights', caption: 'The heart of lights by the gate' },
+  { id: 'entrance-wide', caption: 'Arriving at the entrance' },
+  { id: 'entrance-plaza', caption: 'The entrance plaza: topiary and cart wheels' },
+  { id: 'light-tunnel', caption: 'The light tunnel and rain curtain' },
+  { id: 'palm-path', caption: 'Under the palms' },
+  { id: 'garden-path', caption: 'Garden pathway' },
+  { id: 'sculpture-garden', caption: 'The sculpture garden' },
+  { id: 'pool-sunset', caption: 'The pool at sunset' },
+  { id: 'pool-dusk', caption: 'The pool at dusk' },
+  { id: 'adventure-drone', caption: 'The adventure park from the air', topic: 'Adventure' },
+  { id: 'tower-drone', caption: 'Around the climbing tower', topic: 'Adventure' },
+  { id: 'rope-course', caption: 'The rope course and climbing towers', topic: 'Adventure' },
+  { id: 'zipline', caption: 'Sky cycling above the adventure park', topic: 'Adventure' },
+  { id: 'sky-cycling-3', caption: 'Sky cycling over the trees', topic: 'Adventure' },
+  { id: 'sky-cycling-4', caption: 'Sky cycling past the tyre wall', topic: 'Adventure' },
+  { id: 'zipline-2', caption: 'Sky cycling', topic: 'Adventure' },
+  { id: 'zip-tower', caption: 'The adventure tower', topic: 'Adventure' },
+  { id: 'kids-play', caption: 'Kids’ play area', topic: 'Adventure' },
+  { id: 'wedding-film', caption: 'The resort dressed for a wedding', topic: 'Celebrations' },
+  { id: 'wed-courtyard-stage', caption: 'The Courtyard Marriage Hall, set for a wedding', topic: 'Celebrations' },
+  { id: 'wed-stage-reveal', caption: 'From the stage to the whole hall', topic: 'Celebrations' },
+  { id: 'wed-hall-stage', caption: 'The banquet hall stage', topic: 'Celebrations' },
+  { id: 'wed-mandala-entry', caption: 'The mandala wall at the hall entrance', topic: 'Celebrations' },
+  { id: 'wed-mandala-wall', caption: 'Mandala wall and gramophone', topic: 'Celebrations' },
+  { id: 'wed-lawn-canopy', caption: 'Under the pink canopy on the lawn', topic: 'Celebrations' },
+  { id: 'wed-lawn-seating', caption: 'Lawn seating under the canopy', topic: 'Celebrations' },
+  { id: 'wed-garden-table', caption: 'Garden table under a pink umbrella', topic: 'Celebrations' },
+  { id: 'banquet-walk', caption: 'Walking into the banquet hall' },
+  { id: 'hall-drone', caption: 'The marriage hall and lawn from the air' },
+  { id: 'banquet-hall', caption: 'Banquet hall, set for a celebration' },
+  { id: 'thank-you', caption: 'Thank you, visit again' },
+]
+
+/** Spots made for pictures. A zone shows a short film (clip) or a photo (gallery id). */
+export interface PhotoZone { id: string; name: string; note: string; clip?: string; photo?: string }
+export const PHOTO_ZONES: PhotoZone[] = [
+  { id: 'heart', name: 'The heart of lights', note: 'A heart of fairy lights beside the gate, glowing from dusk.', clip: 'heart-lights' },
+  { id: 'gateway', name: 'The Vimal Resort gateway', note: 'The lit sign at dusk is the classic arrival photo.', clip: 'gate-dusk' },
+  { id: 'tunnel', name: 'The light tunnel', note: 'A vine-covered arch of lights with a rain curtain at its heart.', clip: 'light-tunnel' },
+  { id: 'fountain', name: 'Fountain plaza', note: 'The white statue fountain on its patterned stone circle.', photo: 'p30' },
+  { id: 'sculpture', name: 'Sculpture garden', note: 'Flowering trees around a white sculpture, best at golden hour.', clip: 'sculpture-garden' },
+  { id: 'plaza', name: 'Entrance plaza', note: 'Topiary in the round, framed by the cart-wheel walls.', clip: 'entrance-plaza' },
+  { id: 'wheel', name: 'Cart-wheel wall', note: 'Stone, greenery and a painted wheel, softly lit in the evening.', photo: 'q00' },
+  { id: 'palms', name: 'Palm pathway', note: 'A long, lamp-lit walk beneath the coconut palms.', photo: 'q01' },
+  { id: 'greenery', name: 'The orchards', note: 'Shade, grass and 1,500+ trees: mango, sapota, guava and teak.', photo: 'p20' },
+  { id: 'garden-path', name: 'Garden pathway', note: 'A winding red-brick path through the trees.', clip: 'garden-path' },
+]
+
+/**
+ * Awards, as written on the certificates in the client's Awards folder (Drive, 25 Nov).
+ * photo: gallery id (category Awards). The JITO plaque (title sponsorship) is a thank-you, not an award, so it is left out.
+ */
+export const AWARDS = [
+  { year: '2026', title: 'Best Wedding Venue', by: 'Karnataka Tourism Awards, Department of Tourism, Government of Karnataka & Karnataka Tourism Society', photo: 'y10' },
+  { year: '2025', title: 'Best Premier Luxury Resort for Destination Weddings, Adventure & Corporate Events in North Karnataka', by: 'India Business Awards 2025', photo: 'y12' },
+  { year: '2024', title: 'Best MSME Award for Quality Excellence', by: 'India 5000 Best MSME Awards', photo: 'y14' },
+  { year: '2023', title: 'Shreshta Udyami Prashasti (Best Entrepreneur), to founder Shri Bhushan Prakash Shah', by: 'Gadag Utsav 2023, Gadag District Chamber of Commerce & Industry', photo: null },
 ]

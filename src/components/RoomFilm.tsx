@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { ROOMS } from '../data/rooms'
+import { prepVideo, safePlay } from '../lib/play'
 import { wa } from '../data/journey'
 import { Lightbox, byId, img, type GItem } from './Pages'
 
@@ -28,7 +29,7 @@ export function RoomFilm({ id, onClose, onChange }: { id: string | null; onClose
     setProgress(0); setInfo(true); setShot(null); box.current?.scrollTo(0, 0)
     close.current?.focus({ preventScroll: true })
     const el = v.current
-    if (el) { el.currentTime = 0; el.play().catch(() => {}) }
+    if (el) { prepVideo(el); el.currentTime = 0; safePlay(el) }
     const k = (e: KeyboardEvent) => e.key === 'Escape' && !document.querySelector('[data-lightbox]') && onClose()
     window.addEventListener('keydown', k)
     document.documentElement.style.overflow = 'hidden'
@@ -45,12 +46,12 @@ export function RoomFilm({ id, onClose, onChange }: { id: string | null; onClose
         className="absolute inset-0 h-full w-full object-cover" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_50%,rgba(12,10,8,0.55)_100%)]" />
       <div className={`pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-night/90 via-night/40 to-transparent transition-opacity duration-700 ${info ? 'opacity-100' : 'opacity-0'}`} />
-      <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-night/70 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-52 bg-gradient-to-b from-night/75 to-transparent" />
 
       {/* top bar: room switcher + close */}
-      <div className="absolute inset-x-0 top-0 flex items-center justify-between gap-2 px-3 py-4 md:gap-4 md:px-10 md:py-7">
+      <div className="absolute inset-x-0 top-[76px] flex items-center justify-between gap-2 px-3 py-2 md:top-[96px] md:gap-4 md:px-10 md:py-3">
         <nav aria-label="Room types" className="flex gap-1 overflow-x-auto">
-          {ROOMS.map((r) => (
+          {ROOMS.filter((r) => r.film).map((r) => (
             <button key={r.id} type="button" onClick={() => onChange(r.id)} aria-current={r.id === room.id}
               className={`label whitespace-nowrap border-b px-1.5 py-1.5 text-[0.6rem] transition-colors md:px-2 md:text-[0.68rem] ${r.id === room.id ? 'border-gold text-gold' : 'border-transparent text-cream/70 hover:text-cream'}`}>{r.name}</button>
           ))}

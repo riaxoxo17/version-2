@@ -475,8 +475,78 @@
 },
 {
 "id": "a03",
-"category": "Aerial",
+"category": "Adventure",
 "caption": "The climbing tower",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "m00",
+"category": "Adventure",
+"caption": "The rope course and its towers",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "m01",
+"category": "Adventure",
+"caption": "The tyre-wall climbing tower",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "m02",
+"category": "Adventure",
+"caption": "Sky cycling past the tyre wall",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "m03",
+"category": "Adventure",
+"caption": "Sky cycling over the trees",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "m04",
+"category": "Adventure",
+"caption": "Sky cycling, side by side",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "m05",
+"category": "Adventure",
+"caption": "Children's play area",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "m06",
+"category": "Adventure",
+"caption": "The climbing tower from above",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "m07",
+"category": "Adventure",
+"caption": "On the climbing tower",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "m08",
+"category": "Adventure",
+"caption": "Play area and adventure park",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "m09",
+"category": "Adventure",
+"caption": "The adventure park, pool and rooms",
 "w": 2400,
 "h": 1350
 },
@@ -493,5 +563,817 @@
 "caption": "The pool",
 "w": 2400,
 "h": 1350
+},
+{
+"id": "q00",
+"category": "Grounds",
+"caption": "Cart-wheel wall at the entrance, at dusk",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "q01",
+"category": "Grounds",
+"caption": "Palm-lined pathway at dusk",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "q02",
+"category": "Rooms",
+"caption": "The new room block",
+"w": 1448,
+"h": 1086
+},
+{
+"id": "q03",
+"category": "Rooms",
+"caption": "Contemporary room",
+"w": 1600,
+"h": 721
+},
+{
+"id": "q04",
+"category": "Rooms",
+"caption": "Contemporary twin room",
+"w": 1600,
+"h": 721
+},
+{
+"id": "q05",
+"category": "Rooms",
+"caption": "Contemporary room",
+"w": 1600,
+"h": 721
+},
+{
+"id": "q06",
+"category": "Rooms",
+"caption": "Contemporary twin room",
+"w": 1600,
+"h": 721
+},
+{
+"id": "q07",
+"category": "Rooms",
+"caption": "Contemporary room",
+"w": 1600,
+"h": 721
+},
+{
+"id": "q08",
+"category": "Celebrations",
+"caption": "The Courtyard Marriage Hall set for a wedding",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "q09",
+"category": "Celebrations",
+"caption": "Banquet hall with a decorated stage",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "w00",
+"category": "Celebrations",
+"caption": "The Courtyard Marriage Hall, set with gold chairs",
+"w": 1800,
+"h": 2400
+},
+{
+"id": "w01",
+"category": "Celebrations",
+"caption": "Stage in the Courtyard Marriage Hall",
+"w": 1800,
+"h": 2400
+},
+{
+"id": "w02",
+"category": "Celebrations",
+"caption": "Banquet hall stage with a temple-arch backdrop",
+"w": 1800,
+"h": 2400
+},
+{
+"id": "w03",
+"category": "Celebrations",
+"caption": "Hall doorway dressed with drapes and flowers",
+"w": 1800,
+"h": 2400
+},
+{
+"id": "w04",
+"category": "Celebrations",
+"caption": "Mandala wall and gramophone at the hall entrance",
+"w": 1800,
+"h": 2400
+},
+{
+"id": "w05",
+"category": "Celebrations",
+"caption": "Veena and flower photo corner",
+"w": 1800,
+"h": 2400
+},
+{
+"id": "w06",
+"category": "Celebrations",
+"caption": "Draped walkway to the hall",
+"w": 1800,
+"h": 2400
+},
+{
+"id": "w07",
+"category": "Celebrations",
+"caption": "White draped corridor with chandeliers",
+"w": 1800,
+"h": 2400
+},
+{
+"id": "w08",
+"category": "Celebrations",
+"caption": "Floral arch walkway",
+"w": 1800,
+"h": 2400
+},
+{
+"id": "w09",
+"category": "Celebrations",
+"caption": "Floral arches leading to the lawn stage",
+"w": 1800,
+"h": 2400
+},
+{
+"id": "w10",
+"category": "Celebrations",
+"caption": "Lawn stage under the pink canopy, main lawn",
+"w": 1800,
+"h": 2400
+},
+{
+"id": "w11",
+"category": "Celebrations",
+"caption": "Pink canopy over the lawn seating, main lawn",
+"w": 1800,
+"h": 2400
+},
+{
+"id": "w12",
+"category": "Celebrations",
+"caption": "Garden table under a pink umbrella",
+"w": 1800,
+"h": 2400
+},
+{
+"id": "w13",
+"category": "Celebrations",
+"caption": "Curtained walkway through the garden",
+"w": 1800,
+"h": 2400
+},
+{
+"id": "w14",
+"category": "Celebrations",
+"caption": "Flute-and-hands entrance arch",
+"w": 2400,
+"h": 1800
+},
+{
+"id": "w15",
+"category": "Celebrations",
+"caption": "Pink entrance with chevron carpet",
+"w": 1800,
+"h": 2400
+},
+{
+"id": "h00",
+"category": "Aerial",
+"caption": "The marriage hall and its lawn, from the air",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "h01",
+"category": "Aerial",
+"caption": "The marriage hall beside the lawn",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "h02",
+"category": "Aerial",
+"caption": "The marriage hall and lawn, wide view",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "ra00",
+"category": "Rooms",
+"caption": "Balcony Room",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "ra01",
+"category": "Rooms",
+"caption": "Balcony Room",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "ra02",
+"category": "Rooms",
+"caption": "Balcony Room",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "ra03",
+"category": "Rooms",
+"caption": "Balcony Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "ra04",
+"category": "Rooms",
+"caption": "Balcony Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "ra05",
+"category": "Rooms",
+"caption": "Balcony Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "ra06",
+"category": "Rooms",
+"caption": "Balcony Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "ra07",
+"category": "Rooms",
+"caption": "Balcony Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "ra08",
+"category": "Rooms",
+"caption": "Balcony Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "ra09",
+"category": "Rooms",
+"caption": "Balcony Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "ra10",
+"category": "Rooms",
+"caption": "Balcony Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "ra11",
+"category": "Rooms",
+"caption": "Balcony Room",
+"w": 1600,
+"h": 2400
+},
+{
+"id": "rb00",
+"category": "Rooms",
+"caption": "Deluxe Room",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rb01",
+"category": "Rooms",
+"caption": "Deluxe Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rb02",
+"category": "Rooms",
+"caption": "Deluxe Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rb03",
+"category": "Rooms",
+"caption": "Deluxe Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rb04",
+"category": "Rooms",
+"caption": "Deluxe Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rb05",
+"category": "Rooms",
+"caption": "Deluxe Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rb06",
+"category": "Rooms",
+"caption": "Deluxe Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rb07",
+"category": "Rooms",
+"caption": "Deluxe Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rb08",
+"category": "Rooms",
+"caption": "Deluxe Room",
+"w": 1600,
+"h": 2400
+},
+{
+"id": "rb09",
+"category": "Rooms",
+"caption": "Deluxe Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rc00",
+"category": "Rooms",
+"caption": "Super Deluxe Room",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rc01",
+"category": "Rooms",
+"caption": "Super Deluxe Room",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rc02",
+"category": "Rooms",
+"caption": "Super Deluxe Room",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rc03",
+"category": "Rooms",
+"caption": "Super Deluxe Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rc04",
+"category": "Rooms",
+"caption": "Super Deluxe Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rc05",
+"category": "Rooms",
+"caption": "Super Deluxe Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rc06",
+"category": "Rooms",
+"caption": "Super Deluxe Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rc07",
+"category": "Rooms",
+"caption": "Super Deluxe Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rc08",
+"category": "Rooms",
+"caption": "Super Deluxe Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rc09",
+"category": "Rooms",
+"caption": "Super Deluxe Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rc10",
+"category": "Rooms",
+"caption": "Super Deluxe Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rc11",
+"category": "Rooms",
+"caption": "Super Deluxe Room",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rd00",
+"category": "Rooms",
+"caption": "Super Deluxe Family Room",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rd01",
+"category": "Rooms",
+"caption": "Super Deluxe Family Room",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rd02",
+"category": "Rooms",
+"caption": "Super Deluxe Family Room",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rd03",
+"category": "Rooms",
+"caption": "Super Deluxe Family Room",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rd04",
+"category": "Rooms",
+"caption": "Super Deluxe Family Room",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rd05",
+"category": "Rooms",
+"caption": "Super Deluxe Family Room",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rd06",
+"category": "Rooms",
+"caption": "Super Deluxe Family Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rd07",
+"category": "Rooms",
+"caption": "Super Deluxe Family Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rd08",
+"category": "Rooms",
+"caption": "Super Deluxe Family Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rd09",
+"category": "Rooms",
+"caption": "Super Deluxe Family Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rd10",
+"category": "Rooms",
+"caption": "Super Deluxe Family Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rd11",
+"category": "Rooms",
+"caption": "Super Deluxe Family Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rd12",
+"category": "Rooms",
+"caption": "Super Deluxe Family Room",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "rn00",
+"category": "Rooms",
+"caption": "Courtyard Suite",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rn01",
+"category": "Rooms",
+"caption": "Courtyard Suite",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rn02",
+"category": "Rooms",
+"caption": "Courtyard Suite",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rn03",
+"category": "Rooms",
+"caption": "Courtyard Suite",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rn04",
+"category": "Rooms",
+"caption": "Courtyard Suite",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rn05",
+"category": "Rooms",
+"caption": "Courtyard Suite",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rn06",
+"category": "Rooms",
+"caption": "Courtyard Suite",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rn07",
+"category": "Rooms",
+"caption": "Courtyard Suite",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rn08",
+"category": "Rooms",
+"caption": "Courtyard Suite",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rn09",
+"category": "Rooms",
+"caption": "Courtyard Suite",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rn10",
+"category": "Rooms",
+"caption": "Courtyard Suite",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "rn11",
+"category": "Rooms",
+"caption": "Courtyard Suite",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "tn00",
+"category": "Tents",
+"caption": "Nature Tent",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "tn01",
+"category": "Tents",
+"caption": "Nature Tent",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "tn02",
+"category": "Tents",
+"caption": "Nature Tent",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "tn03",
+"category": "Tents",
+"caption": "Nature Tent",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "tn04",
+"category": "Tents",
+"caption": "Nature Tent",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "tf00",
+"category": "Tents",
+"caption": "Family Tent",
+"w": 1200,
+"h": 1600
+},
+{
+"id": "tf01",
+"category": "Tents",
+"caption": "Family Tent",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "tf02",
+"category": "Tents",
+"caption": "Family Tent",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "tf03",
+"category": "Tents",
+"caption": "Family Tent",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "tf04",
+"category": "Tents",
+"caption": "Family Tent",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "tf05",
+"category": "Tents",
+"caption": "Family Tent",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "tf06",
+"category": "Tents",
+"caption": "Family Tent",
+"w": 2400,
+"h": 1600
+},
+{
+"id": "x00",
+"category": "Adventure",
+"caption": "The climbing tower and rope course from above",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "x01",
+"category": "Adventure",
+"caption": "Guests on the rope course",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "x02",
+"category": "Adventure",
+"caption": "The rope course from the air",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "x03",
+"category": "Aerial",
+"caption": "The pool and gardens from overhead",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "x04",
+"category": "Aerial",
+"caption": "The pool, plaza and rooms from overhead",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "x05",
+"category": "Aerial",
+"caption": "The resort beside the highway",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "x06",
+"category": "Aerial",
+"caption": "The pool among the trees",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "x07",
+"category": "Aerial",
+"caption": "The entrance, pool and room blocks",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "x08",
+"category": "Aerial",
+"caption": "The lawn and room blocks from above",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "x09",
+"category": "Aerial",
+"caption": "The resort among the fields and wind turbines",
+"w": 2400,
+"h": 1350
+},
+{
+"id": "y10",
+"category": "Awards",
+"caption": "Karnataka Tourism Awards 2026: Best Wedding Venue",
+"w": 2400,
+"h": 1656
+},
+{
+"id": "y11",
+"category": "Awards",
+"caption": "Karnataka Tourism Awards 2026 medal",
+"w": 2040,
+"h": 2400
+},
+{
+"id": "y12",
+"category": "Awards",
+"caption": "India Business Awards 2025: Best Premier Luxury Resort, North Karnataka",
+"w": 1740,
+"h": 2400
+},
+{
+"id": "y13",
+"category": "Awards",
+"caption": "India Business Awards 2025 trophy",
+"w": 1198,
+"h": 2400
+},
+{
+"id": "y14",
+"category": "Awards",
+"caption": "India 5000 Best MSME Awards 2024: Quality Excellence",
+"w": 1656,
+"h": 2400
+},
+{
+"id": "y15",
+"category": "Awards",
+"caption": "India 5000 Best MSME Awards 2024 trophy",
+"w": 1355,
+"h": 2400
 }
 ]

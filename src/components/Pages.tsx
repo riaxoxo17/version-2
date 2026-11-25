@@ -1,16 +1,23 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import gallery from '../data/gallery.json'
 import { HALLS, OCCASIONS, ROOMS, ROOM_COUNTS, type Space } from '../data/rooms'
 import { CONTACT, wa } from '../data/journey'
-import { DAY, NEARBY } from '../data/resort'
+import { CLIPS, DAY, NEARBY } from '../data/resort'
 import { SectionFilm } from './Explore'
 import { roomFilm } from './RoomFilm'
+import { useFilmSize } from '../lib/play'
 import { useBackToClose } from '../lib/backClose'
 
 const base = import.meta.env.BASE_URL
 export const img = (id: string, thumb = false) => `${base}media/g/${id}${thumb ? '-t' : ''}.webp`
-export interface GItem { id: string; category: string; caption: string; w: number; h: number; note?: string }
+export interface GItem { id: string; category: string; caption: string; w: number; h: number; note?: string; video?: string; poster?: string; topic?: string }
 const G = gallery as GItem[]
+export const clip = (id: string, size: 'sm' | 'lg' | 'pt' = 'lg') => ({ src: `${base}media/clips/${id}-${size}.mp4`, poster: `${base}media/clips/${id}-poster.webp` })
+/** the resort's short films, shown in the Photos page and the viewer */
+export const VIDEO_ITEMS: GItem[] = CLIPS.map((c) => ({ id: `v-${c.id}`, category: 'Videos', topic: c.topic, caption: c.caption, w: 1920, h: 1080, video: clip(c.id).src, poster: clip(c.id).poster }))
+const ALL = [...G, ...VIDEO_ITEMS]
+const thumb = (g: GItem) => g.poster ?? img(g.id, true)
 export const byId = Object.fromEntries(G.map((g) => [g.id, g]))
 
 export type Page = 'rooms' | 'halls' | 'photos' | 'contact'
@@ -30,10 +37,10 @@ export function PageShell({ page, onClose, children }: { page: Page | null; onCl
   return (
     <div ref={ref} role="dialog" aria-modal="true" aria-label={page ?? undefined}
       className={`fixed inset-0 z-40 overflow-y-auto overscroll-contain bg-night/[0.97] backdrop-blur-xl transition-[opacity,transform] duration-700 ease-[cubic-bezier(.22,1,.36,1)] ${page ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-6 opacity-0'}`}>
-      <div className="sticky top-0 z-10 flex items-center justify-between bg-gradient-to-b from-night to-night/0 px-6 py-6 md:px-10 md:py-8">
-        <button type="button" onClick={onClose} className="font-display text-xl tracking-[0.42em] text-cream" tabIndex={page ? 0 : -1} aria-label="Back to the film">VIMAL</button>
-        <button ref={closeBtn} type="button" onClick={onClose} className="label flex items-center gap-3 text-cream/85 hover:text-gold" tabIndex={page ? 0 : -1}>
-          Back to the film <span aria-hidden className="text-base">×</span>
+      {/* the site header (Explore · logo · Contact us) stays on top of every page; this is the way back */}
+      <div className="px-6 pb-2 pt-[92px] md:px-10 md:pt-[118px]">
+        <button ref={closeBtn} type="button" onClick={onClose} className="label flex items-center gap-2 text-[0.62rem] text-cream/70 hover:text-gold" tabIndex={page ? 0 : -1}>
+          <span aria-hidden>←</span> Back to the resort
         </button>
       </div>
       {page && children}
@@ -51,9 +58,10 @@ const Heading = ({ kicker, title, sub }: { kicker: string; title: string; sub?: 
 
 /* ───────────────────────── rooms & halls ───────────────────────── */
 function FilmHero({ scene, kicker, title, sub }: { scene: string; kicker: string; title: string; sub: string }) {
+  const size = useFilmSize()
   return (
     <header className="relative -mt-[88px] flex h-[78svh] min-h-[520px] items-end overflow-hidden md:-mt-[104px]">
-      <video src={`${base}media/scenes/${scene}-${typeof window !== 'undefined' && window.innerWidth < 900 ? 'sm' : 'lg'}.mp4`} poster={`${base}media/scenes/${scene}-poster.webp`}
+      <video key={size} src={`${base}media/scenes/${scene}-${size}.mp4`} poster={`${base}media/scenes/${scene}-poster.webp`}
         autoPlay muted loop playsInline className="absolute inset-0 h-full w-full object-cover" />
       <div className="absolute inset-0 bg-gradient-to-t from-night via-night/30 to-night/40" />
       <div className="relative mx-auto w-full max-w-6xl px-6 pb-14 md:px-10 md:pb-20">
@@ -68,15 +76,19 @@ function FilmHero({ scene, kicker, title, sub }: { scene: string; kicker: string
 function SpaceCard({ s, index, onWalk }: { s: Space; index: number; onWalk?: (id: string) => void }) {
   const [shot, setShot] = useState(0)
   const [open, setOpen] = useState<number | null>(null)
+  // a room with a walk-in film shows it first; tapping any photo swaps the big frame to that photo
+  const hasFilm = !!(s.film && onWalk)
+  const [mode, setMode] = useState<'film' | 'photos'>(hasFilm ? 'film' : 'photos')
+  const [paused, setPaused] = useState(false)
   useEffect(() => {
-    if (s.photos.length < 2) return
+    if (s.photos.length < 2 || mode !== 'photos' || paused) return
     const t = window.setInterval(() => setShot((x) => (x + 1) % s.photos.length), 4500)
     return () => window.clearInterval(t)
-  }, [s.photos.length])
+  }, [s.photos.length, mode, paused])
   return (
     <article id={s.id} className="grid gap-8 border-t border-cream/10 py-14 md:grid-cols-12 md:gap-12 md:py-20">
       <div className={`md:col-span-7 ${index % 2 ? 'md:order-2' : ''}`}>
-        {s.film && onWalk ? (
+        {hasFilm && mode === 'film' && s.film && onWalk ? (
           <button type="button" onClick={() => onWalk(s.id)} className="group relative block aspect-[3/2] w-full overflow-hidden bg-cream/5" aria-label={`Walk inside the ${s.name}: full-screen film`}>
             <SectionFilm {...roomFilm(s.film)} />
             <span className="absolute inset-0 bg-gradient-to-t from-night/60 via-transparent to-transparent" />
@@ -88,15 +100,33 @@ function SpaceCard({ s, index, onWalk }: { s: Space; index: number; onWalk?: (id
         ) : (
           <button type="button" onClick={() => setOpen(shot)} className="relative block aspect-[3/2] w-full overflow-hidden bg-cream/5" aria-label={`View ${s.name} photos full screen`}>
           {s.photos.map((p, i) => (
-            <img key={p} src={img(p)} alt={`${s.name}: ${byId[p]?.caption ?? ''}`} loading={i < 2 ? 'eager' : 'lazy'} decoding="async"
+            byId[p] && byId[p].h > byId[p].w
+              // upright photos are shown whole, over a soft blurred copy, instead of being cropped
+              ? <span key={p} className={`absolute inset-0 transition-opacity duration-[2000ms] ease-out ${i === shot ? 'opacity-100' : 'opacity-0'}`}>
+                  <img src={img(p, true)} alt="" aria-hidden loading="lazy" className="absolute inset-0 h-full w-full scale-110 object-cover opacity-60 blur-2xl" />
+                  <img src={img(p)} alt={`${s.name}: ${byId[p]?.caption ?? ''}`} loading={i < 2 ? 'eager' : 'lazy'} decoding="async" className="relative mx-auto h-full w-auto object-contain" />
+                </span>
+              : <img key={p} src={img(p)} alt={`${s.name}: ${byId[p]?.caption ?? ''}`} loading={i < 2 ? 'eager' : 'lazy'} decoding="async"
               className={`absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-[2000ms] ease-out ${i === shot ? 'scale-[1.035] opacity-100' : 'scale-100 opacity-0'}`} />
           ))}
-          <span className="label absolute right-4 top-4 bg-night/50 px-3 py-1.5 text-[0.58rem] text-cream backdrop-blur">{s.photos.length} photos · view</span>
+          <span className="label absolute right-4 top-4 bg-night/50 px-3 py-1.5 text-[0.58rem] text-cream backdrop-blur">{s.photos.length} photos{s.clips?.length ? ` · ${s.clips.length} film${s.clips.length > 1 ? 's' : ''}` : ''} · view</span>
         </button>
         )}
         <div className="mt-3 grid grid-cols-5 gap-2 sm:grid-cols-7">
+          {hasFilm && s.film && (
+            <button type="button" onClick={() => setMode('film')} aria-label="Show the walk-in film" className={`relative aspect-square overflow-hidden transition-opacity ${mode === 'film' ? 'opacity-100 ring-1 ring-gold' : 'opacity-70 hover:opacity-100'}`}>
+              <img src={roomFilm(s.film).poster} alt="" loading="lazy" className="h-full w-full object-cover" />
+              <span aria-hidden className="absolute inset-0 grid place-items-center bg-night/35 text-[0.55rem] uppercase tracking-[0.14em] text-gold">▶ Film</span>
+            </button>
+          )}
+          {s.clips?.map((c, k) => (
+            <button key={c.id} type="button" onClick={() => setOpen(s.photos.length + k)} aria-label={`Play film: ${c.caption}`} className="relative aspect-square overflow-hidden opacity-90 ring-1 ring-gold/60 transition-opacity hover:opacity-100">
+              <img src={clip(c.id).poster} alt="" loading="lazy" className="h-full w-full object-cover" />
+              <span aria-hidden className="absolute inset-0 grid place-items-center bg-night/30 text-xs text-gold">▶</span>
+            </button>
+          ))}
           {s.photos.map((p, i) => (
-            <button key={p} type="button" onClick={() => setShot(i)} aria-label={`Show photo ${i + 1}`} className={`aspect-square overflow-hidden transition-opacity ${i === shot ? 'opacity-100 ring-1 ring-gold' : 'opacity-50 hover:opacity-90'}`}>
+            <button key={p} type="button" onClick={() => { setMode('photos'); setShot(i); setPaused(true) }} aria-label={`Show photo ${i + 1}`} className={`aspect-square overflow-hidden transition-opacity ${mode === 'photos' && i === shot ? 'opacity-100 ring-1 ring-gold' : 'opacity-50 hover:opacity-90'}`}>
               <img src={img(p, true)} alt="" loading="lazy" className="h-full w-full object-cover" />
             </button>
           ))}
@@ -120,7 +150,7 @@ function SpaceCard({ s, index, onWalk }: { s: Space; index: number; onWalk?: (id
           <a href={wa(`Hello Vimal Resort, I'd like rates and availability for ${s.enquiry}.`)} target="_blank" rel="noreferrer" className="label bg-gold px-6 py-3.5 text-night transition-colors hover:bg-cream">Check availability</a>
         </div>
       </div>
-      {open != null && <Lightbox items={s.photos.map((p) => byId[p]).filter(Boolean)} index={open} setIndex={setOpen} />}
+      {open != null && <Lightbox items={[...s.photos.map((p) => byId[p]).filter(Boolean), ...(s.clips ?? []).map((c) => ({ id: `c-${c.id}`, category: 'Videos', caption: c.caption, w: 1920, h: 1080, video: clip(c.id).src, poster: clip(c.id).poster }))]} index={open} setIndex={setOpen} />}
     </article>
   )
 }
@@ -128,7 +158,7 @@ function SpaceCard({ s, index, onWalk }: { s: Space; index: number; onWalk?: (id
 export function RoomsPage({ onWalk }: { onWalk?: (id: string) => void }) {
   return (
     <div className="pb-24">
-      <FilmHero scene="stay" kicker={ROOM_COUNTS} title="Rooms & Tents" sub="Carved-wood heritage rooms, bright contemporary rooms on the garden, and canvas tents among the trees. Press play to walk inside each one." />
+      <FilmHero scene="stay" kicker={ROOM_COUNTS} title="Rooms & Tents" sub="Balcony and deluxe rooms on the garden, carved-wood heritage super deluxe rooms, courtyard suites in the new building, and canvas tents among the trees." />
       <nav aria-label="Room types" className="mx-auto flex max-w-6xl flex-wrap gap-x-8 gap-y-3 px-6 pt-10 md:px-10">
         {ROOMS.map((r) => <a key={r.id} href={`#rooms`} onClick={(e) => { e.preventDefault(); document.getElementById(r.id)?.scrollIntoView({ behavior: 'smooth' }) }} className="label text-cream/70 hover:text-gold">{r.name}</a>)}
       </nav>
@@ -194,7 +224,7 @@ export function HallsPage() {
 }
 
 /* ───────────────────────── gallery ───────────────────────── */
-const CATS = ['All', 'Rooms', 'Tents', 'Grounds', 'Pool', 'Adventure', 'Play', 'Celebrations', 'Food', 'Aerial']
+const CATS = ['All', 'Videos', 'Rooms', 'Tents', 'Grounds', 'Pool', 'Adventure', 'Play', 'Celebrations', 'Food', 'Aerial', 'Awards']
 
 export function Lightbox({ items, index, setIndex }: { items: GItem[]; index: number; setIndex: (f: number | null | ((o: number | null) => number | null)) => void }) {
   const n = items.length
@@ -211,9 +241,11 @@ export function Lightbox({ items, index, setIndex }: { items: GItem[]; index: nu
   })
   const cur = items[index]
   if (!cur) return null
-  return (
-    <div data-lightbox role="dialog" aria-modal="true" aria-label={cur.caption} className="fixed inset-0 z-50 flex items-center justify-center bg-night/97 p-3 md:p-10" onClick={() => setIndex(null)}>
-      <img key={cur.id} src={img(cur.id)} alt={cur.caption} className="max-h-full max-w-full object-contain" onClick={(e) => e.stopPropagation()} />
+  return createPortal(
+    <div data-lightbox role="dialog" aria-modal="true" aria-label={cur.caption} className="fixed inset-0 z-[90] flex items-center justify-center bg-night/97 p-3 md:p-10" onClick={() => setIndex(null)}>
+      {cur.video
+        ? <video key={cur.id} src={cur.video} poster={cur.poster} autoPlay muted loop playsInline controls className="max-h-full max-w-full object-contain" onClick={(e) => e.stopPropagation()} />
+        : <img key={cur.id} src={img(cur.id)} alt={cur.caption} className="max-h-full max-w-full object-contain" onClick={(e) => e.stopPropagation()} />}
       <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-4 bg-gradient-to-t from-night/80 to-transparent p-6 text-sm" onClick={(e) => e.stopPropagation()}>
         <p className="text-cream/85">{cur.caption}{cur.note && <span className="ml-2 text-cream/50">· {cur.note}</span>}</p>
         <p className="label text-[0.6rem] text-cream/55">{index + 1} / {n}</p>
@@ -223,20 +255,23 @@ export function Lightbox({ items, index, setIndex }: { items: GItem[]; index: nu
         <button type="button" onClick={(e) => { e.stopPropagation(); go(1) }} className="absolute right-2 top-1/2 -translate-y-1/2 p-4 text-4xl text-cream/80 hover:text-gold" aria-label="Next photo">›</button>
       </>}
       <button type="button" onClick={() => setIndex(null)} className="label absolute right-6 top-6 text-cream" autoFocus>Close ×</button>
-    </div>
+    </div>,
+    document.body,
   )
 }
 
+/** lets a section open the gallery on one category (e.g. Adventure) */
+export const galleryStart = { cat: 'All' }
 export function GalleryPage() {
-  const [cat, setCat] = useState('All')
+  const [cat, setCat] = useState(() => { const c = galleryStart.cat; galleryStart.cat = 'All'; return c })
   const [open, setOpen] = useState<number | null>(null)
-  const items = useMemo(() => (cat === 'All' ? G : G.filter((g) => g.category === cat)), [cat])
+  const items = useMemo(() => (cat === 'All' ? ALL : ALL.filter((g) => g.category === cat || g.topic === cat)), [cat])
   return (
     <div className="pb-24">
-      <Heading kicker={`${G.length} photographs`} title="Photos" />
+      <Heading kicker={`${G.length} photographs · ${VIDEO_ITEMS.length} films`} title="Photos & films" />
       <div className="mx-auto max-w-7xl px-6 md:px-10">
         <div role="tablist" aria-label="Filter photos" className="mb-10 flex flex-wrap gap-x-6 gap-y-3">
-          {CATS.filter((c) => c === 'All' || G.some((g) => g.category === c)).map((c) => (
+          {CATS.filter((c) => c === 'All' || ALL.some((g) => g.category === c)).map((c) => (
             <button key={c} role="tab" aria-selected={cat === c} type="button" onClick={() => setCat(c)}
               className={`label border-b pb-1.5 transition-colors ${cat === c ? 'border-gold text-gold' : 'border-transparent text-cream/60 hover:text-cream'}`}>{c}</button>
           ))}
@@ -245,7 +280,8 @@ export function GalleryPage() {
         <div className="columns-1 gap-4 sm:columns-2 lg:columns-3">
           {items.map((g, i) => (
             <button key={g.id} type="button" onClick={() => setOpen(i)} className="group relative mb-4 block w-full overflow-hidden break-inside-avoid bg-cream/5" aria-label={`Open: ${g.caption}`}>
-              <img src={img(g.id, true)} alt={g.caption} loading="lazy" decoding="async" style={{ aspectRatio: `${g.w} / ${g.h}` }} className="w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]" />
+              <img src={thumb(g)} alt={g.caption} loading="lazy" decoding="async" style={{ aspectRatio: `${g.w} / ${g.h}` }} className="w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]" />
+              {g.video && <span aria-hidden className="absolute left-3 top-3 grid h-9 w-9 place-items-center rounded-full border border-gold bg-night/50 text-[0.6rem] text-gold backdrop-blur">▶</span>}
               <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-night/80 to-transparent p-4 text-left text-sm text-cream opacity-0 transition-opacity duration-500 group-hover:opacity-100">{g.caption}</span>
             </button>
           ))}
@@ -273,7 +309,7 @@ export function ContactPage() {
         <div className="space-y-10 md:col-span-5">
           <div>
             <p className="label text-[0.62rem] text-cream/50">Call</p>
-            <a href={CONTACT.tel} className="font-display mt-2 block text-4xl text-cream hover:text-gold">{CONTACT.phone}</a>
+            <a href={CONTACT.tel} className="mt-2 block font-sans text-4xl font-medium tracking-normal tabular-nums text-cream hover:text-gold">{CONTACT.phone}</a>
           </div>
           <div>
             <p className="label text-[0.62rem] text-cream/50">WhatsApp</p>
@@ -297,8 +333,10 @@ export function ContactPage() {
             <a href={CONTACT.instagram} target="_blank" rel="noreferrer" className="mt-2 block text-cream hover:text-gold">Instagram {CONTACT.instagramHandle}</a>
           </div>
           <div className="border-t border-cream/10 pt-6 text-sm text-cream/55">
-            <p className="label mb-3 text-[0.6rem] text-cream/45">Nearby</p>
-            {NEARBY.map((n) => `${n.place} ${n.km}`).join(' · ')}
+            <p className="label mb-3 text-[0.6rem] text-cream/45">Nearby · by road</p>
+            <ul className="grid grid-cols-1 gap-x-8 gap-y-1.5 sm:grid-cols-2">
+              {NEARBY.map((n) => <li key={n.place} className="flex justify-between gap-4 border-b border-cream/10 pb-1.5"><span>{n.place}</span><span className="tabular-nums">{n.km}</span></li>)}
+            </ul>
           </div>
         </div>
 
